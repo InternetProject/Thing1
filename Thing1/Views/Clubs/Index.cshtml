@@ -1,0 +1,88 @@
+﻿@model IEnumerable<Thing1.Models.Club>
+
+@{
+    ViewBag.Title = "Clubs and Associations at Anderson";
+}
+
+<h2>Clubs and Associations at Anderson</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#professional">Professional</a></li>
+    <li><a data-toggle="tab" href="#identity">Identity</a></li>
+    <li><a data-toggle="tab" href="#interest">Interest</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="professional" class="tab-pane active">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                if (!item.TypesOfClub.Description.Equals("Professional")) { continue; }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                        @if (!item.nickname.IsEmpty())
+                        {
+                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                        }
+                        - <a href="#">Join</a>
+                        <br />
+                        <img src="data:image/png;base64,@item.image" />
+                        <br />
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div id="identity" class="tab-pane">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                if (!item.TypesOfClub.Description.Equals("Identity")) { continue; }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                        @if (!item.nickname.IsEmpty())
+                        {
+                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                        }
+                        - <a href="#">Join</a>
+                        <br />
+                        <img src="data:image/png;base64,@item.image" />
+                        <br />
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <div id="interest" class="tab-pane">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                if (!item.TypesOfClub.Description.Equals("Interest")) { continue; }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                        @if (!item.nickname.IsEmpty())
+                        {
+                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                        }
+                        - <a href="#">Join</a>
+                        <br />
+                        <img src="data:image/png;base64,@item.image" />
+                        <br />
+                        @Html.DisplayFor(modelItem => item.description)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

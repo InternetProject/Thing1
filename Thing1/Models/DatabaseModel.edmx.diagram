@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3c54c23a6dd3472e9a6024049277b16c" Name="Diagram1">
+        <EntityTypeShape EntityType="user_managementModel.ClubMembership" Width="1.5" PointX="7.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Email" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Recipient" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.TypesOfClub" Width="1.5" PointX="2.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.TypesOfRecipient" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="user_managementModel.FK_ClubMemberships_Clubs" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_Clubs_TypesOfClubs" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_Recipients_Emails" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_Recipients_Recipients" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_Recipients_TypesOfRecipients" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="15" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="12.5" />
+        <AssociationConnector Association="user_managementModel.FK_Emails_Clubs" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUser" Width="1.5" PointX="0.75" PointY="6.375" />
+        <AssociationConnector Association="user_managementModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="user_managementModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="user_managementModel.FK_ClubMemberships_AspNetUsers" />
+        <AssociationConnector Association="user_managementModel.FK_Emails_AspNetUsers" />
+        <AssociationConnector Association="user_managementModel.FK_Recipients_AspNetUsers" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

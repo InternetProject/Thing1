@@ -1,0 +1,779 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="256" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="256" />
+          <Property Name="PreferredName" Type="nvarchar" MaxLength="256" />
+          <Property Name="Program" Type="varchar" MaxLength="50" />
+          <Property Name="TShirtSize" Type="char" MaxLength="6" />
+        </EntityType>
+        <EntityType Name="ClubMemberships">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClubId" Type="int" Nullable="false" />
+          <Property Name="TermDate" Type="datetime" Nullable="false" />
+          <Property Name="JoinDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="HasAccessToFinance" Type="bit" Nullable="false" />
+          <Property Name="CanEditClubData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clubs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="typeId" Type="int" Nullable="false" />
+          <Property Name="nickname" Type="varchar" MaxLength="500" />
+          <Property Name="email" Type="varchar" MaxLength="500" />
+          <Property Name="website" Type="varchar" MaxLength="500" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="image" Type="varchar(max)" />
+          <Property Name="email_template" Type="varchar(max)" />
+          <Property Name="one_year_fee" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="two_year_fee" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="three_year_fee" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="other_fee_1" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="other_fee_2" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Emails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClubId" Type="int" Nullable="false" />
+          <Property Name="Subject" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="Body" Type="varchar(max)" Nullable="false" />
+          <Property Name="Sent" Type="datetime" Nullable="false" />
+          <Property Name="SentBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="hiiii" Type="nchar" MaxLength="10" />
+          <Property Name="byeee" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Recipients">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmailId" Type="int" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="TypesOfClubs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypesOfRecipients">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ClubMemberships_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="ClubMemberships" Type="Self.ClubMemberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubMemberships">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClubMemberships_Clubs">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
+          <End Role="ClubMemberships" Type="Self.ClubMemberships" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubMemberships">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clubs_TypesOfClubs">
+          <End Role="TypesOfClubs" Type="Self.TypesOfClubs" Multiplicity="1" />
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfClubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clubs">
+              <PropertyRef Name="typeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emails_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Emails" Type="Self.Emails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Emails">
+              <PropertyRef Name="SentBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emails_Clubs">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
+          <End Role="Emails" Type="Self.Emails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Emails">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Recipients" Type="Self.Recipients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_Emails">
+          <End Role="Emails" Type="Self.Emails" Multiplicity="1" />
+          <End Role="Recipients" Type="Self.Recipients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients">
+              <PropertyRef Name="EmailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_Recipients">
+          <End Role="Recipients" Type="Self.Recipients" Multiplicity="1" />
+          <End Role="Recipients1" Type="Self.Recipients" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Recipients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_TypesOfRecipients">
+          <End Role="TypesOfRecipients" Type="Self.TypesOfRecipients" Multiplicity="1" />
+          <End Role="Recipients" Type="Self.Recipients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfRecipients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="user_managementModelStoreContainer">
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClubMemberships" EntityType="Self.ClubMemberships" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clubs" EntityType="Self.Clubs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emails" EntityType="Self.Emails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipients" EntityType="Self.Recipients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypesOfClubs" EntityType="Self.TypesOfClubs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypesOfRecipients" EntityType="Self.TypesOfRecipients" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ClubMemberships_AspNetUsers" Association="Self.FK_ClubMemberships_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ClubMemberships" EntitySet="ClubMemberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClubMemberships_Clubs" Association="Self.FK_ClubMemberships_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="ClubMemberships" EntitySet="ClubMemberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clubs_TypesOfClubs" Association="Self.FK_Clubs_TypesOfClubs">
+            <End Role="TypesOfClubs" EntitySet="TypesOfClubs" />
+            <End Role="Clubs" EntitySet="Clubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emails_AspNetUsers" Association="Self.FK_Emails_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Emails" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emails_Clubs" Association="Self.FK_Emails_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="Emails" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_AspNetUsers" Association="Self.FK_Recipients_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Recipients" EntitySet="Recipients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_Emails" Association="Self.FK_Recipients_Emails">
+            <End Role="Emails" EntitySet="Emails" />
+            <End Role="Recipients" EntitySet="Recipients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_Recipients" Association="Self.FK_Recipients_Recipients">
+            <End Role="Recipients" EntitySet="Recipients" />
+            <End Role="Recipients1" EntitySet="Recipients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_TypesOfRecipients" Association="Self.FK_Recipients_TypesOfRecipients">
+            <End Role="TypesOfRecipients" EntitySet="TypesOfRecipients" />
+            <End Role="Recipients" EntitySet="Recipients" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="user_managementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClubMembership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClubId" Type="Int32" Nullable="false" />
+          <Property Name="TermDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HasAccessToFinance" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="Self.FK_ClubMemberships_Clubs" FromRole="ClubMemberships" ToRole="Clubs" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_ClubMemberships_AspNetUsers" FromRole="ClubMembership" ToRole="AspNetUser" />
+          <Property Name="CanEditClubData" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Club">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="typeId" Type="Int32" Nullable="false" />
+          <Property Name="nickname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="website" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="email_template" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="one_year_fee" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="two_year_fee" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="three_year_fee" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="other_fee_1" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="other_fee_2" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_Clubs" FromRole="Clubs" ToRole="ClubMemberships" />
+          <NavigationProperty Name="TypesOfClub" Relationship="Self.FK_Clubs_TypesOfClubs" FromRole="Clubs" ToRole="TypesOfClubs" />
+          <NavigationProperty Name="Emails" Relationship="user_managementModel.FK_Emails_Clubs" FromRole="Club" ToRole="Email" />
+        </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sent" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SentBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Recipients" Relationship="Self.FK_Recipients_Emails" FromRole="Emails" ToRole="Recipients" />
+          <Property Name="ClubId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="user_managementModel.FK_Emails_Clubs" FromRole="Email" ToRole="Club" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_Emails_AspNetUsers" FromRole="Email" ToRole="AspNetUser" />
+          <Property Name="hiiii" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="byeee" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Recipient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmailId" Type="Int32" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Email" Relationship="Self.FK_Recipients_Emails" FromRole="Recipients" ToRole="Emails" />
+          <NavigationProperty Name="Recipients1" Relationship="Self.FK_Recipients_Recipients" FromRole="Recipients" ToRole="Recipients1" />
+          <NavigationProperty Name="Recipient1" Relationship="Self.FK_Recipients_Recipients" FromRole="Recipients1" ToRole="Recipients" />
+          <NavigationProperty Name="TypesOfRecipient" Relationship="Self.FK_Recipients_TypesOfRecipients" FromRole="Recipients" ToRole="TypesOfRecipients" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_Recipients_AspNetUsers" FromRole="Recipient" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="TypesOfClub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Clubs" Relationship="Self.FK_Clubs_TypesOfClubs" FromRole="TypesOfClubs" ToRole="Clubs" />
+        </EntityType>
+        <EntityType Name="TypesOfRecipient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Recipients" Relationship="Self.FK_Recipients_TypesOfRecipients" FromRole="TypesOfRecipients" ToRole="Recipients" />
+        </EntityType>
+        <Association Name="FK_ClubMemberships_Clubs">
+          <End Role="Clubs" Type="Self.Club" Multiplicity="1" />
+          <End Role="ClubMemberships" Type="Self.ClubMembership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubMemberships">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clubs_TypesOfClubs">
+          <End Role="TypesOfClubs" Type="Self.TypesOfClub" Multiplicity="1" />
+          <End Role="Clubs" Type="Self.Club" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfClubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clubs">
+              <PropertyRef Name="typeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_Emails">
+          <End Role="Emails" Type="Self.Email" Multiplicity="1" />
+          <End Role="Recipients" Type="Self.Recipient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients">
+              <PropertyRef Name="EmailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_Recipients">
+          <End Role="Recipients" Type="Self.Recipient" Multiplicity="1" />
+          <End Role="Recipients1" Type="Self.Recipient" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Recipients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_TypesOfRecipients">
+          <End Role="TypesOfRecipients" Type="Self.TypesOfRecipient" Multiplicity="1" />
+          <End Role="Recipients" Type="Self.Recipient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfRecipients">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipients">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="user_managementEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClubMemberships" EntityType="Self.ClubMembership" />
+          <EntitySet Name="Clubs" EntityType="Self.Club" />
+          <EntitySet Name="Emails" EntityType="Self.Email" />
+          <EntitySet Name="Recipients" EntityType="Self.Recipient" />
+          <EntitySet Name="TypesOfClubs" EntityType="Self.TypesOfClub" />
+          <EntitySet Name="TypesOfRecipients" EntityType="Self.TypesOfRecipient" />
+          <AssociationSet Name="FK_ClubMemberships_Clubs" Association="Self.FK_ClubMemberships_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="ClubMemberships" EntitySet="ClubMemberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clubs_TypesOfClubs" Association="Self.FK_Clubs_TypesOfClubs">
+            <End Role="TypesOfClubs" EntitySet="TypesOfClubs" />
+            <End Role="Clubs" EntitySet="Clubs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_Emails" Association="Self.FK_Recipients_Emails">
+            <End Role="Emails" EntitySet="Emails" />
+            <End Role="Recipients" EntitySet="Recipients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_Recipients" Association="Self.FK_Recipients_Recipients">
+            <End Role="Recipients" EntitySet="Recipients" />
+            <End Role="Recipients1" EntitySet="Recipients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_TypesOfRecipients" Association="Self.FK_Recipients_TypesOfRecipients">
+            <End Role="TypesOfRecipients" EntitySet="TypesOfRecipients" />
+            <End Role="Recipients" EntitySet="Recipients" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUserClaims" EntityType="user_managementModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="user_managementModel.AspNetUserLogin" />
+          <AssociationSet Name="FK_Emails_Clubs" Association="user_managementModel.FK_Emails_Clubs">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="user_managementModel.AspNetUser" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="user_managementModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="user_managementModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClubMemberships_AspNetUsers" Association="user_managementModel.FK_ClubMemberships_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ClubMembership" EntitySet="ClubMemberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emails_AspNetUsers" Association="user_managementModel.FK_Emails_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipients_AspNetUsers" Association="user_managementModel.FK_Recipients_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Recipient" EntitySet="Recipients" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <Association Name="FK_Emails_Clubs">
+          <End Type="user_managementModel.Club" Role="Club" Multiplicity="1" />
+          <End Type="user_managementModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="PreferredName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Program" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TShirtSize" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="user_managementModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="user_managementModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="ClubMemberships" Relationship="user_managementModel.FK_ClubMemberships_AspNetUsers" FromRole="AspNetUser" ToRole="ClubMembership" />
+          <NavigationProperty Name="Emails" Relationship="user_managementModel.FK_Emails_AspNetUsers" FromRole="AspNetUser" ToRole="Email" />
+          <NavigationProperty Name="Recipients" Relationship="user_managementModel.FK_Recipients_AspNetUsers" FromRole="AspNetUser" ToRole="Recipient" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="user_managementModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="user_managementModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClubMemberships_AspNetUsers">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="user_managementModel.ClubMembership" Role="ClubMembership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ClubMembership">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emails_AspNetUsers">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="user_managementModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="SentBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Recipients_AspNetUsers">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="user_managementModel.Recipient" Role="Recipient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Recipient">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="user_managementModelStoreContainer" CdmEntityContainer="user_managementEntities1">
+          <EntitySetMapping Name="ClubMemberships">
+            <EntityTypeMapping TypeName="user_managementModel.ClubMembership">
+              <MappingFragment StoreEntitySet="ClubMemberships">
+                <ScalarProperty Name="CanEditClubData" ColumnName="CanEditClubData" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="TermDate" ColumnName="TermDate" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HasAccessToFinance" ColumnName="HasAccessToFinance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clubs">
+            <EntityTypeMapping TypeName="user_managementModel.Club">
+              <MappingFragment StoreEntitySet="Clubs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="typeId" ColumnName="typeId" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="email_template" ColumnName="email_template" />
+                <ScalarProperty Name="one_year_fee" ColumnName="one_year_fee" />
+                <ScalarProperty Name="two_year_fee" ColumnName="two_year_fee" />
+                <ScalarProperty Name="three_year_fee" ColumnName="three_year_fee" />
+                <ScalarProperty Name="other_fee_1" ColumnName="other_fee_1" />
+                <ScalarProperty Name="other_fee_2" ColumnName="other_fee_2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="user_managementModel.Email">
+              <MappingFragment StoreEntitySet="Emails">
+                <ScalarProperty Name="byeee" ColumnName="byeee" />
+                <ScalarProperty Name="hiiii" ColumnName="hiiii" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Sent" ColumnName="Sent" />
+                <ScalarProperty Name="SentBy" ColumnName="SentBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipients">
+            <EntityTypeMapping TypeName="user_managementModel.Recipient">
+              <MappingFragment StoreEntitySet="Recipients">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypesOfClubs">
+            <EntityTypeMapping TypeName="user_managementModel.TypesOfClub">
+              <MappingFragment StoreEntitySet="TypesOfClubs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypesOfRecipients">
+            <EntityTypeMapping TypeName="user_managementModel.TypesOfRecipient">
+              <MappingFragment StoreEntitySet="TypesOfRecipients">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="user_managementModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="user_managementModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="user_managementModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="TShirtSize" ColumnName="TShirtSize" />
+                <ScalarProperty Name="Program" ColumnName="Program" />
+                <ScalarProperty Name="PreferredName" ColumnName="PreferredName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
