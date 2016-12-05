@@ -6,22 +6,25 @@
     <title>@ViewBag.Title - Anderson Club Portal</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jquery-3.1.1.min.js")
+    @Scripts.Render("~/Scripts/Site.js")
+
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
+                @*<img class="navbar-left" src="http://www.walldevil.com/wallpapers/a87/wallpapers-wallpaper-cool-logo-movie-batman-dark-background.jpg" style="height:50px;"/>*@
+                @Html.ActionLink("Club Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Club Portal", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("My Club Memberships", "Index", "ClubMemberships")</li>
                     <li>@Html.ActionLink("All Clubs", "Index", "Clubs")</li>
                     <li>@Html.ActionLink("Emails", "Index", "Emails")</li>
