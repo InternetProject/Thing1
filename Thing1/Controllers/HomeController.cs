@@ -22,8 +22,8 @@ namespace Thing1.Controllers
             }
             */
             var userid = "0";//User.Identity.GetUserId();
-            var clubMemberships = db.ClubMemberships.Include(c => c.Club);
-            return View(clubMemberships.ToList());//.Where(c => c.UserId == userid).ToList());
+           // var clubMemberships = db.ClubMemberships.Include(c => c.Club);
+            return View();// clubMemberships.ToList());//.Where(c => c.UserId == userid).ToList());
         }
     }
 }
