@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNet.Identity
+@model Thing1.Models.ClubMembership
+
+@{
+    ViewBag.Title = "Membership Option Selection";
+}
+
+<h2>Welcome, @User.Identity.GetUserName()!</h2>
+<h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
+
+

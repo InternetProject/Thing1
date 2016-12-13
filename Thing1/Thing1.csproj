@@ -412,6 +412,8 @@
     <Content Include="Views\Clubs\Details.cshtml" />
     <Content Include="Views\Clubs\Index.cshtml" />
     <Content Include="Views\Clubs\Edit.cshtml" />
+    <Content Include="Views\ClubMemberships\SelectMembershipOptions.cshtml" />
+    <Content Include="Views\ClubMemberships\MembershipOptionConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

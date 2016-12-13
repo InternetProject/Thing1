@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNet.Identity
+@model Thing1.Models.ClubMembership
+
+@{
+    ViewBag.Title = "Select Membership Options";
+}
+
+<h2>Welcome, @User.Identity.GetUserName()!</h2>
+<h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
+    @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
+    @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })    
+    @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
+    @Html.HiddenFor(model => model.Description, new { @Value = @DateTime.Now })
+    @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
+    @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
+    @Html.HiddenFor(model => model.RoleID, new { @Value = 4 })
+    @Html.HiddenFor(model => model.Violation, new { @Value = false })
+
+    <div class="form-horizontal">
+
+        @foreach (var item in (ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>))
+        {
+            <div class="form-group">
+                @{ var btnText = " " + item.Description + " - USD " + item.Price.ToString() + "<br/><br/>"; }
+
+                <div class="col-md-10">
+                    @{
+                        if (item.Option == 1)
+                        {
+                            @Html.RadioButtonFor(model => model.MembershipOption, item.Option, new { @checked = "checked" })
+                            @Html.Raw(btnText)
+                        }
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.MembershipOption, item.Option, null)
+                            @Html.Raw(btnText)
+                        }
+                    }
+                </div>
+            </div>
+                        }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="SelectMembershipOptions" type="submit" value="Next" class="btn btn-default" />
+                @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+                        }
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

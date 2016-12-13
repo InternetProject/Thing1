@@ -29,7 +29,7 @@
                         {
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
-                        - <a href="#">Join</a>
+                        - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
                         <br />
                         <img src="data:image/png;base64,@item.image" />
                         <br />
@@ -52,7 +52,8 @@
                         {
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
-                        - <a href="#">Join</a>
+                        - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+
                         <br />
                         <img src="data:image/png;base64,@item.image" />
                         <br />
@@ -75,7 +76,7 @@
                         {
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
-                        - <a href="#">Join</a>
+                        - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
                         <br />
                         <img src="data:image/png;base64,@item.image" />
                         <br />
