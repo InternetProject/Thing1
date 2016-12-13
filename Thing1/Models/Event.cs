@@ -12,16 +12,12 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Email
+    public partial class Event
     {
-        public int Id { get; set; }
-        public int ClubId { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public System.DateTime Sent { get; set; }
-        public string SentBy { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Club Club { get; set; }
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public System.DateTime Date { get; set; }
+        public System.DateTime Time { get; set; }
+        public string Location { get; set; }
     }
 }

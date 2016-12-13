@@ -14,16 +14,7 @@ namespace Thing1.Models
     
     public partial class TypesOfRecipient
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TypesOfRecipient()
-        {
-            this.Recipients = new HashSet<Recipient>();
-        }
-    
         public int Id { get; set; }
         public string Description { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Recipient> Recipients { get; set; }
     }
 }

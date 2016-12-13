@@ -19,6 +19,7 @@ namespace Thing1.Models
         {
             this.ClubMemberships = new HashSet<ClubMembership>();
             this.Emails = new HashSet<Email>();
+            this.MembershipOptions = new HashSet<MembershipOption>();
         }
     
         public int Id { get; set; }
@@ -30,16 +31,13 @@ namespace Thing1.Models
         public string description { get; set; }
         public string image { get; set; }
         public string email_template { get; set; }
-        public Nullable<decimal> one_year_fee { get; set; }
-        public Nullable<decimal> two_year_fee { get; set; }
-        public Nullable<decimal> three_year_fee { get; set; }
-        public Nullable<decimal> other_fee_1 { get; set; }
-        public Nullable<decimal> other_fee_2 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClubMembership> ClubMemberships { get; set; }
         public virtual TypesOfClub TypesOfClub { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Email> Emails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MembershipOption> MembershipOptions { get; set; }
     }
 }

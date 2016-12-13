@@ -22,8 +22,12 @@ namespace Thing1.Models
         public string Description { get; set; }
         public bool HasAccessToFinance { get; set; }
         public bool CanEditClubData { get; set; }
+        public Nullable<int> RoleID { get; set; }
+        public Nullable<int> MembershipOption { get; set; }
+        public Nullable<bool> Violation { get; set; }
     
-        public virtual Club Club { get; set; }
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual TypesOfRole TypesOfRole { get; set; }
+        public virtual Club Club { get; set; }
     }
 }
