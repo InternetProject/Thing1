@@ -30,6 +30,8 @@
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
                         - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                        |
+                        @Html.ActionLink("Edit", "EditMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
                         <br />
                         <img src="data:image/png;base64,@item.image" />
                         <br />
@@ -53,7 +55,8 @@
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
                         - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-
+                         |
+                          @Html.ActionLink("Edit", "EditMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
                         <br />
                         <img src="data:image/png;base64,@item.image" />
                         <br />
@@ -77,6 +80,8 @@
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
                         - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                        |
+                        @Html.ActionLink("Edit", "EditMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
                         <br />
                         <img src="data:image/png;base64,@item.image" />
                         <br />
