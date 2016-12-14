@@ -60,15 +60,14 @@ namespace Thing1.Controllers
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
             return View(membershipOption);
         }
-
         // GET: MembershipOptions/Edit/5
-        public ActionResult EditMembershipOptions(int? clubId)
+        public ActionResult EditMembershipOptions(int? id)
         {
-            if (clubId == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MembershipOption membershipOption = db.MembershipOptions.Find(clubId);
+            MembershipOption membershipOption = db.MembershipOptions.Find(id);
             if (membershipOption == null)
             {
                 return HttpNotFound();
@@ -76,13 +75,36 @@ namespace Thing1.Controllers
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
             return View(membershipOption);
         }
-
         // POST: MembershipOptions/Edit/5
+        // GET: MembershipOptions/View/5
+        public ActionResult ViewCurrentMembershipOptions(int? clubId)
+        {
+            if (clubId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //1. retrieve club name and nickname
+            //2 set these values to ViewBag
+
+            return View(db.MembershipOptions.Where(c => c.ClubId == clubId).ToList());
+        /*
+            MembershipOption membershipOption = db.MembershipOptions.Find(clubId);
+            if (membershipOption == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            return View(membershipOption);
+            */
+        }
+
+        // POST: MembershipOptions/View/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
+        public ActionResult ViewCurrentMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
             if (ModelState.IsValid)
             {

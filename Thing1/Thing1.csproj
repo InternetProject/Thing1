@@ -415,10 +415,11 @@
     <Content Include="Views\Clubs\Edit.cshtml" />
     <Content Include="Views\ClubMemberships\SelectMembershipOptions.cshtml" />
     <Content Include="Views\ClubMemberships\MembershipOptionConfirmation.cshtml" />
+    <Content Include="Views\MembershipOptions\ViewCurrentMembershipOptions.cshtml" />
+    <Content Include="Views\MembershipOptions\EditMembershipOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\MembershipOptions\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
