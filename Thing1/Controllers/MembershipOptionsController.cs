@@ -37,7 +37,7 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOptions/Create
-        public ActionResult Create()
+        public ActionResult CreateMembershipOptions()
         {
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
             return View();
@@ -48,13 +48,13 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
+        public ActionResult CreateMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
             if (ModelState.IsValid)
             {
                 db.MembershipOptions.Add(membershipOption);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewCurrentMembershipOptions");
             }
 
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
@@ -76,6 +76,19 @@ namespace Thing1.Controllers
             return View(membershipOption);
         }
         // POST: MembershipOptions/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(membershipOption).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            return View(membershipOption);
+        }
         // GET: MembershipOptions/View/5
         public ActionResult ViewCurrentMembershipOptions(int? clubId)
         {
@@ -117,7 +130,7 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOptions/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult DeleteMembershipOption(int? id)
         {
             if (id == null)
             {
@@ -134,7 +147,7 @@ namespace Thing1.Controllers
         // POST: MembershipOptions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteMembershipOption(int id)
         {
             MembershipOption membershipOption = db.MembershipOptions.Find(id);
             db.MembershipOptions.Remove(membershipOption);

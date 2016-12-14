@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Thing1.Models.MembershipOption>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "CreateMembershipOptions")
 </p>
 <table class="table">
     <tr>
@@ -49,7 +49,7 @@
         <td>
             @Html.ActionLink("Edit", "EditMembershipOptions", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "DeleteMembershipOption", new { id=item.Id })
         </td>
     </tr>
 }
