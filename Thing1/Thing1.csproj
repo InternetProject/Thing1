@@ -414,6 +414,10 @@
     <Content Include="Views\Clubs\Edit.cshtml" />
     <Content Include="Views\ClubMemberships\SelectMembershipOptions.cshtml" />
     <Content Include="Views\ClubMemberships\MembershipOptionConfirmation.cshtml" />
+    <Content Include="Views\MembershipOptions\ViewCurrentMembershipOptions.cshtml" />
+    <Content Include="Views\MembershipOptions\EditMembershipOptions.cshtml" />
+    <Content Include="Views\MembershipOptions\CreateMembershipOptions.cshtml" />
+    <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

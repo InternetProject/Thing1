@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Thing1.Models.MembershipOption>
+
+<p>
+    @Html.ActionLink("Create New", "CreateMembershipOptions")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Option)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Expiration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Option)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Expiration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Club.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditMembershipOptions", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "DeleteMembershipOption", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
