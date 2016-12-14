@@ -253,6 +253,9 @@
     <Compile Include="Models\MembershipOption.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\payment.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TypesOfClub.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>

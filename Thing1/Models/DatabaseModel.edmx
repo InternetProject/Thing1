@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -123,6 +123,18 @@
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_time" Type="datetime" />
+          <Property Name="amount" Type="numeric" Precision="10" Scale="3" />
+          <Property Name="clubID" Type="int" />
+          <Property Name="payment_type" Type="varchar" MaxLength="500" />
+          <Property Name="payment_duration" Type="numeric" Precision="10" Scale="3" />
+          <Property Name="userID" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="TypesOfClubs">
           <Key>
@@ -285,6 +297,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_payment_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_payment_Clubs">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="clubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="user_managementModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -296,6 +332,7 @@
           <EntitySet Name="Emails" EntityType="Self.Emails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MembershipOptions" EntityType="Self.MembershipOptions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="payment" EntityType="Self.payment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesOfClubs" EntityType="Self.TypesOfClubs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesOfRecipients" EntityType="Self.TypesOfRecipients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesOfRoles" EntityType="Self.TypesOfRoles" Schema="dbo" store:Type="Tables" />
@@ -343,9 +380,16 @@
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="MembershipOptions" EntitySet="MembershipOptions" />
           </AssociationSet>
+          <AssociationSet Name="FK_payment_AspNetUsers" Association="Self.FK_payment_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_payment_Clubs" Association="Self.FK_payment_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="payment" EntitySet="payment" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="user_managementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -404,6 +448,7 @@
           <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_AspNetUsers" FromRole="AspNetUsers" ToRole="ClubMemberships" />
           <NavigationProperty Name="Emails" Relationship="Self.FK_Emails_AspNetUsers" FromRole="AspNetUsers" ToRole="Emails" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="payments" Relationship="user_managementModel.FK_payment_AspNetUsers" FromRole="AspNetUser" ToRole="payment" />
         </EntityType>
         <EntityType Name="ClubMembership">
           <Key>
@@ -441,6 +486,7 @@
           <NavigationProperty Name="TypesOfClub" Relationship="Self.FK_Clubs_TypesOfClubs" FromRole="Clubs" ToRole="TypesOfClubs" />
           <NavigationProperty Name="Emails" Relationship="Self.FK_Emails_Clubs" FromRole="Clubs" ToRole="Emails" />
           <NavigationProperty Name="MembershipOptions" Relationship="Self.FK_MembershipOptions_Clubs" FromRole="Clubs" ToRole="MembershipOptions" />
+          <NavigationProperty Name="payments" Relationship="user_managementModel.FK_payment_Clubs" FromRole="Club" ToRole="payment" />
         </EntityType>
         <EntityType Name="Email">
           <Key>
@@ -670,8 +716,55 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          <EntitySet Name="payments" EntityType="user_managementModel.payment" />
+          <AssociationSet Name="FK_payment_AspNetUsers" Association="user_managementModel.FK_payment_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="payment" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_payment_Clubs" Association="user_managementModel.FK_payment_Clubs">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="payment" EntitySet="payments" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="payment">
+          <Key>
+            <PropertyRef Name="TransactionId" />
+          </Key>
+          <Property Name="TransactionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_time" Type="DateTime" Precision="3" />
+          <Property Name="amount" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="clubID" Type="Int32" />
+          <Property Name="payment_type" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="payment_duration" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="userID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_payment_AspNetUsers" FromRole="payment" ToRole="AspNetUser" />
+          <NavigationProperty Name="Club" Relationship="user_managementModel.FK_payment_Clubs" FromRole="payment" ToRole="Club" />
+        </EntityType>
+        <Association Name="FK_payment_AspNetUsers">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="user_managementModel.payment" Role="payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_payment_Clubs">
+          <End Type="user_managementModel.Club" Role="Club" Multiplicity="0..1" />
+          <End Type="user_managementModel.payment" Role="payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="payment">
+              <PropertyRef Name="clubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -827,6 +920,19 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="payments">
+            <EntityTypeMapping TypeName="user_managementModel.payment">
+              <MappingFragment StoreEntitySet="payment">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="payment_duration" ColumnName="payment_duration" />
+                <ScalarProperty Name="payment_type" ColumnName="payment_type" />
+                <ScalarProperty Name="clubID" ColumnName="clubID" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="payment_time" ColumnName="payment_time" />
+                <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

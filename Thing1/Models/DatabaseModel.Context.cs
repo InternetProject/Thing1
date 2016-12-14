@@ -13,10 +13,10 @@ namespace Thing1.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class user_managementEntities1 : DbContext
+    public partial class user_managementEntities : DbContext
     {
-        public user_managementEntities1()
-            : base("name=user_managementEntities1")
+        public user_managementEntities()
+            : base("name=user_managementEntities")
         {
         }
     
@@ -37,5 +37,6 @@ namespace Thing1.Models
         public virtual DbSet<TypesOfClub> TypesOfClubs { get; set; }
         public virtual DbSet<TypesOfRecipient> TypesOfRecipients { get; set; }
         public virtual DbSet<TypesOfRole> TypesOfRoles { get; set; }
+        public virtual DbSet<payment> payments { get; set; }
     }
 }
