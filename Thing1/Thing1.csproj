@@ -205,6 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembershipOptionsController.cs" />
+    <Compile Include="Controllers\PaymentHistoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -422,6 +423,7 @@
     <Content Include="Views\MembershipOptions\EditMembershipOptions.cshtml" />
     <Content Include="Views\MembershipOptions\CreateMembershipOptions.cshtml" />
     <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
+    <Content Include="Views\PaymentHistory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

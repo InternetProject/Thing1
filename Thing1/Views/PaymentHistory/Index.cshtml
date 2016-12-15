@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Thing1.Models.payment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.payment_time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.payment_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.payment_duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.payment_time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.payment_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.payment_duration)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Club.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TransactionId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TransactionId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TransactionId })
+        </td>
+    </tr>
+}
+
+</table>
