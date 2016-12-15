@@ -4,11 +4,8 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>User Payment History</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -52,11 +49,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Club.name)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.TransactionId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TransactionId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.TransactionId })
-        </td>
+
     </tr>
 }
 
