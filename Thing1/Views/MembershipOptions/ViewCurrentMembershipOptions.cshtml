@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<Thing1.Models.MembershipOption>
+<h1>
+    <font size="20"><b>Membership Options</b></font>
 
+</h1>
 <p>
     @Html.ActionLink("Create New", "CreateMembershipOptions")
 </p>
@@ -48,7 +51,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "EditMembershipOptions", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "DeleteMembershipOption", new { id=item.Id })
         </td>
     </tr>
