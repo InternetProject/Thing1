@@ -122,6 +122,7 @@ namespace Thing1.Controllers
             //DeSerialize
             Club club = (Club)Session["Club Object"];
             ClubMembership clubMembership = (ClubMembership)Session["ClubMembership Object"];
+            MembershipOption membershipOption = (MembershipOption)Session["MembershipOption Object"];
             decimal price = (decimal)Session["Price"];
 
             if (club == null || clubMembership == null || price == -10000)
@@ -133,9 +134,21 @@ namespace Thing1.Controllers
             ViewBag.ClubNickName = club.nickname;
             ViewBag.Price = price;
 
-            string tempMessage = club.name + " " + clubMembership.MembershipOption + " " + "USD: " + price.ToString();
-            return Content(tempMessage);
-            //return View(clubMembership);
+            //Store description: membershipOption.Description for membershipOption == clubMembership.MembershipOption and ClubID == club.ClubID
+            ViewBag.MembershipOption = db.MembershipOptions.Where(n => n.ClubId == clubMembership.ClubId && n.Option == clubMembership.MembershipOption).ToList().First().Description;
+
+            //below is a test to see what gets stored
+            //string tempMessage = club.name + " " + clubMembership.MembershipOption + " " + "USD: " + price.ToString();
+            //return Content(tempMessage);
+
+            return View(clubMembership);
+        }
+
+        // GET: ClubMemberships/Payment
+        public ActionResult Payment()
+        {
+        // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
+            return Content("Time to pay!");
         }
 
         // GET: ClubMemberships/Create
