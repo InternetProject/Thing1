@@ -14,7 +14,7 @@ namespace Thing1.Controllers
     public class ClubMembershipsController : Controller
     {
 
-        private user_managementEntities1 db = new user_managementEntities1();
+        private user_managementEntities db = new user_managementEntities();
 
         // GET: ClubMemberships
         public ActionResult Index()
@@ -68,23 +68,21 @@ namespace Thing1.Controllers
 
             //Serialize
             Session["Club Object"] = club;
-
+            
             return View();
         }
 
         // POST: ClubMemberships/SelectMembershipOptions
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SelectMembershipOptions([Bind(Include = "Id,UserId,ClubId,TermDate,JoinDate,Description,HasAccessToFinance,CanEditClubData,RoleID,MembershipOption,Violation")] ClubMembership clubMembership)
+        public ActionResult SelectMembershipOptions([Bind(Include = "Id,UserId,ClubId,MembershipOptionId,RoleId,TermDate,JoinDate,Description,HasAccessToFinance,CanEditClubData,Violation")] ClubMembership clubMembership)
         {
-
             if (ModelState.IsValid)
             {
-                clubMembership.TermDate = DateTime.Now;  // What is the TemrDate supposed to do?
-                clubMembership.JoinDate = DateTime.Now;
-
+              
                 //db.ClubMemberships.Add(clubMembership);
                 //db.SaveChanges();
 
@@ -97,7 +95,7 @@ namespace Thing1.Controllers
 
                 //List<Thing1.Models.MembershipOption> list = db.MembershipOptions.Where(n => n.ClubId == clubMembership.ClubId && n.Option == clubMembership.MembershipOption).ToList();
                 //price = list.First().Price;
-                price = db.MembershipOptions.Where(n => n.ClubId == clubMembership.ClubId && n.Option == clubMembership.MembershipOption).ToList().First().Price;
+                price = db.MembershipOptions.Where(n => n.Id == clubMembership.MembershipOptionId).ToList().First().Price;
 
                 if (price == -10000)
                 {
@@ -135,7 +133,7 @@ namespace Thing1.Controllers
             ViewBag.Price = price;
 
             //Store description: membershipOption.Description for membershipOption == clubMembership.MembershipOption and ClubID == club.ClubID
-            ViewBag.MembershipOption = db.MembershipOptions.Where(n => n.ClubId == clubMembership.ClubId && n.Option == clubMembership.MembershipOption).ToList().First().Description;
+            ViewBag.Description = db.MembershipOptions.Where(n => n.Id == clubMembership.MembershipOptionId).ToList().First().Description;
 
             //below is a test to see what gets stored
             //string tempMessage = club.name + " " + clubMembership.MembershipOption + " " + "USD: " + price.ToString();

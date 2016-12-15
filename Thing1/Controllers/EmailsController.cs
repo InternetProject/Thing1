@@ -15,7 +15,7 @@ namespace Thing1.Controllers
 {
     public class EmailsController : Controller
     {
-        private user_managementEntities1 db = new user_managementEntities1();
+        private user_managementEntities db = new user_managementEntities();
 
         // GET: Emails
         public ActionResult Index()

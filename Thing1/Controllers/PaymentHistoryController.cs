@@ -11,7 +11,7 @@ namespace Thing1.Controllers
     
     public class PaymentHistoryController : Controller
     {
-        private user_managementEntities1 _db = new user_managementEntities1();
+        private user_managementEntities _db = new user_managementEntities();
         // GET: PaymentHistory
         [Authorize]
         public ActionResult Index()
