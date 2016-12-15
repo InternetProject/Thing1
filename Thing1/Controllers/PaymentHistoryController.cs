@@ -4,16 +4,22 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
+    
     public class PaymentHistoryController : Controller
     {
         private user_managementEntities1 _db = new user_managementEntities1();
         // GET: PaymentHistory
+        [Authorize]
         public ActionResult Index()
         {
-            return View(_db.payments.Where(x => x.userID == "8ca7c74c-1935-41ad-90fa-2a0a4f73b74e").ToList());
+
+           string userId = User.Identity.GetUserId();
+
+           return View(_db.payments.Where(x => x.userID == userId).ToList());
         }
 
         // GET: PaymentHistory/Details/5
