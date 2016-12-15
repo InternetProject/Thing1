@@ -11,12 +11,14 @@ namespace Thing1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MembershipOption
     {
         public int Id { get; set; }
         public int ClubId { get; set; }
         public int Option { get; set; }
+        [DataType(DataType.Date)]
         public System.DateTime Expiration { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
