@@ -21,7 +21,7 @@ namespace Thing1.Controllers
             return View(membershipOptions.ToList());
         }
 
-        // GET: MembershipOptions/Details/5
+        /*// GET: MembershipOptions/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,7 +34,7 @@ namespace Thing1.Controllers
                 return HttpNotFound();
             }
             return View(membershipOption);
-        }
+        }*/
 
         // GET: MembershipOptions/Create
         public ActionResult CreateMembershipOptions()
@@ -54,7 +54,7 @@ namespace Thing1.Controllers
             {
                 db.MembershipOptions.Add(membershipOption);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
             }
 
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
@@ -84,7 +84,7 @@ namespace Thing1.Controllers
             {
                 db.Entry(membershipOption).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
             }
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
             return View(membershipOption);
@@ -145,14 +145,22 @@ namespace Thing1.Controllers
         }
 
         // POST: MembershipOptions/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("DeleteMembershipOption")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteMembershipOption(int id)
         {
             MembershipOption membershipOption = db.MembershipOptions.Find(id);
+
+            if(membershipOption == null)
+            {
+                return HttpNotFound();
+            }
+
+            int AffectedClubId = membershipOption.ClubId;
+
             db.MembershipOptions.Remove(membershipOption);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = AffectedClubId });
         }
 
         protected override void Dispose(bool disposing)

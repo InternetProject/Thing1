@@ -13,7 +13,7 @@ namespace Thing1.Controllers
         // GET: PaymentHistory
         public ActionResult Index()
         {
-            return View(_db.payments.ToList());
+            return View(_db.payments.Where(x => x.userID == "8ca7c74c-1935-41ad-90fa-2a0a4f73b74e").ToList());
         }
 
         // GET: PaymentHistory/Details/5
