@@ -14,34 +14,25 @@ namespace Thing1.Controllers
     {
         private user_managementEntities db = new user_managementEntities();
 
-        // GET: MembershipOptions
-        public ActionResult Index()
+        private SelectList GetDurationSelectList(int currentDuration = 1)
         {
-            var membershipOptions = db.MembershipOptions.Include(m => m.Club);
-            return View(membershipOptions.ToList());
+          return new SelectList(new List<SelectListItem>
+          {
+                new SelectListItem { Selected = true, Text = "1 year", Value = "1" },
+                new SelectListItem { Selected = false, Text = "2 years", Value = "2" },
+                new SelectListItem { Selected = false, Text = "3 years", Value = "3" },
+            }, "Value", "Text", currentDuration);
         }
 
-        /*// GET: MembershipOptions/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MembershipOption membershipOption = db.MembershipOptions.Find(id);
-            if (membershipOption == null)
-            {
-                return HttpNotFound();
-            }
-            return View(membershipOption);
-        }*/
-
-        // GET: MembershipOptions/Create
+         // GET: MembershipOptions/Create
         public ActionResult CreateMembershipOptions()
         {
-            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
-            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description");
+            ViewBag.Club = new SelectList(db.Clubs, "Id", "name");
+            ViewBag.Type = new SelectList(db.TypesOfMembershipOptions, "Id", "Description");
+            ViewBag.Duration = this.GetDurationSelectList();
+
             return View();
+                       
         }
 
         // POST: MembershipOptions/Create
@@ -51,18 +42,17 @@ namespace Thing1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.MembershipOptions.Add(membershipOption);
-                db.SaveChanges();
-                return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
-            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+            db.MembershipOptions.Add(membershipOption);
+            db.SaveChanges();
+            return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
 
-            return View(membershipOption);
         }
+
         // GET: MembershipOptions/Edit/5
         public ActionResult EditMembershipOptions(int? id)
         {
@@ -75,8 +65,9 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
-            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+            ViewBag.Club = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            ViewBag.Type = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+            ViewBag.Duration = this.GetDurationSelectList(membershipOption.Duration);
 
             return View(membershipOption);
         }
@@ -85,16 +76,15 @@ namespace Thing1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                db.Entry(membershipOption).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
-            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
 
-            return View(membershipOption);
+            db.Entry(membershipOption).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
+
         }
         // GET: MembershipOptions/View/5
         public ActionResult ViewCurrentMembershipOptions(int? clubId)
@@ -132,8 +122,10 @@ namespace Thing1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
-            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+
+            ViewBag.Club = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            ViewBag.Type = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+            ViewBag.Duration = this.GetDurationSelectList(membershipOption.Duration);
 
             return View(membershipOption);
         }

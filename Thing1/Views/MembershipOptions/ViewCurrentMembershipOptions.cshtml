@@ -9,6 +9,9 @@
 <table class="table">
     <tr>
         <th>
+            Type
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Duration)
         </th>
         <th>
@@ -18,14 +21,12 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Is_Active)
+            Is Active
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Club.name)
+            Club Name
         </th>
-        <th>
-            Type
-        </th>
+      
 
         <th></th>
     </tr>
@@ -33,10 +34,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Duration)
+            @Html.DisplayFor(modelItem => item.TypesOfMembershipOption.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Price)
+            @Html.DisplayFor(modelItem => item.Duration) year(s)
+        </td>
+        <td>
+            USD @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
@@ -47,9 +51,7 @@
         <td>
             @Html.DisplayFor(modelItem => item.Club.name)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TypesOfMembershipOption.Description)
-        </td>
+       
         <td>
             @Html.ActionLink("Edit", "EditMembershipOptions", new { id=item.Id }) |
             @Html.ActionLink("Delete", "DeleteMembershipOption", new { id=item.Id })
