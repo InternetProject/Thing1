@@ -82,28 +82,28 @@ namespace Thing1.Controllers
         {
             if (ModelState.IsValid)
             {
-              
+
                 //db.ClubMemberships.Add(clubMembership);
                 //db.SaveChanges();
 
+
+                MembershipOption membershipOption = db.MembershipOptions.Where(n=> n.Id == clubMembership.MembershipOptionId).ToList().First();
+
+                if (membershipOption == null)
+                {
+                    return HttpNotFound();
+                }
+
+                clubMembership.JoinDate = DateTime.Now;
+                clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
+                
                 // REDUNDANT CHECK LOGIC SHOULD COME HERE
                 // Do we need check if the user chooses the same membership option he or she already has?
 
 
                 // Serialize
-                decimal price = -10000;
-
-                //List<Thing1.Models.MembershipOption> list = db.MembershipOptions.Where(n => n.ClubId == clubMembership.ClubId && n.Option == clubMembership.MembershipOption).ToList();
-                //price = list.First().Price;
-                price = db.MembershipOptions.Where(n => n.Id == clubMembership.MembershipOptionId).ToList().First().Price;
-
-                if (price == -10000)
-                {
-                    return HttpNotFound();
-                }
-
                 Session["ClubMembership Object"] = clubMembership;
-                Session["Price"] = price;
+                Session["MembershipOption Object"] = membershipOption;
 
                 return RedirectToAction("MembershipOptionConfirmation");
             }
@@ -121,22 +121,25 @@ namespace Thing1.Controllers
             Club club = (Club)Session["Club Object"];
             ClubMembership clubMembership = (ClubMembership)Session["ClubMembership Object"];
             MembershipOption membershipOption = (MembershipOption)Session["MembershipOption Object"];
-            decimal price = (decimal)Session["Price"];
-
-            if (club == null || clubMembership == null || price == -10000)
+        
+            if (club == null || clubMembership == null || membershipOption == null)
             {
                 return HttpNotFound();
             }
 
             ViewBag.ClubName = club.name;
             ViewBag.ClubNickName = club.nickname;
-            ViewBag.Price = price;
+            ViewBag.Price = membershipOption.Price;
+            ViewBag.Duration = membershipOption.Duration;
+            ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
+            ViewBag.TermDate = clubMembership.TermDate.ToString("d");
+            ViewBag.Description = membershipOption.Description;
 
             //Store description: membershipOption.Description for membershipOption == clubMembership.MembershipOption and ClubID == club.ClubID
-            ViewBag.Description = db.MembershipOptions.Where(n => n.Id == clubMembership.MembershipOptionId).ToList().First().Description;
+            //ViewBag.Description = db.MembershipOptions.Where(n => n.Id == clubMembership.MembershipOptionId).ToList().First().Description;
 
             //below is a test to see what gets stored
-            //string tempMessage = club.name + " " + clubMembership.MembershipOption + " " + "USD: " + price.ToString();
+            //string tempMessage = club.name + " " + membershipOption.Duration + " (" + clubMembership.JoinDate + "~" + clubMembership.TermDate + ")" + " USD: " + membershipOption.Price;
             //return Content(tempMessage);
 
             return View(clubMembership);

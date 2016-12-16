@@ -40,6 +40,7 @@ namespace Thing1.Controllers
         public ActionResult CreateMembershipOptions()
         {
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
+            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description");
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
+        public ActionResult CreateMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +59,8 @@ namespace Thing1.Controllers
             }
 
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+
             return View(membershipOption);
         }
         // GET: MembershipOptions/Edit/5
@@ -73,12 +76,14 @@ namespace Thing1.Controllers
                 return HttpNotFound();
             }
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+
             return View(membershipOption);
         }
         // POST: MembershipOptions/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
+        public ActionResult EditMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
             if (ModelState.IsValid)
             {
@@ -87,6 +92,8 @@ namespace Thing1.Controllers
                 return RedirectToAction("ViewCurrentMembershipOptions", new { clubId = membershipOption.ClubId });
             }
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+
             return View(membershipOption);
         }
         // GET: MembershipOptions/View/5
@@ -117,7 +124,7 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ViewCurrentMembershipOptions([Bind(Include = "Id,ClubId,Option,Expiration,Price,Description,IsActive")] MembershipOption membershipOption)
+        public ActionResult ViewCurrentMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,IsActive")] MembershipOption membershipOption)
         {
             if (ModelState.IsValid)
             {
@@ -126,6 +133,8 @@ namespace Thing1.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
+
             return View(membershipOption);
         }
 

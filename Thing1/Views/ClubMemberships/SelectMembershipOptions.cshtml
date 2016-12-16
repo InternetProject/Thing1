@@ -18,8 +18,10 @@
     @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
     @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
     @Html.HiddenFor(model => model.Violation, new { @Value = false })
-  
-  
+    @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
+    @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })
+
+
     <br/>
     <div class="form-horizontal">
     @foreach (var item in (ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>))
@@ -28,8 +30,9 @@
         @{ var btnText = " " + item.Description + " - USD " + item.Price.ToString() + "<br/><br/>"; }
 
         <div class="col-md-10">
-        @Html.RadioButtonFor(model => model.MembershipOption, item.Id)
-        @Html.Raw(btnText)                      
+        @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
+        @Html.Raw(btnText)       
+              
 
         </div>
             </div>
@@ -68,15 +71,6 @@ $(function(){
         //make the first radio-button of each group checked
         $('INPUT:radio[name="'+e+'"]:visible:first')
             .attr('checked','checked');
-    });
-});
-</script>
-
-<script>
-$(function () {
-    $('#Submit').click(function () {
-        @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
-        @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now.AddYears(3) })
     });
 });
 </script>

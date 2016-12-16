@@ -2,7 +2,7 @@
 @model Thing1.Models.ClubMembership
 
 @{
-    ViewBag.Title = "Membership Option Selection";
+        ViewBag.Title = "Membership Option Selection";
 }
 
 <h2>Welcome, @User.Identity.GetUserName()!</h2>
@@ -10,7 +10,23 @@
 <h4>Club: @ViewBag.ClubName (@ViewBag.ClubNickName)</h4>
 
 <!-- Insert code for showing multiple options selected? -->
-<h4>Membership Option: @ViewBag.MembershipOption</h4>
+<h4>Membership Period:
+@{
+    var periodText = "";
+    if (@ViewBag.Duration == 1)
+    {
+        periodText += @ViewBag.Duration + " year";
+    }
+    else
+    {
+        periodText += @ViewBag.Duration + " years";
+    }
+
+    periodText += " (" + @ViewBag.JoinDate + "~" + @ViewBag.TermDate + ")";
+}
+
+@Html.Raw(periodText)
+</h4>
 <h4>Price (USD): @ViewBag.Price</h4>
 
 <!-- Dropdown list for payment type -->
@@ -19,4 +35,15 @@
     new SelectListItem{ Text="PayPal", Value = "1" }
  }) 
 
-@Html.ActionLink("Continue", "Payment", "ClubMemberships", null, new { @class = "btn" })
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @Html.ActionLink("Continue", "Payment", "ClubMemberships", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+    </div>
+</div>
+
+
+
+
+
+ 
