@@ -44,8 +44,9 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        [Authorize]
+
         // GET: ClubMemberships/SelectMembershipOptions/5
+        [Authorize]
         public ActionResult SelectMembershipOptions(int? clubId)
         {
             if (clubId == null)
@@ -58,8 +59,45 @@ namespace Thing1.Controllers
                 return HttpNotFound();
             }
 
-            // CHECK LOGIC SHOULD COME HERE
-            // What if the user already has a membership option
+            ////////////////////////////////////////////////////////////////////
+            // Sign-up availability Check Logic SHOULD COME HERE
+            // 1. Get current memberships Per each type of membership that users already have 
+            // 2. Only show up memberships that have longer period than the current one
+            ////////////////////////////////////////////////////////////////////
+
+            // OR!!!!!!!!!!!!
+            // On the POST method
+            // You can just post check if the user can actually sing-up for the membership he or she just selected! --> MUCH EASIER!
+
+            /*
+            // 1. Get current memberships per each type that users already have 
+            List<KeyValuePair<TypesOfMembershipOption, ClubMembership>> curMembershipsPerType = new List<KeyValuePair<TypesOfMembershipOption, ClubMembership>>();
+            string userId = User.Identity.GetUserId();
+            List<TypesOfMembershipOption> typesOfMemberships = db.TypesOfMembershipOptions.ToList();
+            foreach (var type in typesOfMemberships)
+            {
+                List<ClubMembership> membershipPerType = db.ClubMemberships.Where(c => c.UserId == userId && c.ClubId == clubId && c.TermDate > DateTime.Now && c.MembershipOption.TypeId == type.Id).ToList();
+                if (membershipPerType.Count >= 2)
+                {
+                    // No way
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                }
+                else if (membershipPerType.Count == 1)
+                {
+                    curMembershipsPerType.Add(new KeyValuePair<TypesOfMembershipOption, ClubMembership>(type, membershipPerType.First()));
+                }
+                else
+                {
+                    // Okay, the user does not have any memberbership for this type
+                }
+            }
+
+            // 2. Only show up memberships that have longer period than the current one
+            */
+
+
+            ////////////////////////////////////////////////////////////////////
 
             ViewBag.ClubId = club.Id;
             ViewBag.ClubName = club.name;
@@ -97,10 +135,6 @@ namespace Thing1.Controllers
                 clubMembership.JoinDate = DateTime.Now;
                 clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
                 
-                // REDUNDANT CHECK LOGIC SHOULD COME HERE
-                // Do we need check if the user chooses the same membership option he or she already has?
-
-
                 // Serialize
                 Session["ClubMembership Object"] = clubMembership;
                 Session["MembershipOption Object"] = membershipOption;
@@ -113,8 +147,9 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        [Authorize]
+
         // GET: ClubMemberships/MembershipOptionConfirmation/5
+        [Authorize]
         public ActionResult MembershipOptionConfirmation()
         {
             //DeSerialize
@@ -145,7 +180,9 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
+
         // GET: ClubMemberships/Payment
+        [Authorize]
         public ActionResult Payment()
         {
         // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
