@@ -424,6 +424,7 @@
     <Content Include="Views\MembershipOptions\CreateMembershipOptions.cshtml" />
     <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
     <Content Include="Views\PaymentHistory\Index.cshtml" />
+    <Content Include="Views\ClubMemberships\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -185,8 +185,10 @@ namespace Thing1.Controllers
         [Authorize]
         public ActionResult Payment()
         {
-        // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
-            return Content("Time to pay!");
+            // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
+            //return Content("Time to pay!");
+            //return RedirectToAction("Payment");
+            return View();
         }
 
         // GET: ClubMemberships/Create
