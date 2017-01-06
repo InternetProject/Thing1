@@ -37,10 +37,88 @@
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        @Html.ActionLink("Continue", "Payment", "ClubMemberships", null, new { @class = "btn btn-default" })
-        @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+        
+        <!-- Documentation https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/ -->
+        <div class="btn btn-default">
+            <div id="paypal-button"></div>
+
+            <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+
+            <script>
+                paypal.Button.render({
+
+                    env: 'sandbox', // Specify 'sandbox' for the test environment
+
+                    client: {
+                        // Providing Client ID for each environment
+                        sandbox: 'AQ3koBx5nfZ-OIzlSDcyQorJACD9SEawFJrhfP6-yk5MWqDPuPFwklsxuTBsSMqkcO8q5MD-G3xo2Zdj',
+                        production: 'xxxxxxxxx'
+                    },
+
+                    payment: function () {
+                        // Set up the payment here, when the buyer clicks on the button
+                        var env = this.props.env;
+                        var client = this.props.client;
+
+                        return paypal.rest.payment.create(env, client, {
+                            transactions: [
+                                {
+                                    amount: { total: @ViewBag.Price, currency: 'USD' }
+                                }
+                            ]
+                        });
+                    },
+
+                    commit: true, // Optional: show a 'Pay Now' button in the checkout flow
+
+                    onAuthorize: function (data, actions) {
+                        // Execute the payment here, when the buyer approves the transaction
+                       
+                        actions.payment.get().then(function(data) {
+                            //write to console for debugging
+                            console.log(data);
+
+                            // add to ClubMemberships table
+                            CreateClubMembership();
+                            // add to PayementHistory table
+                        });
+                        
+                        function CreateClubMembership(){
+                            //Note that boolean values are hardcoded
+                            var membershipData = {UserId: '@User.Identity.GetUserId()', ClubId: '@ViewBag.ClubId',MembershipOptionId: '@ViewBag.MembershipOptionId', RoleId: '1', TermDate: '@ViewBag.TermDate', JoinDate: '@ViewBag.JoinDate', Description: '@ViewBag.Description', HasAccessToFinance: 'False', CanEditClubDate: 'False', Violation: 'False'};
+                            $.ajax({
+                                type: 'POST',
+                                data: membershipData,           
+                                url: "@Url.Content("/ClubMemberships/Create/")",    
+                                success: alert('Success'),
+                                error: alert('Error')
+                                /*success:function(result)
+                                    {
+                                    // what is done on success
+                                    window.location.href = "/ClubMemberships";
+                                    }*/
+                                });
+                        }
+
+                        return actions.payment.execute().then(function () {
+                            // Redirect to ClubMembership page
+
+                            setTimeout(function() {
+                                window.location.href = "/ClubMemberships";
+                            }, 100000);
+                            //window.location.href = "/ClubMemberships";
+                        });
+                    }
+
+                }, '#paypal-button');
+            </script>
+        </div>
+
+         @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
     </div>
+
 </div>
+
 
 
 
