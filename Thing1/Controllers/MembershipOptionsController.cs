@@ -65,7 +65,9 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Club = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+            //ViewBag.Club = new SelectList(db.Clubs, "Id", "name", membershipOption.ClubId);
+
+            ViewBag.Club = db.Clubs.Find(membershipOption.ClubId);
             ViewBag.Type = new SelectList(db.TypesOfMembershipOptions, "Id", "Description", membershipOption.TypeId);
             ViewBag.Duration = this.GetDurationSelectList(membershipOption.Duration);
 
