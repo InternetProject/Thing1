@@ -18,77 +18,79 @@
 
 <div class="tab-content">
     <div id="professional" class="tab-pane active">
-        <table class="table">
+        <ul class="professional-ul">
             @foreach (var item in Model)
             {
                 if (!item.TypesOfClub.Description.Equals("Professional")) { continue; }
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.name)
-                        @if (!item.nickname.IsEmpty())
-                        {
-                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
-                        }
-                        - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-                        |
-                        @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-                        <br />
-                        <img src="data:image/png;base64,@item.image" />
-                        <br />
-                        @Html.DisplayFor(modelItem => item.description)
-                    </td>
-                </tr>
+
+                <li class="professional-li">
+                  <img src="data:image/png;base64,@item.image" height="175" width="175" />
+                  <h3>@Html.DisplayFor(modelItem => item.name)
+                  @if (!item.nickname.IsEmpty())
+                  {
+                    @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                  }</h3>
+                  <p>@Html.DisplayFor(modelItem => item.description)
+                  <br/>
+                  @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                  |
+                  @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)</p>
+              </li>
             }
-        </table>
+        </ul>
     </div>
 
     <div id="identity" class="tab-pane">
-        <table class="table">
+        <ul class="identity-ul">
             @foreach (var item in Model)
             {
                 if (!item.TypesOfClub.Description.Equals("Identity")) { continue; }
-                <tr>
-                    <td>
+
+                <li class="identity-li">
+                    <img src="data:image/png;base64,@item.image" height="175" width="175" />
+                    <h3>
                         @Html.DisplayFor(modelItem => item.name)
                         @if (!item.nickname.IsEmpty())
                         {
-                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                          @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
-                        - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-                         |
-                          @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-                        <br />
-                        <img src="data:image/png;base64,@item.image" />
-                        <br />
-                        @Html.DisplayFor(modelItem => item.description)
-                    </td>
-                </tr>
+                    </h3>
+                    <p>
+                    @Html.DisplayFor(modelItem => item.description)
+                    <br />
+                    @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                    |
+                    @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+                    </p>
+               </li>
             }
-        </table>
+        </ul>
     </div>
 
     <div id="interest" class="tab-pane">
-        <table class="table">
+        <ul class="interest-ul">
             @foreach (var item in Model)
             {
                 if (!item.TypesOfClub.Description.Equals("Interest")) { continue; }
-                <tr>
-                    <td>
+
+                <li class="interest-li">
+                    <img src="data:image/png;base64,@item.image" height="175" width="175" />
+                    <h3>
                         @Html.DisplayFor(modelItem => item.name)
                         @if (!item.nickname.IsEmpty())
                         {
                             @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
-                        - @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                    </h3>
+                    <p>
+                        @Html.DisplayFor(modelItem => item.description)
+                        <br />
+                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
                         |
                         @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-                        <br />
-                        <img src="data:image/png;base64,@item.image" />
-                        <br />
-                        @Html.DisplayFor(modelItem => item.description)
-                    </td>
-                </tr>
+                    </p>
+                </li>
             }
-        </table>
+        </ul>
     </div>
 </div>

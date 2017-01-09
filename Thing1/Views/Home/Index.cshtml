@@ -6,9 +6,12 @@
 
 <!--Calendar and links to other pages-->
 <div class="jumbotron">
-    <h1>Welcome to the club portal!</h1>
-    <p>@Html.ActionLink("Join Clubs", "Index", "Clubs", null, new { @class = "btn btn-primary btn-lg", @style = "margin-bottom:10px; margin-top:10px" })</p>
+    <h1 class="scriptfont">Clubs at Anderson</h1>
+    @*<p>@Html.ActionLink("Join Now", "Index", "Clubs", null, new { @class = "btn btn-primary btn-lg", @style = "margin-bottom:10px; margin-top:10px" })</p>*@
+    <p>@Html.ActionLink("Join Now", "Index", "Clubs", null, new { @class = "button"})</p>
 </div>
+
+
 <div class="row">
     <!--ASA Master Calendar goes here-->
     <div class="col-md-4 panel-default">
@@ -21,6 +24,7 @@
     <div class="col-md-5 panel-default">
         <div class="panel-heading">My Upcoming Events</div>
         <div class="panel-body">
+            <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=v4dpb5tlq8ic4sp4tdrqlg3dvk%40group.calendar.google.com&amp;color=%23711616&amp;ctz=America%2FLos_Angeles" style="border: 0; width: 100%; height: 300px;" frameborder="0" scrolling="yes"></iframe>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->
