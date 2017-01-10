@@ -16,14 +16,13 @@ namespace Thing1.Controllers
 
         public ActionResult Index()
         {
-            /*if(!Request.IsAuthenticated)
+            if(!Request.IsAuthenticated)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
             }
-            */
             var userid = User.Identity.GetUserId();
-           // var clubMemberships = db.ClubMemberships.Include(c => c.Club);
-            return View();// clubMemberships.ToList());//.Where(c => c.UserId == userid).ToList());
+            var clubMemberships = db.ClubMemberships.Include(c => c.Club);
+            return View(clubMemberships.Where(c => c.UserId == userid).ToList());
         }
     }
 }
