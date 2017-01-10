@@ -102,10 +102,10 @@
 
                         return actions.payment.execute().then(function () {
                             // Redirect to ClubMembership page
-
+                            
                             setTimeout(function() {
                                 window.location.href = "/ClubMemberships";
-                            }, 100000);
+                            }, 3000);
                             //window.location.href = "/ClubMemberships";
                         });
                     }
