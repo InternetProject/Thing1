@@ -162,10 +162,12 @@ namespace Thing1.Controllers
                 return HttpNotFound();
             }
 
+            ViewBag.ClubId = club.Id;
             ViewBag.ClubName = club.name;
             ViewBag.ClubNickName = club.nickname;
             ViewBag.Price = membershipOption.Price;
             ViewBag.Duration = membershipOption.Duration;
+            ViewBag.MembershipOptionId = membershipOption.Id;
             ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
             ViewBag.TermDate = clubMembership.TermDate.ToString("d");
             ViewBag.Description = membershipOption.Description;
@@ -185,8 +187,8 @@ namespace Thing1.Controllers
         [Authorize]
         public ActionResult Payment()
         {
-        // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
-            return Content("Time to pay!");
+            // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
+            return View();
         }
 
         // GET: ClubMemberships/Create
@@ -201,7 +203,7 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,ClubId,TermDate,JoinDate,Description,HasAccessToFinance")] ClubMembership clubMembership)
+        public ActionResult Create([Bind(Include = "Id,UserId,ClubId,MembershipOptionId,RoleId,TermDate,JoinDate,Description,HasAccessToFinance,CanEditClubData,Violation")] ClubMembership clubMembership)
         {
             if (ModelState.IsValid)
             {

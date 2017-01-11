@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url(../Content/Images/seamless_paper_texture.png)
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -16,9 +17,80 @@
     white-space: normal;
 }
 
+.jumbotron {
+    background-image: url('../Content/Images/UCLA.jpg');
+    background-size:cover;
+    color: azure;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.scriptfont {
+    font-family: 'Dancing Script', cursive;
+}
+
+.button {
+  display: inline-block;
+  padding: 15px 25px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #225378;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #2a2c2b;
+}
+
+.button:hover {background-color: #1695a3}
+
+.button:active {
+  background-color: #1695a3;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.row .panel-heading {
+    background-color: #225378;
+    color: white;
+}
+
+
+.tab-content {
+  margin: 10px;
+}
+
+.tab-content .professional-ul, .tab.content .identity-ul, .tab-content .interest-ul{
+  list-style-type: none;
+  width: 100%;
+}
+
+.tab-content h3 {
+  font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.tab-content .professional-li img, .tab-content .identity-li img, .tab-content .interest-li img {
+  float: left;
+  margin: 0 15px 0 0;
+}
+
+.tab-content .professional-li p, .identity-li p, .interest-li p{
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+}
+
+.professional-li, .identity-li, .interest-li {
+  padding: 10px;
+  overflow: auto;
+}
+
+.professional-li:hover, .identity-li:hover, .interest-li:hover {
+  background: #eee;
+  cursor: pointer;
 }

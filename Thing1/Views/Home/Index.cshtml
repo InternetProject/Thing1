@@ -1,51 +1,49 @@
-﻿@*@model IEnumerable<Thing1.Models.ClubMembership>*@
-
-@{
+﻿@{
     ViewBag.Title = "Club Portal Home";
 }
 
 <!--Calendar and links to other pages-->
 <div class="jumbotron">
-    <h1>Welcome to the club portal!</h1>
-    <p>@Html.ActionLink("Join Clubs", "Index", "Clubs", null, new { @class = "btn btn-primary btn-lg", @style = "margin-bottom:10px; margin-top:10px" })</p>
+    <h1 class="scriptfont">Clubs at Anderson</h1>
+    <p>@Html.ActionLink("Join Now", "Index", "Clubs", null, new { @class = "button" })</p>
 </div>
+
+
 <div class="row">
     <!--ASA Master Calendar goes here-->
-    <div class="col-md-4 panel-default">
+    <div class="col-md-5 panel-default">
         <div class="panel-heading">ASA Event Calendar</div>
         <div class="panel-body">
-            <iframe src="https://calendar.google.com/calendar/embed?src=c4c.ucla%40gmail.com&ctz=America/Los_Angeles" style="border: 0; width: 100%; height:300px" frameborder="0" scrolling="yes"></iframe>
+            <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=MONTH&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=c4c.ucla%40gmail.com&ctz=America/Los_Angeles" style="border: 0; width: 100%; height:300px" frameborder="0" scrolling="yes"></iframe>
         </div>
     </div>
     <!--Show list of user's upcoming events-->
     <div class="col-md-5 panel-default">
         <div class="panel-heading">My Upcoming Events</div>
         <div class="panel-body">
+            <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=v4dpb5tlq8ic4sp4tdrqlg3dvk%40group.calendar.google.com&amp;color=%23711616&amp;ctz=America%2FLos_Angeles" style="border: 0; width: 100%; height: 300px;" frameborder="0" scrolling="yes"></iframe>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->
-    <div class="col-md-3 panel-default">
+    <div class="col-md-2 panel-default">
         <div class="panel-heading">My Clubs</div>
         <div class="panel-body">
             <!--List of clubs user is an officer in-->
             <dl class="list-unstyled expandable-menu">
                 <dt>Officer <a href="#">[+]</a></dt>
-                @*@foreach(var item in Model)
-                    {
-                        <dd>@Html.ActionLink(item.Club.name, "Details", "Clubs", new {Id = item.Club.Id}, null) </dd>
-                    }*@
+                @foreach (var item in Model)
+                {
+                    if (!item.CanEditClubData) { continue; }
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                }
             </dl>
             <!--list of clubs user is a member in-->
             <dl class="list-unstyled expandable-menu">
                 <dt>Member <a href="#">[+]</a></dt>
-            </dl>
-            <dl>
-                <dt>Portal Navigation</dt>
-                <dd>@Html.ActionLink("Club List", "Index", "Clubs")</dd>
-                <dd>@Html.ActionLink("My Clubs", "Index", "ClubMemberships")</dd>
-                <dd>@Html.ActionLink("Edit a club", "Edit", "Clubs", new { Id = 1 }, null)</dd>
-                <dd>@Html.ActionLink("Send an email", "Create", "Emails")</dd>
-                <dd>@Html.ActionLink("Payment History", "Index", "PaymentHistory")</dd>
+                @foreach (var item in Model)
+                {
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                }
             </dl>
         </div>
     </div>
