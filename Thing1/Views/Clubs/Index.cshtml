@@ -24,7 +24,7 @@
                 if (!item.TypesOfClub.Description.Equals("Professional")) { continue; }
 
                 <li class="professional-li">
-                  <img src="data:image/png;base64,@item.image" height="175" width="175" />
+                  <img src="~/Content/Images/RBA-LOGO.png" style="height:auto; width:150px" />
                   <h3>@Html.DisplayFor(modelItem => item.name)
                   @if (!item.nickname.IsEmpty())
                   {
@@ -47,7 +47,7 @@
                 if (!item.TypesOfClub.Description.Equals("Identity")) { continue; }
 
                 <li class="identity-li">
-                    <img src="data:image/png;base64,@item.image" height="175" width="175" />
+                    <img src="~/Content/Images/GCBA.png" style="height:auto; width:150px" />
                     <h3>
                         @Html.DisplayFor(modelItem => item.name)
                         @if (!item.nickname.IsEmpty())
@@ -74,7 +74,8 @@
                 if (!item.TypesOfClub.Description.Equals("Interest")) { continue; }
 
                 <li class="interest-li">
-                    <img src="data:image/png;base64,@item.image" height="175" width="175" />
+                    @*<img src="data:image/png;base64,@item.image" height="175" width="175" />*@
+                    <img src="~/Content/Images/andersoneats.png" style="height:auto; width:150px" />
                     <h3>
                         @Html.DisplayFor(modelItem => item.name)
                         @if (!item.nickname.IsEmpty())
@@ -85,9 +86,9 @@
                     <p>
                         @Html.DisplayFor(modelItem => item.description)
                         <br />
-                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, new { @class = "club-button" })
                         |
-                        @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+                        @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, new { @class = "club-button" })
                     </p>
                 </li>
             }
