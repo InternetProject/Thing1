@@ -12,9 +12,18 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TypesOfRecipient
+    public partial class TypesOfMembershipOption
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TypesOfMembershipOption()
+        {
+            this.MembershipOptions = new HashSet<MembershipOption>();
+        }
+    
         public int Id { get; set; }
         public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<MembershipOption> MembershipOptions { get; set; }
     }
 }

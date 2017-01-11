@@ -12,7 +12,7 @@ namespace Thing1.Controllers
 {
     public class HomeController : Controller
     {
-        private user_managementEntities1 db = new user_managementEntities1();
+        private user_managementEntities db = new user_managementEntities();
 
         public ActionResult Index()
         {
@@ -21,7 +21,7 @@ namespace Thing1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
             }
             */
-            var userid = "0";//User.Identity.GetUserId();
+            var userid = User.Identity.GetUserId();
            // var clubMemberships = db.ClubMemberships.Include(c => c.Club);
             return View();// clubMemberships.ToList());//.Where(c => c.UserId == userid).ToList());
         }

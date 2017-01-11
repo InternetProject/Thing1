@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNet.Identity
+@model Thing1.Models.ClubMembership
+
+@{
+    ViewBag.Title = "Select Membership Options";
+}
+
+<h2>Welcome, @User.Identity.GetUserName()</h2>
+<h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
+    @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
+    @Html.HiddenFor(model => model.RoleId, new { @Value = 4 })    
+    @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
+    @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
+    @Html.HiddenFor(model => model.Violation, new { @Value = false })
+    @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
+    @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })
+
+
+    <br/>
+    <div class="form-horizontal">
+    @foreach (var item in (ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>))
+    {
+        <div class="form-group">
+        @{ var btnText = " " + item.Description + " - USD " + item.Price.ToString() + "<br/><br/>"; }
+
+        <div class="col-md-10">
+        @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
+        @Html.Raw(btnText)       
+              
+
+        </div>
+            </div>
+       }
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="Submit" type="submit" value="Next" class="btn btn-default" />
+                @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+                        }
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+$(function(){
+    //removed duplicates form the following array
+    $(jQuery.unique(
+        //create an array with the names of the groups
+        $('INPUT:radio')
+            .map(function(i,e){
+                return $(e).attr('name') }
+            ).get()
+    ))
+    //interate the array (array with unique names of groups)
+    .each(function(i,e){
+        //make the first radio-button of each group checked
+        $('INPUT:radio[name="'+e+'"]:visible:first')
+            .attr('checked','checked');
+    });
+});
+</script>

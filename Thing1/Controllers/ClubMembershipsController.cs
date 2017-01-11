@@ -14,7 +14,7 @@ namespace Thing1.Controllers
     public class ClubMembershipsController : Controller
     {
 
-        private user_managementEntities1 db = new user_managementEntities1();
+        private user_managementEntities db = new user_managementEntities();
 
         // GET: ClubMemberships
         public ActionResult Index()
@@ -42,6 +42,151 @@ namespace Thing1.Controllers
                 return HttpNotFound();
             }
             return View(clubMembership);
+        }
+
+
+        // GET: ClubMemberships/SelectMembershipOptions/5
+        [Authorize]
+        public ActionResult SelectMembershipOptions(int? clubId)
+        {
+            if (clubId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Club club = db.Clubs.Find(clubId);
+            if (club == null)
+            {
+                return HttpNotFound();
+            }
+
+            ////////////////////////////////////////////////////////////////////
+            // Sign-up availability Check Logic SHOULD COME HERE
+            // 1. Get current memberships Per each type of membership that users already have 
+            // 2. Only show up memberships that have longer period than the current one
+            ////////////////////////////////////////////////////////////////////
+
+            // OR!!!!!!!!!!!!
+            // On the POST method
+            // You can just post check if the user can actually sing-up for the membership he or she just selected! --> MUCH EASIER!
+
+            /*
+            // 1. Get current memberships per each type that users already have 
+            List<KeyValuePair<TypesOfMembershipOption, ClubMembership>> curMembershipsPerType = new List<KeyValuePair<TypesOfMembershipOption, ClubMembership>>();
+            string userId = User.Identity.GetUserId();
+            List<TypesOfMembershipOption> typesOfMemberships = db.TypesOfMembershipOptions.ToList();
+            foreach (var type in typesOfMemberships)
+            {
+                List<ClubMembership> membershipPerType = db.ClubMemberships.Where(c => c.UserId == userId && c.ClubId == clubId && c.TermDate > DateTime.Now && c.MembershipOption.TypeId == type.Id).ToList();
+                if (membershipPerType.Count >= 2)
+                {
+                    // No way
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                }
+                else if (membershipPerType.Count == 1)
+                {
+                    curMembershipsPerType.Add(new KeyValuePair<TypesOfMembershipOption, ClubMembership>(type, membershipPerType.First()));
+                }
+                else
+                {
+                    // Okay, the user does not have any memberbership for this type
+                }
+            }
+
+            // 2. Only show up memberships that have longer period than the current one
+            */
+
+
+            ////////////////////////////////////////////////////////////////////
+
+            ViewBag.ClubId = club.Id;
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            ViewBag.MembershipOptions = club.MembershipOptions.ToList();
+
+            //Serialize
+            Session["Club Object"] = club;
+            
+            return View();
+        }
+
+        // POST: ClubMemberships/SelectMembershipOptions
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SelectMembershipOptions([Bind(Include = "Id,UserId,ClubId,MembershipOptionId,RoleId,TermDate,JoinDate,Description,HasAccessToFinance,CanEditClubData,Violation")] ClubMembership clubMembership)
+        {
+            if (ModelState.IsValid)
+            {
+
+                //db.ClubMemberships.Add(clubMembership);
+                //db.SaveChanges();
+
+
+                MembershipOption membershipOption = db.MembershipOptions.Where(n=> n.Id == clubMembership.MembershipOptionId).ToList().First();
+
+                if (membershipOption == null)
+                {
+                    return HttpNotFound();
+                }
+
+                clubMembership.JoinDate = DateTime.Now;
+                clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
+                
+                // Serialize
+                Session["ClubMembership Object"] = clubMembership;
+                Session["MembershipOption Object"] = membershipOption;
+
+                return RedirectToAction("MembershipOptionConfirmation");
+            }
+
+            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", clubMembership.UserId);
+            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
+            return View(clubMembership);
+        }
+
+
+        // GET: ClubMemberships/MembershipOptionConfirmation/5
+        [Authorize]
+        public ActionResult MembershipOptionConfirmation()
+        {
+            //DeSerialize
+            Club club = (Club)Session["Club Object"];
+            ClubMembership clubMembership = (ClubMembership)Session["ClubMembership Object"];
+            MembershipOption membershipOption = (MembershipOption)Session["MembershipOption Object"];
+        
+            if (club == null || clubMembership == null || membershipOption == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            ViewBag.Price = membershipOption.Price;
+            ViewBag.Duration = membershipOption.Duration;
+            ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
+            ViewBag.TermDate = clubMembership.TermDate.ToString("d");
+            ViewBag.Description = membershipOption.Description;
+
+            //Store description: membershipOption.Description for membershipOption == clubMembership.MembershipOption and ClubID == club.ClubID
+            //ViewBag.Description = db.MembershipOptions.Where(n => n.Id == clubMembership.MembershipOptionId).ToList().First().Description;
+
+            //below is a test to see what gets stored
+            //string tempMessage = club.name + " " + membershipOption.Duration + " (" + clubMembership.JoinDate + "~" + clubMembership.TermDate + ")" + " USD: " + membershipOption.Price;
+            //return Content(tempMessage);
+
+            return View(clubMembership);
+        }
+
+
+        // GET: ClubMemberships/Payment
+        [Authorize]
+        public ActionResult Payment()
+        {
+        // ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
+            return Content("Time to pay!");
         }
 
         // GET: ClubMemberships/Create

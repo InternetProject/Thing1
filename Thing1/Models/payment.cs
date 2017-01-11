@@ -12,14 +12,15 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Email
+    public partial class payment
     {
-        public int Id { get; set; }
-        public int ClubId { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public System.DateTime Sent { get; set; }
-        public string SentBy { get; set; }
+        public int TransactionId { get; set; }
+        public Nullable<System.DateTime> payment_time { get; set; }
+        public Nullable<decimal> amount { get; set; }
+        public Nullable<int> clubID { get; set; }
+        public string payment_type { get; set; }
+        public Nullable<decimal> payment_duration { get; set; }
+        public string userID { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Club Club { get; set; }

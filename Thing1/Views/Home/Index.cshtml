@@ -5,45 +5,49 @@
 }
 
 <!--Calendar and links to other pages-->
-<!--Testing github conflicts-->
-<!--Test commit-->
-<!--Test Push-->
 <div class="jumbotron">
-    <h1>Hello, Internet Project!</h1>
-    <p>...</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">This does absolutely nothing</a></p>
+    <h1>Welcome to the club portal!</h1>
+    <p>@Html.ActionLink("Join Clubs", "Index", "Clubs", null, new { @class = "btn btn-primary btn-lg", @style = "margin-bottom:10px; margin-top:10px" })</p>
 </div>
 <div class="row">
-    <div class="col-md-4"><h3>ASA Event Calendar</h3></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4"><h3>My Events</h3></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-2"><h3>My Clubs</h3></div>
-</div>
-<div class="row">
-    <div class="col-md-4">
-        <iframe src="https://calendar.google.com/calendar/embed?src=c4c.ucla%40gmail.com&ctz=America/Los_Angeles" style="border: 0" width="100%" height="500" frameborder="0" scrolling="yes"></iframe>
+    <!--ASA Master Calendar goes here-->
+    <div class="col-md-4 panel-default">
+        <div class="panel-heading">ASA Event Calendar</div>
+        <div class="panel-body">
+            <iframe src="https://calendar.google.com/calendar/embed?src=c4c.ucla%40gmail.com&ctz=America/Los_Angeles" style="border: 0; width: 100%; height:300px" frameborder="0" scrolling="yes"></iframe>
+        </div>
     </div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-2">
-        @Html.ActionLink("Join Clubs","Index","Clubs", null, new {@class="btn btn-primary btn-lg", @style="margin-bottom:10px; margin-top:10px"})
-        <dl class="list-unstyled expandable-menu">
-            <dt>Officer <a href="#">[+]</a></dt>
-            @*@foreach(var item in Model)
-            {
-                <dd>@Html.ActionLink(item.Club.name, "Details", "Clubs", new {Id = item.Club.Id}, null) </dd>
-            }*@
-    <dd>@Html.ActionLink("Club List", "Index", "Clubs")</dd>
-    <dd>@Html.ActionLink("My Clubs", "Index", "ClubMemberships")</dd>
-    <dd>@Html.ActionLink("Edit a club", "Edit", "Clubs", new { Id = 1 }, null)</dd>
-    <dd>@Html.ActionLink("Send an email", "Create", "Emails")</dd>
-        </dl>
-        <dl class="list-unstyled expandable-menu">
-            <dt>Member <a href="#">[+]</a></dt>
-                
-        </dl>
+    <!--Show list of user's upcoming events-->
+    <div class="col-md-5 panel-default">
+        <div class="panel-heading">My Upcoming Events</div>
+        <div class="panel-body">
+        </div>
+    </div>
+    <!--Show list of clubs that user is in organized by permissions-->
+    <div class="col-md-3 panel-default">
+        <div class="panel-heading">My Clubs</div>
+        <div class="panel-body">
+            <!--List of clubs user is an officer in-->
+            <dl class="list-unstyled expandable-menu">
+                <dt>Officer <a href="#">[+]</a></dt>
+                @*@foreach(var item in Model)
+                    {
+                        <dd>@Html.ActionLink(item.Club.name, "Details", "Clubs", new {Id = item.Club.Id}, null) </dd>
+                    }*@
+            </dl>
+            <!--list of clubs user is a member in-->
+            <dl class="list-unstyled expandable-menu">
+                <dt>Member <a href="#">[+]</a></dt>
+            </dl>
+            <dl>
+                <dt>Portal Navigation</dt>
+                <dd>@Html.ActionLink("Club List", "Index", "Clubs")</dd>
+                <dd>@Html.ActionLink("My Clubs", "Index", "ClubMemberships")</dd>
+                <dd>@Html.ActionLink("Edit a club", "Edit", "Clubs", new { Id = 1 }, null)</dd>
+                <dd>@Html.ActionLink("Send an email", "Create", "Emails")</dd>
+                <dd>@Html.ActionLink("Payment History", "Index", "PaymentHistory")</dd>
+            </dl>
+        </div>
     </div>
 </div>
-<!--Test commit-->
+

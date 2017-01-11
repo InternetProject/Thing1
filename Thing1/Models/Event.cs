@@ -12,13 +12,12 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserClaim
+    public partial class Event
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
+        public int ID { get; set; }
+        public string Title { get; set; }
+        public System.DateTime Date { get; set; }
+        public System.DateTime Time { get; set; }
+        public string Location { get; set; }
     }
 }

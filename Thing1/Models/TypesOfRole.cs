@@ -12,17 +12,18 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Recipient
+    public partial class TypesOfRole
     {
-        public int Id { get; set; }
-        public int EmailId { get; set; }
-        public int TypeId { get; set; }
-        public string UserId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TypesOfRole()
+        {
+            this.ClubMemberships = new HashSet<ClubMembership>();
+        }
     
-        public virtual Email Email { get; set; }
-        public virtual Recipient Recipients1 { get; set; }
-        public virtual Recipient Recipient1 { get; set; }
-        public virtual TypesOfRecipient TypesOfRecipient { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClubMembership> ClubMemberships { get; set; }
     }
 }

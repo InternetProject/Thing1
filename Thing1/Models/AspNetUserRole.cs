@@ -12,16 +12,11 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Email
+    public partial class AspNetUserRole
     {
-        public int Id { get; set; }
-        public int ClubId { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public System.DateTime Sent { get; set; }
-        public string SentBy { get; set; }
+        public string UserId { get; set; }
+        public string RoleId { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Club Club { get; set; }
     }
 }
