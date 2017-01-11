@@ -18,6 +18,7 @@
 }
 
 .jumbotron {
+    margin-top: 20px;
     background-image: url('../Content/Images/UCLA.jpg');
     background-size:cover;
     color: azure;
