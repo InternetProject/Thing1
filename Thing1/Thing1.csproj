@@ -204,6 +204,7 @@
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MemberManagement1Controller.cs" />
     <Compile Include="Controllers\MembershipOptionsController.cs" />
     <Compile Include="Controllers\PaymentHistoryController.cs" />
     <Compile Include="Global.asax.cs">
@@ -337,6 +338,7 @@
     <Content Include="Models\DatabaseModel.edmx.diagram">
       <DependentUpon>DatabaseModel.edmx</DependentUpon>
     </Content>
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Models\DatabaseModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -424,6 +426,11 @@
     <Content Include="Views\MembershipOptions\CreateMembershipOptions.cshtml" />
     <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
     <Content Include="Views\PaymentHistory\Index.cshtml" />
+    <Content Include="Views\MemberManagement1\Create.cshtml" />
+    <Content Include="Views\MemberManagement1\Delete.cshtml" />
+    <Content Include="Views\MemberManagement1\Details.cshtml" />
+    <Content Include="Views\MemberManagement1\Edit.cshtml" />
+    <Content Include="Views\MemberManagement1\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

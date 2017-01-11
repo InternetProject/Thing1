@@ -1,0 +1,105 @@
+﻿@model IEnumerable<Thing1.Models.ClubMembership>
+
+@{
+    //ViewBag.Title = (ViewData["ClubId"] as Thing1.Models.ClubMembership).ClubId;
+    ViewBag.Title = "Index";
+}
+
+
+<h2>@foreach (var i in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => i.ClubId)
+        </td>
+     </tr>
+}
+</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JoinDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Program)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypesOfRole.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HasAccessToFinance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CanEditClubData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MembershipOption.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Violation)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JoinDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Program)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypesOfRole.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HasAccessToFinance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CanEditClubData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MembershipOption.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Violation)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
