@@ -84,6 +84,7 @@ textarea {
 
 .tab-content .professional-li p, .identity-li p, .interest-li p{
   font: 200 12px/1.5 Georgia, Times New Roman, serif;
+  clear:left;
 }
 
 .professional-li, .identity-li, .interest-li {
