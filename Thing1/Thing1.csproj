@@ -199,6 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AspNetUsersController.cs" />
     <Compile Include="Controllers\ClubMembershipsController.cs" />
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
@@ -430,6 +431,11 @@
     <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
     <Content Include="Views\PaymentHistory\Index.cshtml" />
     <Content Include="Views\ClubMemberships\Payment.cshtml" />
+    <Content Include="Views\AspNetUsers\Create.cshtml" />
+    <Content Include="Views\AspNetUsers\Delete.cshtml" />
+    <Content Include="Views\AspNetUsers\Details.cshtml" />
+    <Content Include="Views\AspNetUsers\Edit.cshtml" />
+    <Content Include="Views\AspNetUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
