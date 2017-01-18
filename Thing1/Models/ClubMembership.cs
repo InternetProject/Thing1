@@ -44,6 +44,6 @@ namespace Thing1.Models
         public bool HasAccessToFinance { get; set; }
         public bool CanEditClubData { get; set; }
         public Nullable<bool> Violation { get; set; }
-        
-    }
+
+     }
 }

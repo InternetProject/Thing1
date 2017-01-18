@@ -192,16 +192,18 @@ namespace Thing1.Controllers
         }
 
         // GET: ClubMemberships/Create
-        public ActionResult Create()
+        public ActionResult Create(int? clubId)
         {
+            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "UserName");
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
+            ViewBag.MembershipOptionId = new SelectList(db.MembershipOptions, "Id", "Description", clubId);
             return View();
         }
 
         // POST: ClubMemberships/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserId,ClubId,MembershipOptionId,RoleId,TermDate,JoinDate,Description,HasAccessToFinance,CanEditClubData,Violation")] ClubMembership clubMembership)
         {
@@ -218,24 +220,40 @@ namespace Thing1.Controllers
 
         public ActionResult Test(TestModel testData)
         {
-            ClubMembership clubmembership = new ClubMembership();
-            clubmembership.UserId = testData.UserId;
-            clubmembership.ClubId = testData.ClubId;
-            clubmembership.MembershipOptionId = testData.MembershipOptionId;
-            clubmembership.RoleId = testData.RoleId;
-            clubmembership.TermDate = testData.TermDate;
-            clubmembership.JoinDate = testData.JoinDate;
-            clubmembership.Description = testData.Description;
-            clubmembership.HasAccessToFinance = testData.HasAccessToFinance;
-            clubmembership.CanEditClubData = testData.CanEditClubData;
-            clubmembership.Violation = testData.Violation;
+            /*
+             * string tempMessage = testData.UserId + " " +
+                                testData.ClubId + " " +
+                                testData.MembershipOptionId + " " +
+                                testData.RoleId + " " +
+                                testData.TermDate + " " +
+                                testData.JoinDate + " " +
+                                testData.Description + " " +
+                                testData.HasAccessToFinance + " " +
+                                testData.CanEditClubData + " " +
+                                testData.Violation;
+            */
+            //if (ModelState.IsValid)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
 
-            db.ClubMemberships.Add(clubmembership);
-            db.SaveChanges();
 
-            return RedirectToAction("Index");
+             ClubMembership clubMembership = new ClubMembership();
+             clubMembership.UserId = testData.UserId;
+             clubMembership.ClubId = testData.ClubId;
+             clubMembership.MembershipOptionId = testData.MembershipOptionId;
+             clubMembership.RoleId = testData.RoleId;
+             clubMembership.TermDate = testData.TermDate;
+             clubMembership.JoinDate = testData.JoinDate;
+             clubMembership.Description = testData.Description;
+             clubMembership.HasAccessToFinance = testData.HasAccessToFinance;
+             clubMembership.CanEditClubData = testData.CanEditClubData;
+             clubMembership.Violation = testData.Violation;
+
+             db.ClubMemberships.Add(clubMembership);
+             db.SaveChanges();
+             return RedirectToAction("Index");
         }
-
 
         // GET: ClubMemberships/Edit/5
         public ActionResult Edit(int? id)

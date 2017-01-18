@@ -17,8 +17,6 @@ namespace Thing1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AspNetUser()
         {
-            this.AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            this.AspNetUserRoles = new HashSet<AspNetUserRole>();
             this.ClubMemberships = new HashSet<ClubMembership>();
             this.Emails = new HashSet<Email>();
             this.payments = new HashSet<payment>();
@@ -41,11 +39,9 @@ namespace Thing1.Models
         public string PreferredName { get; set; }
         public string Program { get; set; }
         public string TShirtSize { get; set; }
+        public byte[] Photo { get; set; }
+        public string PreMBAEmployer { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClubMembership> ClubMemberships { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
