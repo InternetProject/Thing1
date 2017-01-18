@@ -1,15 +1,21 @@
 ﻿@model IEnumerable<Thing1.Models.MembershipOption>
-<h1>
-    <font size="20"><b>Membership Options</b></font>
 
-</h1>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New Membership Option", "CreateMembershipOption", new { clubId = ViewBag.ClubId })
+</p>
 <table class="table">
     <tr>
         <th>
-            Type
+            @Html.DisplayNameFor(model => model.Duration)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Duration)
+            @Html.DisplayNameFor(model => model.ExpDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Price)
@@ -18,41 +24,43 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            Is Active
+            @Html.DisplayNameFor(model => model.IsActive)
         </th>
         <th>
-            Club Name
+            @Html.DisplayNameFor(model => model.Club.name)
         </th>
-      
-
+        <th>
+            @Html.DisplayNameFor(model => model.TypesOfMembershipOption.Description)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.TypesOfMembershipOption.Description)
+            @Html.DisplayFor(modelItem => item.Duration)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Duration) year(s)
+            @Html.DisplayFor(modelItem => item.ExpDate)
         </td>
         <td>
-            USD @Html.DisplayFor(modelItem => item.Price)
+            @Html.DisplayFor(modelItem => item.Price)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Is_Active)
+            @Html.DisplayFor(modelItem => item.IsActive)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Club.name)
         </td>
-       
         <td>
-            @Html.ActionLink("Create New", "CreateMembershipOptions", new { clubId = item.ClubId }) |
-            @Html.ActionLink("Edit", "EditMembershipOptions", new { clubId=item.ClubId }) |
-            @Html.ActionLink("Delete", "DeleteMembershipOption", new { id=item.Id })
+            @Html.DisplayFor(modelItem => item.TypesOfMembershipOption.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditMembershipOption", new { Id = item.Id, clubId = ViewBag.ClubId }) |
+            @Html.ActionLink("Delete", "DeleteMembershipOption", new { id = item.Id })            
         </td>
     </tr>
 }

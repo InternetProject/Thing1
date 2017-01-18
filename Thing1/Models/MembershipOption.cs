@@ -11,7 +11,8 @@ namespace Thing1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MembershipOption
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,9 +25,14 @@ namespace Thing1.Models
         public int ClubId { get; set; }
         public int TypeId { get; set; }
         public int Duration { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Expiration Date")]
+        public System.DateTime ExpDate { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        public bool Is_Active { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClubMembership> ClubMemberships { get; set; }
