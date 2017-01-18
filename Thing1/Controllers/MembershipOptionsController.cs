@@ -25,10 +25,11 @@ namespace Thing1.Controllers
         }
 
          // GET: MembershipOptions/Create
-        public ActionResult CreateMembershipOptions()
+        public ActionResult CreateMembershipOptions(int? clubId)
         {
+            ViewBag.CurrentClubId = clubId;
             ViewBag.Club = new SelectList(db.Clubs, "Id", "name");
-            ViewBag.Type = new SelectList(db.TypesOfMembershipOptions, "Id", "Description");
+           ViewBag.Type = new SelectList(db.TypesOfMembershipOptions, "Id", "Description");
             ViewBag.Duration = this.GetDurationSelectList();
 
             return View();
@@ -40,8 +41,8 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,IsActive")] MembershipOption membershipOption)
-        {
+        public ActionResult CreateMembershipOptions([Bind(Include = "Id,ClubId,TypeId,Duration,Price,Description,Is_Active")] MembershipOption membershipOption)
+        {   
             if (!ModelState.IsValid)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

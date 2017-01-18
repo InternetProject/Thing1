@@ -3,9 +3,6 @@
     <font size="20"><b>Membership Options</b></font>
 
 </h1>
-<p>
-    @Html.ActionLink("Create New", "CreateMembershipOptions")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -53,7 +50,8 @@
         </td>
        
         <td>
-            @Html.ActionLink("Edit", "EditMembershipOptions", new { id=item.Id }) |
+            @Html.ActionLink("Create New", "CreateMembershipOptions", new { clubId = item.ClubId }) |
+            @Html.ActionLink("Edit", "EditMembershipOptions", new { clubId=item.ClubId }) |
             @Html.ActionLink("Delete", "DeleteMembershipOption", new { id=item.Id })
         </td>
     </tr>
