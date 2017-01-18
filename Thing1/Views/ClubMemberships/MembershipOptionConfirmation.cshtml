@@ -85,13 +85,14 @@
                         
                         function CreateClubMembership(){
                             //Note that boolean values are hardcoded
-                            var membershipData = {UserId: '@User.Identity.GetUserId()', ClubId: '@ViewBag.ClubId',MembershipOptionId: '@ViewBag.MembershipOptionId', RoleId: '1', TermDate: '@ViewBag.TermDate', JoinDate: '@ViewBag.JoinDate', Description: '@ViewBag.Description', HasAccessToFinance: 'False', CanEditClubDate: 'False', Violation: 'False'};
+                            // Documentation: http://stackoverflow.com/questions/27829340/how-to-pass-a-javascript-object-to-a-c-sharp-mvc-4-controller
+                            var testData = {UserId: '@User.Identity.GetUserId()', ClubId: '@ViewBag.ClubId',MembershipOptionId: '@ViewBag.MembershipOptionId', RoleId: '1', TermDate: '@ViewBag.TermDate', JoinDate: '@ViewBag.JoinDate', Description: '@ViewBag.Description', HasAccessToFinance: 'False', CanEditClubDate: 'False', Violation: 'False'};
                             $.ajax({
                                 type: 'POST',
-                                data: membershipData,           
-                                url: "@Url.Content("/ClubMemberships/Create/")",    
+                                data: testData,           
+                                url: 'ClubMemberships/Test',  
                                 success: alert('Success'),
-                                error: alert('Error')
+                                //error: alert('Error')
                                 /*success:function(result)
                                     {
                                     // what is done on success
@@ -102,10 +103,10 @@
 
                         return actions.payment.execute().then(function () {
                             // Redirect to ClubMembership page
-                            
-                            setTimeout(function() {
-                                window.location.href = "/ClubMemberships";
-                            }, 3000);
+                            //CreateClubMembership();
+                            //setTimeout(function() {
+                            //    window.location.href = "/ClubMemberships/Index";
+                            //}, 3000);
                             //window.location.href = "/ClubMemberships";
                         });
                     }

@@ -201,7 +201,7 @@ namespace Thing1.Controllers
         // POST: ClubMemberships/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        //[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserId,ClubId,MembershipOptionId,RoleId,TermDate,JoinDate,Description,HasAccessToFinance,CanEditClubData,Violation")] ClubMembership clubMembership)
         {
@@ -215,6 +215,27 @@ namespace Thing1.Controllers
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
             return View(clubMembership);
         }
+
+        public ActionResult Test(TestModel testData)
+        {
+            ClubMembership clubmembership = new ClubMembership();
+            clubmembership.UserId = testData.UserId;
+            clubmembership.ClubId = testData.ClubId;
+            clubmembership.MembershipOptionId = testData.MembershipOptionId;
+            clubmembership.RoleId = testData.RoleId;
+            clubmembership.TermDate = testData.TermDate;
+            clubmembership.JoinDate = testData.JoinDate;
+            clubmembership.Description = testData.Description;
+            clubmembership.HasAccessToFinance = testData.HasAccessToFinance;
+            clubmembership.CanEditClubData = testData.CanEditClubData;
+            clubmembership.Violation = testData.Violation;
+
+            db.ClubMemberships.Add(clubmembership);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
 
         // GET: ClubMemberships/Edit/5
         public ActionResult Edit(int? id)
