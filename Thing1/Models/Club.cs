@@ -11,7 +11,8 @@ namespace Thing1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Club
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,6 +25,8 @@ namespace Thing1.Models
         }
     
         public int Id { get; set; }
+
+        [Display(Name = "Club Name")]
         public string name { get; set; }
         public int typeId { get; set; }
         public string nickname { get; set; }

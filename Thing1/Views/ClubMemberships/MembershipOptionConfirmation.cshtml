@@ -37,8 +37,6 @@
 
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        
-        <!-- Documentation https://developer.paypal.com/docs/integration/direct/express-checkout/integration-jsv4/ -->
         <div class="btn btn-default">
             <div id="paypal-button"></div>
 
@@ -46,7 +44,6 @@
 
             <script>
                 paypal.Button.render({
-
                     env: 'sandbox', // Specify 'sandbox' for the test environment
 
                     client: {
@@ -73,8 +70,8 @@
 
                     onAuthorize: function (data, actions) {
                         // Execute the payment here, when the buyer approves the transaction
-                       
-                        actions.payment.get().then(function(data) {
+
+                        actions.payment.get().then( function(data) {
                             //write to console for debugging
                             console.log(data);
 
@@ -82,46 +79,51 @@
                             CreateClubMembership();
                             // add to PayementHistory table
                         });
-                        
+
                         function CreateClubMembership(){
                             //Note that boolean values are hardcoded
-                            var membershipData = {UserId: '@User.Identity.GetUserId()', ClubId: '@ViewBag.ClubId',MembershipOptionId: '@ViewBag.MembershipOptionId', RoleId: '1', TermDate: '@ViewBag.TermDate', JoinDate: '@ViewBag.JoinDate', Description: '@ViewBag.Description', HasAccessToFinance: 'False', CanEditClubDate: 'False', Violation: 'False'};
+
+                            var testData = {
+                                UserId: '@User.Identity.GetUserId()' ,
+                                ClubId: '@ViewBag.ClubId' ,
+                                MembershipOptionId: '@ViewBag.MembershipOptionId' ,
+                                RoleId: '1',
+                                TermDate: '@ViewBag.TermDate' ,
+                                JoinDate: '@ViewBag.JoinDate' ,
+                                Description: '@ViewBag.Description' ,
+                                HasAccessToFinance: 'False',
+                                CanEditClubDate: 'False',
+                                Violation: 'False'};
+
                             $.ajax({
                                 type: 'POST',
-                                data: membershipData,           
-                                url: "@Url.Content("/ClubMemberships/Create/")",    
-                                success: alert('Success'),
-                                error: alert('Error')
-                                /*success:function(result)
-                                    {
-                                    // what is done on success
-                                    window.location.href = "/ClubMemberships";
-                                    }*/
-                                });
-                        }
+                                data: testData,          
+                                url: '/ClubMemberships/Test/',   
+                                success: function (result) {
+                                    //do something
+                                    alert( "SUCCESS = " + result.d);
+                                    //console.log(result);
+                                },
+                                error: function (xmlhttprequest, textstatus, errorthrown) {
+                                    alert( " conection to the server failed " );
+                                    //console.log("error: " + errorthrown);
+                                }
+                            });
 
-                        return actions.payment.execute().then(function () {
+                            return actions.payment.execute().then(function () {
                             // Redirect to ClubMembership page
-                            
-                            setTimeout(function() {
-                                window.location.href = "/ClubMemberships";
-                            }, 3000);
+                           
+                              setTimeout(function() {
+                                  window.location.href = "/ClubMemberships";
+                              }, 10000);
                             //window.location.href = "/ClubMemberships";
-                        });
+                            });
+                        }
                     }
 
                 }, '#paypal-button');
-            </script>
-        </div>
-
-         @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+             </script>
+         </div>
     </div>
-
+    @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
 </div>
-
-
-
-
-
-
- 

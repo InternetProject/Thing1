@@ -210,13 +210,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>DatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>DatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserRole.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Club.cs">
@@ -424,12 +421,13 @@
     <Content Include="Views\Clubs\Edit.cshtml" />
     <Content Include="Views\ClubMemberships\SelectMembershipOptions.cshtml" />
     <Content Include="Views\ClubMemberships\MembershipOptionConfirmation.cshtml" />
-    <Content Include="Views\MembershipOptions\ViewCurrentMembershipOptions.cshtml" />
-    <Content Include="Views\MembershipOptions\EditMembershipOptions.cshtml" />
-    <Content Include="Views\MembershipOptions\CreateMembershipOptions.cshtml" />
-    <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
     <Content Include="Views\PaymentHistory\Index.cshtml" />
     <Content Include="Views\ClubMemberships\Payment.cshtml" />
+    <Content Include="Views\MembershipOptions\CreateMembershipOption.cshtml" />
+    <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
+    <Content Include="Views\MembershipOptions\Details.cshtml" />
+    <Content Include="Views\MembershipOptions\EditMembershipOption.cshtml" />
+    <Content Include="Views\MembershipOptions\ViewCurrentMembershipOptions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
