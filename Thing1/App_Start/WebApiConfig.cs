@@ -6,6 +6,9 @@ namespace Thing1
     {
         public static void Register(HttpConfiguration config)
         {
+            // New code
+            config.EnableCors();
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
