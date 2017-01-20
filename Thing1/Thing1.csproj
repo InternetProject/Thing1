@@ -210,6 +210,7 @@
     <Compile Include="Controllers\ClubMembershipsController.cs" />
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembershipOptionsController.cs" />
@@ -447,6 +448,11 @@
     <Content Include="Views\MembershipOptions\ViewCurrentMembershipOptions.cshtml" />
     <Content Include="Views\PayPal\Success.cshtml" />
     <Content Include="Views\PayPal\Failure.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
+    <Content Include="Views\Events\Delete.cshtml" />
+    <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Events\Edit.cshtml" />
+    <Content Include="Views\Events\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

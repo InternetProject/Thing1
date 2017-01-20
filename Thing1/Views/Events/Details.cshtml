@@ -1,0 +1,106 @@
+﻿@model Thing1.Models.Event
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Event</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Time)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Time)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Location)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Location)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TargetAudience)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TargetAudience)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsPublic)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsPublic)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Food)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Food)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Contact)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Contact)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>
