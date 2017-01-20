@@ -14,10 +14,25 @@ namespace Thing1.Models
     
     public partial class Event
     {
-        public int ID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Event()
+        {
+            this.ClubEvents = new HashSet<ClubEvent>();
+        }
+    
         public string Title { get; set; }
         public System.DateTime Date { get; set; }
         public System.DateTime Time { get; set; }
         public string Location { get; set; }
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public string TargetAudience { get; set; }
+        public int IsPublic { get; set; }
+        public string Food { get; set; }
+        public string Contact { get; set; }
+        public Nullable<decimal> Price { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClubEvent> ClubEvents { get; set; }
     }
 }

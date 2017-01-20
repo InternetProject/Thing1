@@ -228,6 +228,9 @@
     <Compile Include="Models\Club.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClubEvent.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClubMembership.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
@@ -259,6 +262,7 @@
     <Compile Include="Models\MembershipOption.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\payment.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
