@@ -229,7 +229,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClubMembershipsController.cs" />
-    <Compile Include="Controllers\ClubMembershipsWSController.cs" />
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\ClubsWSController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
