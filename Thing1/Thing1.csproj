@@ -208,7 +208,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClubMemberListController.cs" />
-    <Compile Include="Controllers\ClubMembershipsController.cs" />
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
@@ -423,11 +422,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\ClubMemberships\Create.cshtml" />
-    <Content Include="Views\ClubMemberships\Delete.cshtml" />
-    <Content Include="Views\ClubMemberships\Details.cshtml" />
-    <Content Include="Views\ClubMemberships\Edit.cshtml" />
-    <Content Include="Views\ClubMemberships\Index.cshtml" />
     <Content Include="Views\Emails\Create.cshtml" />
     <Content Include="Views\Emails\Delete.cshtml" />
     <Content Include="Views\Emails\Details.cshtml" />
@@ -438,10 +432,7 @@
     <Content Include="Views\Clubs\Details.cshtml" />
     <Content Include="Views\Clubs\Index.cshtml" />
     <Content Include="Views\Clubs\Edit.cshtml" />
-    <Content Include="Views\ClubMemberships\SelectMembershipOptions.cshtml" />
-    <Content Include="Views\ClubMemberships\MembershipOptionConfirmation.cshtml" />
     <Content Include="Views\PaymentHistory\Index.cshtml" />
-    <Content Include="Views\ClubMemberships\Payment.cshtml" />
     <Content Include="Views\MembershipOptions\CreateMembershipOption.cshtml" />
     <Content Include="Views\MembershipOptions\DeleteMembershipOption.cshtml" />
     <Content Include="Views\MembershipOptions\Details.cshtml" />

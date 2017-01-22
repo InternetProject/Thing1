@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.TermDate)
         </th>
         <th>
@@ -46,6 +49,12 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelitem => item.AspNetUser.FirstName)
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.LastName)
+        </th>
         <td>
             @Html.DisplayFor(modelItem => item.TermDate)
         </td>
