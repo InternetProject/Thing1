@@ -10,24 +10,18 @@ using Thing1.Models;
 
 namespace Thing1.Controllers
 {
-    public class ClubMembershipsListController : Controller
+    public class ClubMemberListController : Controller
     {
         private user_managementEntities db = new user_managementEntities();
 
-        // GET: ClubMembershipsList
-        public ActionResult Index(int? clubId)
+        // GET: ClubMemberList
+        public ActionResult Index()
         {
-            if (clubId == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            
-
-            var clubMemberships = db.ClubMemberships.Include(c => c.AspNetUser).Include(c => c.Club).Include(c => c.MembershipOption).Include(c => c.TypesOfRole).;
+            var clubMemberships = db.ClubMemberships.Include(c => c.AspNetUser).Include(c => c.Club).Include(c => c.MembershipOption).Include(c => c.TypesOfRole);
             return View(clubMemberships.ToList());
         }
 
-        // GET: ClubMembershipsList/Details/5
+        // GET: ClubMemberList/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -42,11 +36,9 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        // GET: ClubMembershipsList/Create
+        // GET: ClubMemberList/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "FirstName");
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "LastName");
             ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email");
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name");
             ViewBag.MembershipOptionId = new SelectList(db.MembershipOptions, "Id", "Description");
@@ -54,7 +46,7 @@ namespace Thing1.Controllers
             return View();
         }
 
-        // POST: ClubMembershipsList/Create
+        // POST: ClubMemberList/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -68,8 +60,6 @@ namespace Thing1.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "FirstName", clubMembership.UserId);
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "LastName", clubMembership.UserId);
             ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", clubMembership.UserId);
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
             ViewBag.MembershipOptionId = new SelectList(db.MembershipOptions, "Id", "Description", clubMembership.MembershipOptionId);
@@ -77,7 +67,7 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        // GET: ClubMembershipsList/Edit/5
+        // GET: ClubMemberList/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -89,8 +79,6 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "FirstName", clubMembership.UserId);
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "LastName", clubMembership.UserId);
             ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", clubMembership.UserId);
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
             ViewBag.MembershipOptionId = new SelectList(db.MembershipOptions, "Id", "Description", clubMembership.MembershipOptionId);
@@ -98,7 +86,7 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        // POST: ClubMembershipsList/Edit/5
+        // POST: ClubMemberList/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -111,8 +99,6 @@ namespace Thing1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "FirstName", clubMembership.UserId);
-            ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "LastName", clubMembership.UserId);
             ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", clubMembership.UserId);
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
             ViewBag.MembershipOptionId = new SelectList(db.MembershipOptions, "Id", "Description", clubMembership.MembershipOptionId);
@@ -120,7 +106,7 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        // GET: ClubMembershipsList/Delete/5
+        // GET: ClubMemberList/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -135,7 +121,7 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        // POST: ClubMembershipsList/Delete/5
+        // POST: ClubMemberList/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -207,8 +207,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClubMemberListController.cs" />
     <Compile Include="Controllers\ClubMembershipsController.cs" />
-    <Compile Include="Controllers\ClubMembershipsListController.cs" />
     <Compile Include="Controllers\ClubsController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
@@ -454,11 +454,11 @@
     <Content Include="Views\Events\Details.cshtml" />
     <Content Include="Views\Events\Edit.cshtml" />
     <Content Include="Views\Events\Index.cshtml" />
-    <Content Include="Views\ClubMembershipsList\Create.cshtml" />
-    <Content Include="Views\ClubMembershipsList\Delete.cshtml" />
-    <Content Include="Views\ClubMembershipsList\Details.cshtml" />
-    <Content Include="Views\ClubMembershipsList\Edit.cshtml" />
-    <Content Include="Views\ClubMembershipsList\Index.cshtml" />
+    <Content Include="Views\ClubMemberList\Create.cshtml" />
+    <Content Include="Views\ClubMemberList\Delete.cshtml" />
+    <Content Include="Views\ClubMemberList\Details.cshtml" />
+    <Content Include="Views\ClubMemberList\Edit.cshtml" />
+    <Content Include="Views\ClubMemberList\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
