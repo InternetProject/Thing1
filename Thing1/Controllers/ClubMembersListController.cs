@@ -15,10 +15,11 @@ namespace Thing1.Controllers
         private user_managementEntities db = new user_managementEntities();
 
         // GET: ClubMembersList
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
+            int clubid = 1;
             var clubMemberships = db.ClubMemberships.Include(c => c.AspNetUser).Include(c => c.Club).Include(c => c.MembershipOption).Include(c => c.TypesOfRole);
-            return View(clubMemberships.ToList());
+            return View(clubMemberships.Where(c => c.ClubId == clubid).ToList());
         }
 
         // GET: ClubMembersList/Details/5
