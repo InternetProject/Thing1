@@ -17,7 +17,8 @@ namespace Thing1.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            return View(db.Events.ToList());
+            var upcomingEvents = db.Events.Where(e => e.StartsAt > DateTime.Now);
+            return View(upcomingEvents.OrderBy(e => e.StartsAt).ToList());
         }
 
         // GET: Events/Details/5
@@ -46,7 +47,7 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,Date,Time,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
         {
             if (ModelState.IsValid)
             {
