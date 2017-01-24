@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
+using PagedList;
 
 namespace Thing1.Controllers
 {
@@ -15,11 +16,20 @@ namespace Thing1.Controllers
         private user_managementEntities db = new user_managementEntities();
 
         // GET: Events
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
             var upcomingEvents = db.Events.Where(e => e.StartsAt > DateTime.Now);
-            return View(upcomingEvents.OrderBy(e => e.StartsAt).ToList());
+            return View(upcomingEvents.OrderBy(e => e.StartsAt).ToPagedList(pageNumber, pageSize));
         }
+
+        //public ActionResult ClubEvents(int clubId)
+        //{
+        //    var clubEvents = db.ClubEvents.Where(c => c.ClubId == clubId);
+        //    var upcomingEvents = clubEvents.Where(c => c.Event.StartsAt > DateTime.Now).Include(c => c.Event);
+        //    return View(upcomingEvents.ToList());
+        //}
 
         // GET: Events/Details/5
         public ActionResult Details(int? id)
