@@ -231,6 +231,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembershipOptionsController.cs" />
+    <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\PaymentHistoryController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
     <Compile Include="Global.asax.cs">
@@ -476,6 +477,11 @@
     <Content Include="Views\ClubMembersList\Details.cshtml" />
     <Content Include="Views\ClubMembersList\Edit.cshtml" />
     <Content Include="Views\ClubMembersList\Index.cshtml" />
+    <Content Include="Views\MyProfile\Create.cshtml" />
+    <Content Include="Views\MyProfile\Delete.cshtml" />
+    <Content Include="Views\MyProfile\Details.cshtml" />
+    <Content Include="Views\MyProfile\Edit.cshtml" />
+    <Content Include="Views\MyProfile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
