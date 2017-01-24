@@ -90,8 +90,8 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="StartsAt" Type="datetime" Nullable="false" />
+          <Property Name="EndsAt" Type="datetime" Nullable="false" />
           <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TargetAudience" Type="nvarchar(max)" Nullable="false" />
@@ -473,8 +473,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -484,6 +482,8 @@
           <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <NavigationProperty Name="ClubEvents" Relationship="user_managementModel.EventIdFK" FromRole="Event" ToRole="ClubEvent" />
+          <Property Name="StartsAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndsAt" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="MembershipOption">
           <Key>
@@ -865,6 +865,8 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="user_managementModel.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="EndsAt" ColumnName="EndsAt" />
+                <ScalarProperty Name="StartsAt" ColumnName="StartsAt" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Contact" ColumnName="Contact" />
                 <ScalarProperty Name="Food" ColumnName="Food" />
@@ -873,8 +875,6 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
               </MappingFragment>
             </EntityTypeMapping>
