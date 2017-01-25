@@ -43,6 +43,11 @@ namespace Thing1.Controllers
             //2 set these values to ViewBag
 
             ViewBag.ClubId = clubId;
+
+            Club club = db.Clubs.Find(clubId);
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+
             return View(db.MembershipOptions.Where(c => c.ClubId == clubId).ToList());
             /*
                 MembershipOption membershipOption = db.MembershipOptions.Find(clubId);
