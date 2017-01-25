@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
 
@@ -20,7 +15,7 @@ namespace Thing1.Controllers
         {
             if (!Request.IsAuthenticated)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
             }
             var userid = User.Identity.GetUserId();
             AspNetUser myProfile = db.AspNetUsers.Find(userid);
@@ -31,7 +26,7 @@ namespace Thing1.Controllers
             return View(myProfile);
         }
 
-        // GET: AspNetUsers/Edit/5
+        // GET: MyProfile/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -46,7 +41,7 @@ namespace Thing1.Controllers
             return View(aspNetUser);
         }
 
-        // POST: AspNetUsers/Edit/5
+        // POST: MyProfile/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -56,6 +51,14 @@ namespace Thing1.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(aspNetUser).State = EntityState.Modified;
+                db.Entry(aspNetUser).Property(p => p.EmailConfirmed).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.SecurityStamp).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.PasswordHash).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.PhoneNumberConfirmed).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.TwoFactorEnabled).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.LockoutEndDateUtc).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.LockoutEnabled).IsModified = false;
+                db.Entry(aspNetUser).Property(p => p.AccessFailedCount).IsModified = false;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -63,3 +66,4 @@ namespace Thing1.Controllers
         }
     }
 }
+

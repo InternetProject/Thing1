@@ -25,8 +25,7 @@ namespace Thing1.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<ClubMembership> ClubMemberships { get; set; }
         public virtual DbSet<Club> Clubs { get; set; }
@@ -38,5 +37,6 @@ namespace Thing1.Models
         public virtual DbSet<TypesOfMembershipOption> TypesOfMembershipOptions { get; set; }
         public virtual DbSet<TypesOfRecipient> TypesOfRecipients { get; set; }
         public virtual DbSet<TypesOfRole> TypesOfRoles { get; set; }
+        public virtual DbSet<ClubEvent> ClubEvents { get; set; }
     }
 }

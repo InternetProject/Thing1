@@ -2,10 +2,9 @@
 
 @{
     ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>My Profile</h2>
+<h2>Details</h2>
 
 <div>
     <h4>AspNetUser</h4>
@@ -137,6 +136,22 @@
 
         <dd>
             @Html.DisplayFor(model => model.TShirtSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Photo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PreMBAEmployer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PreMBAEmployer)
         </dd>
 
     </dl>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Thing1.Models.ClubMembership>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TermDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JoinDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HasAccessToFinance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CanEditClubData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Violation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MembershipOption.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypesOfRole.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelitem => item.AspNetUser.FirstName)
+        </td>
+        <th>
+            @Html.DisplayFor(modelitem => item.AspNetUser.LastName)
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.TermDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JoinDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HasAccessToFinance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CanEditClubData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Violation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Club.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MembershipOption.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypesOfRole.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

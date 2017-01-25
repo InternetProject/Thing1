@@ -12,11 +12,13 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserRole
+    public partial class ClubEvent
     {
-        public string UserId { get; set; }
-        public string RoleId { get; set; }
+        public int Id { get; set; }
+        public int EventId { get; set; }
+        public int ClubId { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Club Club { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

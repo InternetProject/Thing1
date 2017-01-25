@@ -31,4 +31,19 @@ namespace Thing1.Models
         public virtual MembershipOption MembershipOption { get; set; }
         public virtual TypesOfRole TypesOfRole { get; set; }
     }
+
+    public partial class TestModel
+    {
+        public string UserId { get; set; }
+        public int ClubId { get; set; }
+        public int MembershipOptionId { get; set; }
+        public int RoleId { get; set; }
+        public System.DateTime TermDate { get; set; }
+        public System.DateTime JoinDate { get; set; }
+        public string Description { get; set; }
+        public bool HasAccessToFinance { get; set; }
+        public bool CanEditClubData { get; set; }
+        public Nullable<bool> Violation { get; set; }
+
+    }
 }

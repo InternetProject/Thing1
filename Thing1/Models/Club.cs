@@ -21,6 +21,7 @@ namespace Thing1.Models
             this.Emails = new HashSet<Email>();
             this.MembershipOptions = new HashSet<MembershipOption>();
             this.payments = new HashSet<payment>();
+            this.ClubEvents = new HashSet<ClubEvent>();
         }
     
         public int Id { get; set; }
@@ -42,5 +43,7 @@ namespace Thing1.Models
         public virtual ICollection<MembershipOption> MembershipOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<payment> payments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ClubEvent> ClubEvents { get; set; }
     }
 }
