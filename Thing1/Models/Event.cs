@@ -21,8 +21,6 @@ namespace Thing1.Models
         }
     
         public string Title { get; set; }
-        public System.DateTime Date { get; set; }
-        public System.DateTime Time { get; set; }
         public string Location { get; set; }
         public int Id { get; set; }
         public string Description { get; set; }
@@ -31,6 +29,8 @@ namespace Thing1.Models
         public string Food { get; set; }
         public string Contact { get; set; }
         public Nullable<decimal> Price { get; set; }
+        public System.DateTime StartsAt { get; set; }
+        public System.DateTime EndsAt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClubEvent> ClubEvents { get; set; }
