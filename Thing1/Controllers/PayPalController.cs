@@ -37,7 +37,7 @@ namespace Thing1.Controllers
 
                     // So we have provided URL of this controller only
 
-                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/Paypal/PaymentWithPayPal?";
+                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/PayPal/PaymentWithPayPal?";
 
                     //guid we are generating for storing the paymentID received in session
 
