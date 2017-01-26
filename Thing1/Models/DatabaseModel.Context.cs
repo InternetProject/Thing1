@@ -32,7 +32,6 @@ namespace Thing1.Models
         public virtual DbSet<ClubMembership> ClubMemberships { get; set; }
         public virtual DbSet<Club> Clubs { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
-        public virtual DbSet<EventsRSVP> EventsRSVPs { get; set; }
         public virtual DbSet<MembershipOption> MembershipOptions { get; set; }
         public virtual DbSet<payment> payments { get; set; }
         public virtual DbSet<Recipient> Recipients { get; set; }
@@ -41,5 +40,6 @@ namespace Thing1.Models
         public virtual DbSet<TypesOfRecipient> TypesOfRecipients { get; set; }
         public virtual DbSet<TypesOfRole> TypesOfRoles { get; set; }
         public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<EventsRSVP> EventsRSVPs { get; set; }
     }
 }

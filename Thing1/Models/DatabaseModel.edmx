@@ -130,13 +130,13 @@
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="Id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="event_id" Type="int" Nullable="false" />
-          <Property Name="user_id" Type="nvarchar" MaxLength="128" />
-          <Property Name="hasPaid" Type="bit" />
-          <Property Name="status" Type="nvarchar" MaxLength="255" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="HasPaid" Type="bit" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="MembershipOptions">
           <Key>
@@ -384,7 +384,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventsRSVP">
-              <PropertyRef Name="event_id" />
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -456,7 +456,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventsRSVP">
-              <PropertyRef Name="user_id" />
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -626,8 +626,8 @@
           <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_AspNetUsers" FromRole="AspNetUsers" ToRole="ClubMemberships" />
           <NavigationProperty Name="Emails" Relationship="Self.FK_Emails_AspNetUsers" FromRole="AspNetUsers" ToRole="Emails" />
           <NavigationProperty Name="payments" Relationship="Self.FK_payment_AspNetUsers" FromRole="AspNetUsers" ToRole="payment" />
-          <NavigationProperty Name="EventsRSVPs" Relationship="Self.FK_user_id" FromRole="AspNetUsers" ToRole="EventsRSVP" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="EventsRSVPs" Relationship="user_managementModel.FK_user_id" FromRole="AspNetUser" ToRole="EventsRSVP" />
         </EntityType>
         <EntityType Name="ClubMembership">
           <Key>
@@ -681,18 +681,6 @@
           <Property Name="SentBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Emails_AspNetUsers" FromRole="Emails" ToRole="AspNetUsers" />
           <NavigationProperty Name="Club" Relationship="Self.FK_Emails_Clubs" FromRole="Emails" ToRole="Clubs" />
-        </EntityType>
-        <EntityType Name="EventsRSVP">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="event_id" Type="Int32" Nullable="false" />
-          <Property Name="user_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="hasPaid" Type="Boolean" />
-          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_user_id" FromRole="EventsRSVP" ToRole="AspNetUsers" />
-          <NavigationProperty Name="Event" Relationship="user_managementModel.FK_event_id" FromRole="EventsRSVP" ToRole="Event" />
         </EntityType>
         <EntityType Name="MembershipOption">
           <Key>
@@ -843,18 +831,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_user_id">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-          <End Role="EventsRSVP" Type="Self.EventsRSVP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventsRSVP">
-              <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ClubMemberships_Clubs">
           <End Role="Clubs" Type="Self.Club" Multiplicity="1" />
           <End Role="ClubMemberships" Type="Self.ClubMembership" Multiplicity="*" />
@@ -975,7 +951,6 @@
           <EntitySet Name="ClubMemberships" EntityType="Self.ClubMembership" />
           <EntitySet Name="Clubs" EntityType="Self.Club" />
           <EntitySet Name="Emails" EntityType="Self.Email" />
-          <EntitySet Name="EventsRSVPs" EntityType="Self.EventsRSVP" />
           <EntitySet Name="MembershipOptions" EntityType="Self.MembershipOption" />
           <EntitySet Name="payments" EntityType="Self.payment" />
           <EntitySet Name="Recipients" EntityType="Self.Recipient" />
@@ -1006,10 +981,6 @@
           <AssociationSet Name="FK_payment_AspNetUsers" Association="Self.FK_payment_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="payment" EntitySet="payments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_user_id" Association="Self.FK_user_id">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
           </AssociationSet>
           <AssociationSet Name="FK_ClubMemberships_Clubs" Association="Self.FK_ClubMemberships_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
@@ -1052,15 +1023,20 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <EntitySet Name="Events" EntityType="user_managementModel.Event" />
-          <AssociationSet Name="FK_event_id" Association="user_managementModel.FK_event_id">
-            <End Role="Event" EntitySet="Events" />
-            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
-          </AssociationSet>
           <AssociationSet Name="ClubEvents" Association="user_managementModel.ClubEvents">
             <End Role="Club" EntitySet="Clubs" />
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="EventsRSVPs" EntityType="user_managementModel.EventsRSVP" />
+          <AssociationSet Name="FK_user_id" Association="user_managementModel.FK_user_id">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_event_id" Association="user_managementModel.FK_event_id">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="Id" />
@@ -1076,9 +1052,37 @@
           <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="EventsRSVPs" Relationship="user_managementModel.FK_event_id" FromRole="Event" ToRole="EventsRSVP" />
           <NavigationProperty Name="Clubs" Relationship="user_managementModel.ClubEvents" FromRole="Event" ToRole="Club" />
+          <NavigationProperty Name="EventsRSVPs" Relationship="user_managementModel.FK_event_id" FromRole="Event" ToRole="EventsRSVP" />
         </EntityType>
+        <Association Name="ClubEvents">
+          <End Type="user_managementModel.Club" Role="Club" Multiplicity="*" />
+          <End Type="user_managementModel.Event" Role="Event" Multiplicity="*" />
+        </Association>
+        <EntityType Name="EventsRSVP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HasPaid" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_user_id" FromRole="EventsRSVP" ToRole="AspNetUser" />
+          <NavigationProperty Name="Event" Relationship="user_managementModel.FK_event_id" FromRole="EventsRSVP" ToRole="Event" />
+        </EntityType>
+        <Association Name="FK_user_id">
+          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="user_managementModel.EventsRSVP" Role="EventsRSVP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsRSVP">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_event_id">
           <End Type="user_managementModel.Event" Role="Event" Multiplicity="1" />
           <End Type="user_managementModel.EventsRSVP" Role="EventsRSVP" Multiplicity="*" />
@@ -1087,15 +1091,11 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="EventsRSVP">
-              <PropertyRef Name="event_id" />
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="ClubEvents">
-          <End Type="user_managementModel.Club" Role="Club" Multiplicity="*" />
-          <End Type="user_managementModel.Event" Role="Event" Multiplicity="*" />
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1194,17 +1194,6 @@
                 <ScalarProperty Name="Body" ColumnName="Body" />
                 <ScalarProperty Name="Sent" ColumnName="Sent" />
                 <ScalarProperty Name="SentBy" ColumnName="SentBy" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="EventsRSVPs">
-            <EntityTypeMapping TypeName="user_managementModel.EventsRSVP">
-              <MappingFragment StoreEntitySet="EventsRSVP">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="event_id" ColumnName="event_id" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="hasPaid" ColumnName="hasPaid" />
-                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1310,6 +1299,17 @@
               <ScalarProperty Name="Id" ColumnName="ClubId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="EventsRSVPs">
+            <EntityTypeMapping TypeName="user_managementModel.EventsRSVP">
+              <MappingFragment StoreEntitySet="EventsRSVP">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="HasPaid" ColumnName="HasPaid" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

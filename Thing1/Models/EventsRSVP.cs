@@ -14,11 +14,11 @@ namespace Thing1.Models
     
     public partial class EventsRSVP
     {
-        public int id { get; set; }
-        public int event_id { get; set; }
-        public string user_id { get; set; }
-        public Nullable<bool> hasPaid { get; set; }
-        public string status { get; set; }
+        public int Id { get; set; }
+        public int EventId { get; set; }
+        public string UserId { get; set; }
+        public Nullable<bool> HasPaid { get; set; }
+        public string Status { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual Event Event { get; set; }
