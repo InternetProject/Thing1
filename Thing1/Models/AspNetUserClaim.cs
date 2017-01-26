@@ -12,23 +12,13 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ClubMembership
+    public partial class AspNetUserClaim
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public int ClubId { get; set; }
-        public int MembershipOptionId { get; set; }
-        public int RoleId { get; set; }
-        public System.DateTime TermDate { get; set; }
-        public System.DateTime JoinDate { get; set; }
-        public string Description { get; set; }
-        public bool HasAccessToFinance { get; set; }
-        public bool CanEditClubData { get; set; }
-        public Nullable<bool> Violation { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual Club Club { get; set; }
-        public virtual MembershipOption MembershipOption { get; set; }
-        public virtual TypesOfRole TypesOfRole { get; set; }
     }
 }
