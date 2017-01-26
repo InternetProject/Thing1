@@ -4,22 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dec1c56dc2424e48b31ae273af640130" Name="Diagram1" ZoomLevel="55">
-        <EntityTypeShape EntityType="user_managementModel.AspNetRole" Width="1.5" PointX="5.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.AspNetUser" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.ClubMembership" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+      <Diagram DiagramId="0f1a69986d1b48d5a7a45e54f33263b3" Name="Diagram1" ZoomLevel="47">
+        <EntityTypeShape EntityType="user_managementModel.AspNetRole" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUser" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.ClubMembership" Width="1.5" PointX="8.25" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Email" Width="1.5" PointX="8.25" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.Event" Width="1.5" PointX="10.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.MembershipOption" Width="1.5" PointX="8.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.payment" Width="1.5" PointX="8.25" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.TypesOfClub" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.TypesOfMembershipOption" Width="1.5" PointX="6" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.TypesOfRecipient" Width="1.5" PointX="7.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.TypesOfRole" Width="1.5" PointX="3" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.EventsRSVP" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.MembershipOption" Width="1.5" PointX="6" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.payment" Width="1.5" PointX="8.25" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Recipient" Width="1.5" PointX="5.25" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.TypesOfClub" Width="1.5" PointX="3.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.TypesOfMembershipOption" Width="1.5" PointX="3.75" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.TypesOfRecipient" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.TypesOfRole" Width="1.5" PointX="6" PointY="22.625" IsExpanded="true" />
+        <AssociationConnector Association="user_managementModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK__Recipient__UserI__7720AD13" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_ClubMemberships_AspNetUsers" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_Emails_AspNetUsers" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_payment_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_user_id" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_ClubMemberships_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_ClubMemberships_MembershipOptions" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_ClubMemberships_TypesOfRoles" ManuallyRouted="false" />
@@ -28,9 +35,11 @@
         <AssociationConnector Association="user_managementModel.FK_MembershipOptions_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_payment_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_MembershipOptions_TypesOfMembershipOptions" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="user_managementModel.ClubEvent" Width="1.5" PointX="13" PointY="5.625" />
-        <AssociationConnector Association="user_managementModel.ClubIdFK" />
-        <AssociationConnector Association="user_managementModel.EventIdFK" />
+        <AssociationConnector Association="user_managementModel.FK_Recipients_Recipients" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="user_managementModel.Event" Width="1.5" PointX="8.375" PointY="1" />
+        <AssociationConnector Association="user_managementModel.FK_event_id" />
+        <AssociationConnector Association="user_managementModel.ClubEvents" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

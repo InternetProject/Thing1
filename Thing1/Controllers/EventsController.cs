@@ -58,25 +58,17 @@ namespace Thing1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
-        public ActionResult Create(ClubEventViewModel clubEventViewModel)
-
+        public ActionResult Create(Event @event)
         {
-            ClubEvent clubEventRecord = new ClubEvent();
             if (ModelState.IsValid)
             {
-                db.Events.Add(clubEventViewModel.eventInfo);
-                clubEventRecord.Id = clubEventViewModel.eventInfo.Id;
-                clubEventRecord.EventId = clubEventViewModel.eventInfo.Id;
-                clubEventRecord.ClubId = 5;
-                db.ClubEvents.Add(clubEventRecord);
+                @event.Clubs.Add(db.Clubs.Find(5));
+                db.Events.Add(@event);
                 db.SaveChanges();
-
-                //db.Events.Add(@event);
-                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(@clubEventViewModel);
+            return View();
         }
 
         // GET: Events/Edit/5
