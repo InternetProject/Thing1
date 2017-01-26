@@ -12,6 +12,7 @@
         <EntityTypeShape EntityType="user_managementModel.ClubMembership" Width="1.5" PointX="8.25" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Email" Width="1.5" PointX="8.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Event" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.EventsRSVP" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.MembershipOption" Width="1.5" PointX="6" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.payment" Width="1.5" PointX="8.25" PointY="17.125" IsExpanded="true" />
@@ -34,12 +35,11 @@
         <AssociationConnector Association="user_managementModel.FK_Emails_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_MembershipOptions_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_payment_Clubs" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.FK_event_id" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_MembershipOptions_TypesOfMembershipOptions" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_Recipients_Recipients" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="user_managementModel.Event" Width="1.5" PointX="8.375" PointY="1" />
-        <AssociationConnector Association="user_managementModel.FK_event_id" />
-        <AssociationConnector Association="user_managementModel.ClubEvents" />
+        <AssociationConnector Association="user_managementModel.ClubEvents" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
