@@ -263,6 +263,7 @@
     <Compile Include="Models\Club.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClubEventViewModel.cs" />
     <Compile Include="Models\ClubMembership.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>

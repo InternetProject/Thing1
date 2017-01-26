@@ -20,7 +20,7 @@ namespace Thing1.Controllers
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var upcomingEvents = db.Events.Where(e => e.StartsAt > DateTime.Now);
+            var upcomingEvents = db.Events.Where(e => e.EndsAt > DateTime.Now);
             return View(upcomingEvents.OrderBy(e => e.StartsAt).ToPagedList(pageNumber, pageSize));
         }
 
@@ -57,16 +57,26 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        public ActionResult Create(ClubEventViewModel clubEventViewModel)
+
         {
+            ClubEvent clubEventRecord = new ClubEvent();
             if (ModelState.IsValid)
             {
-                db.Events.Add(@event);
+                db.Events.Add(clubEventViewModel.eventInfo);
+                clubEventRecord.Id = clubEventViewModel.eventInfo.Id;
+                clubEventRecord.EventId = clubEventViewModel.eventInfo.Id;
+                clubEventRecord.ClubId = 5;
+                db.ClubEvents.Add(clubEventRecord);
                 db.SaveChanges();
+
+                //db.Events.Add(@event);
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View(@clubEventViewModel);
         }
 
         // GET: Events/Edit/5
