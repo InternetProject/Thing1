@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Upcoming ASA Events";
 }
-@Html.ActionLink("Create New", "Create", "Events", new { clubId = 5})
+@Html.ActionLink("Create New", "Create", "Events", new { clubID = 5 }, null)
 
 <div class="text-center">
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

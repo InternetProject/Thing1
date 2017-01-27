@@ -316,6 +316,7 @@
     <Compile Include="Models\TypesOfRole.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\SponsoringClubData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
