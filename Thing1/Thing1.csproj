@@ -229,6 +229,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembershipOptionsController.cs" />
     <Compile Include="Controllers\PaymentHistoryController.cs" />
+    <Compile Include="DTOs\MemberDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
