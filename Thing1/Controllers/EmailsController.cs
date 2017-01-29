@@ -73,24 +73,24 @@ namespace Thing1.Controllers
                 db.SaveChanges();
                 // still need to insert into Recipients.
 
-                /*
+                
                 using (var smtp = new SmtpClient())
                 {
                     var credential = new NetworkCredential
                     {
-                        UserName = "NEED",
-                        Password = "CREDENTIALS"
+                        UserName = "the.internet.project.ucla@gmail.com",
+                        Password = "ivowelch"
                     };
                     smtp.Credentials = credential;
-                    smtp.Host = "SERVER";
+                    smtp.Host = "smtp.gmail.com";
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
                     await smtp.SendMailAsync(message);
                     return RedirectToAction("Index");
                 }
-                */
+                
 
-                //return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             return View(email);
