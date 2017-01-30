@@ -244,6 +244,7 @@
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\PaymentHistoryController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
+    <Compile Include="DTOs\EventDTO.cs" />
     <Compile Include="DTOs\MemberDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
