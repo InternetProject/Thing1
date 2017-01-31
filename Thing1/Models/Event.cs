@@ -17,8 +17,8 @@ namespace Thing1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Event()
         {
-            this.Clubs = new HashSet<Club>();
             this.EventsRSVPs = new HashSet<EventsRSVP>();
+            this.Clubs = new HashSet<Club>();
         }
     
         public int Id { get; set; }
@@ -34,10 +34,10 @@ namespace Thing1.Models
         public string Title { get; set; }
         public Nullable<int> ClubId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Club> Clubs { get; set; }
+        public virtual Club Club { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }
-        public virtual Club Club { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Club> Clubs { get; set; }
     }
 }

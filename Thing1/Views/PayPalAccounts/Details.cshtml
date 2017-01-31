@@ -1,0 +1,42 @@
+﻿@model Thing1.Models.PayPalAccount
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PayPalAccount</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PayPalClientId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayPalClientId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PayPalClientSecret)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PayPalClientSecret)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Club.name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "ViewPayPalAccount", new { clubId = ViewBag.ClubId })
+</p>

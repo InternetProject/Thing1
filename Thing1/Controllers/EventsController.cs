@@ -32,6 +32,16 @@ namespace Thing1.Controllers
         //    return View(upcomingEvents.ToList());
         //}
 
+        // GET: Events/DisplayClubEvents
+        public ActionResult DisplayClubEvents(int clubId)
+        {
+            var clubToView = db.Clubs.Find(clubId);
+            var clubEvents = new List<Thing1.Models.Event>();
+            clubEvents = clubToView.Events.ToList();
+            return View(clubEvents);
+        }
+
+
         // GET: Events/Details/5
         public ActionResult Details(int? id)
         {
@@ -51,6 +61,7 @@ namespace Thing1.Controllers
         public ActionResult Create(int clubID)
         {
             PopulateSponsoringClubs(clubID);
+            ViewBag.PrimaryClubName = db.Clubs.Find(clubID).name;
             return View();
         }
 

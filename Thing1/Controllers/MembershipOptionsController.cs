@@ -155,29 +155,31 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOption/Delete/5
-        public ActionResult DeleteMembershipOption(int? id)
+        public ActionResult DeleteMembershipOption(int? Id)
         {
-            if (id == null)
+            if (Id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            MembershipOption membershipOption = db.MembershipOptions.Find(id);
+            MembershipOption membershipOption = db.MembershipOptions.Find(Id);
             if (membershipOption == null)
             {
                 return HttpNotFound();
             }
-            return View(membershipOption);
 
-         
+            ViewBag.Id = Id;
+            ViewBag.ClubId = membershipOption.ClubId;
+
+            return View(membershipOption);      
 
         }
 
         // POST: MembershipOption/Delete/5
-        [HttpPost, ActionName("DeleteMembershipOption")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteMembershipOption(int id)
+        public ActionResult DeleteMembershipOption(int Id)
         {
-            MembershipOption membershipOption = db.MembershipOptions.Find(id);
+            MembershipOption membershipOption = db.MembershipOptions.Find(Id);
 
             if (membershipOption == null)
             {
