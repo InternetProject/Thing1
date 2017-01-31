@@ -9,10 +9,12 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using Thing1.DTOs;
 using Thing1.Models;
 
 namespace Thing1.Controllers
 {
+    [RoutePrefix("api/ClubsWS")]
     [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
     public class ClubsWSController : ApiController
     {
@@ -121,6 +123,27 @@ namespace Thing1.Controllers
             db.SaveChanges();
 
             return Ok(club);
+        }
+
+        // GET: api/ClubsWS/5/Officers
+        [Route("{id:int}/Officers")]
+        public IQueryable<MemberDto> GetClubOfficers(int id)
+        {
+
+            return (from anu in db.AspNetUsers
+                    join cm in db.ClubMemberships on anu.Id equals cm.UserId
+                    join c in db.Clubs on cm.ClubId equals c.Id
+                    where c.Id == id
+                    //missing condition for officers
+                    //select anu);
+                    select new MemberDto {
+                        FirstName = anu.FirstName,
+                        LastName = anu.LastName,
+                        Email = anu.Email,
+                        Program = anu.Program
+                    });
+            //return db.ClubMemberships
+            //  .Where(cm => cm.Club.Id == id);
         }
 
         protected override void Dispose(bool disposing)

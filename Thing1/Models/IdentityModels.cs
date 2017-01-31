@@ -15,7 +15,6 @@ namespace Thing1.Models
         public String PreferredName { get; set; }
         public String Program { get; set; }
         public String TShirtSize { get; set; }
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

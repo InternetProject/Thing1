@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
 using PagedList;
+using Thing1.Models.ViewModels;
 
 namespace Thing1.Controllers
 {
@@ -20,7 +21,7 @@ namespace Thing1.Controllers
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var upcomingEvents = db.Events.Where(e => e.StartsAt > DateTime.Now);
+            var upcomingEvents = db.Events.Where(e => e.EndsAt > DateTime.Now);
             return View(upcomingEvents.OrderBy(e => e.StartsAt).ToPagedList(pageNumber, pageSize));
         }
 
@@ -30,6 +31,16 @@ namespace Thing1.Controllers
         //    var upcomingEvents = clubEvents.Where(c => c.Event.StartsAt > DateTime.Now).Include(c => c.Event);
         //    return View(upcomingEvents.ToList());
         //}
+
+        // GET: Events/DisplayClubEvents
+        public ActionResult DisplayClubEvents(int clubId)
+        {
+            var clubToView = db.Clubs.Find(clubId);
+            var clubEvents = new List<Thing1.Models.Event>();
+            clubEvents = clubToView.Events.ToList();
+            return View(clubEvents);
+        }
+
 
         // GET: Events/Details/5
         public ActionResult Details(int? id)
@@ -47,9 +58,27 @@ namespace Thing1.Controllers
         }
 
         // GET: Events/Create
-        public ActionResult Create()
+        public ActionResult Create(int clubID)
         {
+            PopulateSponsoringClubs(clubID);
             return View();
+        }
+
+        // 
+        private void PopulateSponsoringClubs(int clubID)
+        {
+            var allClubs = db.Clubs;
+            var viewModel = new List<SponsoringClubData>();
+            foreach (var club in allClubs)
+            {
+                viewModel.Add(new SponsoringClubData
+                {
+                    ClubID = club.Id,
+                    Name = club.nickname,
+                    Sponsoring = club.Id == clubID
+                });
+            }
+            ViewBag.Clubs = viewModel;
         }
 
         // POST: Events/Create
@@ -57,8 +86,19 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        public ActionResult Create([Bind(Include = "Title, StartsAt, EndsAt, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string[] sponsoringClubs)
         {
+            System.Diagnostics.Debug.WriteLine("Clubs: " + sponsoringClubs);
+            if (sponsoringClubs != null)
+            {
+                @event.Clubs = new List<Thing1.Models.Club>();
+                foreach (string clubID in sponsoringClubs)
+                {
+                    var clubToAdd = db.Clubs.Find(int.Parse(clubID));
+                    @event.Clubs.Add(clubToAdd);
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Events.Add(@event);
@@ -66,8 +106,10 @@ namespace Thing1.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(@event);
+            return View();
         }
+
+       
 
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
@@ -120,7 +162,7 @@ namespace Thing1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = db.Events.Find(id);
+            Event @event = db.Events.Include(i => i.Clubs).Where(i => i.Id == id).Single();
             db.Events.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");

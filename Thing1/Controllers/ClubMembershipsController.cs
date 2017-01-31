@@ -218,42 +218,42 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
-        public ActionResult Test(TestModel testData)
-        {
-            /*
-             * string tempMessage = testData.UserId + " " +
-                                testData.ClubId + " " +
-                                testData.MembershipOptionId + " " +
-                                testData.RoleId + " " +
-                                testData.TermDate + " " +
-                                testData.JoinDate + " " +
-                                testData.Description + " " +
-                                testData.HasAccessToFinance + " " +
-                                testData.CanEditClubData + " " +
-                                testData.Violation;
-            */
-            //if (ModelState.IsValid)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
+        //public ActionResult Test(TestModel testData)
+        //{
+        //    /*
+        //     * string tempMessage = testData.UserId + " " +
+        //                        testData.ClubId + " " +
+        //                        testData.MembershipOptionId + " " +
+        //                        testData.RoleId + " " +
+        //                        testData.TermDate + " " +
+        //                        testData.JoinDate + " " +
+        //                        testData.Description + " " +
+        //                        testData.HasAccessToFinance + " " +
+        //                        testData.CanEditClubData + " " +
+        //                        testData.Violation;
+        //    */
+        //    //if (ModelState.IsValid)
+        //    //{
+        //    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    //}
 
 
-             ClubMembership clubMembership = new ClubMembership();
-             clubMembership.UserId = testData.UserId;
-             clubMembership.ClubId = testData.ClubId;
-             clubMembership.MembershipOptionId = testData.MembershipOptionId;
-             clubMembership.RoleId = testData.RoleId;
-             clubMembership.TermDate = testData.TermDate;
-             clubMembership.JoinDate = testData.JoinDate;
-             clubMembership.Description = testData.Description;
-             clubMembership.HasAccessToFinance = testData.HasAccessToFinance;
-             clubMembership.CanEditClubData = testData.CanEditClubData;
-             clubMembership.Violation = testData.Violation;
+        //     ClubMembership clubMembership = new ClubMembership();
+        //     clubMembership.UserId = testData.UserId;
+        //     clubMembership.ClubId = testData.ClubId;
+        //     clubMembership.MembershipOptionId = testData.MembershipOptionId;
+        //     clubMembership.RoleId = testData.RoleId;
+        //     clubMembership.TermDate = testData.TermDate;
+        //     clubMembership.JoinDate = testData.JoinDate;
+        //     clubMembership.Description = testData.Description;
+        //     clubMembership.HasAccessToFinance = testData.HasAccessToFinance;
+        //     clubMembership.CanEditClubData = testData.CanEditClubData;
+        //     clubMembership.Violation = testData.Violation;
 
-             db.ClubMemberships.Add(clubMembership);
-             db.SaveChanges();
-             return RedirectToAction("Index");
-        }
+        //     db.ClubMemberships.Add(clubMembership);
+        //     db.SaveChanges();
+        //     return RedirectToAction("Index");
+        //}
 
         // GET: ClubMemberships/Edit/5
         public ActionResult Edit(int? id)

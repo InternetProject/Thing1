@@ -125,6 +125,19 @@ namespace Thing1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Management(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Club club = db.Clubs.Find(id);
+            if (club == null)
+            {
+                return HttpNotFound();
+            }
+            return View(club);
+        }
 
         protected override void Dispose(bool disposing)
         {

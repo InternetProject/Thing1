@@ -7,14 +7,21 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Thing1.Models;
 
 namespace Thing1.Controllers
 {
+    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
     public class EventsWSController : ApiController
     {
         private user_managementEntities db = new user_managementEntities();
+
+        EventsWSController()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+        }
 
         // GET: api/EventsWS
         public IQueryable<Event> GetEvents()

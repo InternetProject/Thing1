@@ -242,6 +242,7 @@
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\PaymentHistoryController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
+    <Compile Include="DTOs\MemberDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -252,10 +253,13 @@
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Club.cs">
+    <Compile Include="Models\AspNetUserClaim.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClubEvent.cs">
+    <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Club.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ClubMembership.cs">
@@ -283,6 +287,9 @@
     <Compile Include="Models\Event.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EventsRSVP.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Logger.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -291,6 +298,9 @@
     </Compile>
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\payment.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Recipient.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TypesOfClub.cs">
@@ -305,6 +315,7 @@
     <Compile Include="Models\TypesOfRole.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\SponsoringClubData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -491,6 +502,8 @@
     <Content Include="Views\MyProfile\Details.cshtml" />
     <Content Include="Views\MyProfile\Edit.cshtml" />
     <Content Include="Views\MyProfile\Index.cshtml" />
+    <Content Include="Views\Clubs\Management.cshtml" />
+    <Content Include="Views\Events\DisplayClubEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -523,7 +536,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49756</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
