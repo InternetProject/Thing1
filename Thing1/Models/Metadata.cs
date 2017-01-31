@@ -23,4 +23,24 @@ namespace Thing1.Models
         [Display(Name = "Membership Type")]
         public string Description;
     }
+
+    public class EventMetadata
+    {
+        [Display(Name = "Event is Public")]
+        public bool IsPublic;
+        [Display(Name = "Event Starts at")]
+        public System.DateTime StartsAt { get; set; }
+        [Display(Name = "Event Ends at")]
+        public System.DateTime EndsAt { get; set; }
+        [Display(Name = "Event Target Audience")]
+        public string TargetAudience { get; set; }
+        [Display(Name = "Catered Food From")]
+        public string Food { get; set; }
+        [Display(Name = "Main Contact for Questions")]
+        public string Contact { get; set; }
+        [Display(Name = "Price for Entry")]
+        public Nullable<decimal> Price { get; set; }
+        [Display(Name = "Event Name")]
+        public string Title { get; set; }
+    }
 }

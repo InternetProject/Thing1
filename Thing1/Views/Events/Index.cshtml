@@ -25,6 +25,19 @@
                         <dt>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dt>
                         <dt>Location: @Html.DisplayFor(modelItem => item.Location)</dt>
                         <dt>Description: @Html.DisplayFor(modelItem => item.Description)</dt>
+                        <dt>Open to:
+                            @if (item.IsPublic)
+                            {
+                                @:Everyone
+                            }
+                            else
+                            {
+                                foreach (var club in item.Clubs)
+                                {
+                                    @Html.DisplayFor(modelItem => club.nickname) <text> </text>
+                                }
+                            }
+                        </dt>
                     </dl>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |

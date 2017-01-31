@@ -51,6 +51,7 @@ namespace Thing1.Controllers
         public ActionResult Create(int clubID)
         {
             PopulateSponsoringClubs(clubID);
+            ViewBag.PrimaryClubName = db.Clubs.Find(clubID).name;
             return View();
         }
 
