@@ -14,7 +14,7 @@
         <EntityTypeShape EntityType="user_managementModel.Email" Width="1.5" PointX="8.25" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Event" Width="1.5" PointX="11.625" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.MembershipOption" Width="1.5" PointX="6" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.payment" Width="1.5" PointX="8.25" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Payment" Width="1.5" PointX="8.25" PointY="17.125" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Recipient" Width="1.5" PointX="5.25" PointY="29.5" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.TypesOfClub" Width="1.5" PointX="17.625" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.TypesOfMembershipOption" Width="1.5" PointX="3.75" PointY="19.5" IsExpanded="true" />

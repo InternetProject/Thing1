@@ -715,7 +715,7 @@
           <NavigationProperty Name="Club" Relationship="Self.FK_MembershipOptions_Clubs" FromRole="MembershipOptions" ToRole="Clubs" />
           <NavigationProperty Name="TypesOfMembershipOption" Relationship="Self.FK_MembershipOptions_TypesOfMembershipOptions" FromRole="MembershipOptions" ToRole="TypesOfMembershipOptions" />
         </EntityType>
-        <EntityType Name="payment">
+        <EntityType Name="Payment">
           <Key>
             <PropertyRef Name="TransactionId" />
           </Key>
@@ -838,7 +838,7 @@
         </Association>
         <Association Name="FK_payment_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
-          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <End Role="payment" Type="user_managementModel.Payment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -922,7 +922,7 @@
         </Association>
         <Association Name="FK_payment_Clubs">
           <End Role="Clubs" Type="Self.Club" Multiplicity="0..1" />
-          <End Role="payment" Type="Self.payment" Multiplicity="*" />
+          <End Role="payment" Type="user_managementModel.Payment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Clubs">
               <PropertyRef Name="Id" />
@@ -969,7 +969,7 @@
           <EntitySet Name="Clubs" EntityType="Self.Club" />
           <EntitySet Name="Emails" EntityType="Self.Email" />
           <EntitySet Name="MembershipOptions" EntityType="Self.MembershipOption" />
-          <EntitySet Name="payments" EntityType="Self.payment" />
+          <EntitySet Name="Payments1" EntityType="user_managementModel.Payment" />
           <EntitySet Name="Recipients" EntityType="Self.Recipient" />
           <EntitySet Name="TypesOfClubs" EntityType="Self.TypesOfClub" />
           <EntitySet Name="TypesOfMembershipOptions" EntityType="Self.TypesOfMembershipOption" />
@@ -997,7 +997,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_payment_AspNetUsers" Association="Self.FK_payment_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="payment" EntitySet="payments" />
+            <End Role="payment" EntitySet="Payments1" />
           </AssociationSet>
           <AssociationSet Name="FK_ClubMemberships_Clubs" Association="Self.FK_ClubMemberships_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
@@ -1025,7 +1025,7 @@
           </AssociationSet>
           <AssociationSet Name="FK_payment_Clubs" Association="Self.FK_payment_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
-            <End Role="payment" EntitySet="payments" />
+            <End Role="payment" EntitySet="Payments1" />
           </AssociationSet>
           <AssociationSet Name="FK_MembershipOptions_TypesOfMembershipOptions" Association="Self.FK_MembershipOptions_TypesOfMembershipOptions">
             <End Role="TypesOfMembershipOptions" EntitySet="TypesOfMembershipOptions" />
@@ -1246,8 +1246,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="payments">
-            <EntityTypeMapping TypeName="user_managementModel.payment">
+          <EntitySetMapping Name="Payments1">
+            <EntityTypeMapping TypeName="user_managementModel.Payment">
               <MappingFragment StoreEntitySet="payment">
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
                 <ScalarProperty Name="payment_time" ColumnName="payment_time" />
