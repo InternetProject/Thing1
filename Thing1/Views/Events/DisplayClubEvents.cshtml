@@ -1,16 +1,10 @@
-﻿@model PagedList.IPagedList<Thing1.Models.Event>
-@using PagedList.Mvc;
+﻿@model List<Thing1.Models.Event>
 
 @{
-    ViewBag.Title = "Upcoming ASA Events";
+    ViewBag.Title = "Upcoming Events";
 }
-@Html.ActionLink("Create New", "Create", "Events", new { clubID = 5 }, null)
-<p></p>
-@Html.ActionLink("Display club events", "DisplayClubEvents", "Events", new { clubID = 3 }, null)
 
-<div class="text-center">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-</div>
+
 
 @foreach (var item in Model)
 {
@@ -38,11 +32,7 @@
     </div>
 }
 
-<div class="text-center">
 
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-</div>
 
 

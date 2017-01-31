@@ -505,6 +505,7 @@
     <Content Include="Views\MyProfile\Edit.cshtml" />
     <Content Include="Views\MyProfile\Index.cshtml" />
     <Content Include="Views\Clubs\Management.cshtml" />
+    <Content Include="Views\Events\DisplayClubEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
