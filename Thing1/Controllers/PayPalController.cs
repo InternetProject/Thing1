@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using PayPal.Api;
 using Thing1.Models;
+using Microsoft.AspNet.Identity;
+using Thing1.Controllers;
 
 namespace Thing1.Controllers
 {
@@ -13,33 +15,20 @@ namespace Thing1.Controllers
 
         private user_managementEntities db = new user_managementEntities();
 
+        // Global variable for TransactionId
         Int32 TransactionId = (Int32)(System.DateTime.Now.Ticks + (new Random()).Next(100000));
+
         // GET: PayPal
         public ActionResult Index()
         {
             return View();
         }
 
-
-
-
-        //public ActionResult PaymentWithPaypal(int? clubId, string name, string currency, string price, string quantity)
-        public ActionResult PaymentWithPaypal([Bind(Include = "name,currency,price,quantity")] Item item)
+        public ActionResult PaymentWithPaypal([Bind(Include = "name,currency,price,quantity,clubId")] Item item)
         {
-            /*
-            Item item = new Item();
-            item.name = name;
-            item.currency = currency;
-            item.price = price;
-            item.quantity = quantity;
-            */
-
-            var clubMembership = Session["ClubMembership Object"] as ClubMembership;
-            var membershipOption = Session["MembershipOption Object"] as MembershipOption;
 
             //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext(clubMembership.ClubId);
-            //APIContext apiContext = Configuration.GetAPIContext();
+            APIContext apiContext = Configuration.GetAPIContext();
 
             try
             {
@@ -117,24 +106,23 @@ namespace Thing1.Controllers
                 return View("Failure");
             }
 
-          
-            var payment = new payment
-            {
-                TransactionId = TransactionId,
-                AspNetUser = clubMembership.AspNetUser,
-                clubID = clubMembership.ClubId,
-                userID = clubMembership.UserId,
-                amount = membershipOption.Price,//Convert.ToInt32(item.price),
-                payment_type = "membership",
-                payment_time = System.DateTime.Now
-            };
+            //Access clubMembership session as ClubMembership object
+            var clubMembership = Session["ClubMembership Object"] as ClubMembership;
 
-            if(ModelState.IsValid)
+            //Create new Payment object
+            var paymentrecord = new payment {TransactionId = TransactionId, payment_time = System.DateTime.Now,
+                amount = Convert.ToInt32(item.price), clubID = clubMembership.ClubId, payment_type = "membership",
+                userID = clubMembership.UserId};
+
+
+            if (ModelState.IsValid)
             {
                 db.ClubMemberships.Add(clubMembership);
-                db.payments.Add(payment);
+                db.payment.Add(paymentrecord);
                 db.SaveChanges();
+                // return RedirectToAction("Index");
             }
+            //insert into clubmembership table
 
             return View("Success");
         }
@@ -176,7 +164,7 @@ namespace Thing1.Controllers
             // similar as we did for credit card, do here and create amount object
             var amount = new Amount()
             {
-                currency = "USD",
+                currency = item.currency,
                 total = item.price, // Total must be equal to sum of shipping, tax and subtotal.
                 details = details
             };
@@ -185,7 +173,8 @@ namespace Thing1.Controllers
 
             transactionList.Add(new Transaction()
             {
-                description = "Transaction description.",
+                description = "Joining " + item.name + " club with membership description of " + item.description,
+                //generate unique invoice number
                 invoice_number = TransactionId.ToString(),
                 amount = amount,
                 item_list = itemList
