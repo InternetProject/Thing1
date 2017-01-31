@@ -24,9 +24,10 @@ namespace Thing1.Models
         public int ClubId { get; set; }
         public int TypeId { get; set; }
         public int Duration { get; set; }
+        public System.DateTime ExpDate { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
-        public bool Is_Active { get; set; }
+        public bool IsActive { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClubMembership> ClubMemberships { get; set; }

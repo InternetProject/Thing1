@@ -7,14 +7,21 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Thing1.Models;
 
 namespace Thing1.Controllers
 {
+    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
     public class EventsWSController : ApiController
     {
         private user_managementEntities db = new user_managementEntities();
+
+        EventsWSController()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+        }
 
         // GET: api/EventsWS
         public IQueryable<Event> GetEvents()
@@ -44,7 +51,7 @@ namespace Thing1.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != @event.ID)
+            if (id != @event.Id)
             {
                 return BadRequest();
             }
@@ -82,7 +89,7 @@ namespace Thing1.Controllers
             db.Events.Add(@event);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = @event.ID }, @event);
+            return CreatedAtRoute("DefaultApi", new { id = @event.Id }, @event);
         }
 
         // DELETE: api/EventsWS/5
@@ -112,7 +119,7 @@ namespace Thing1.Controllers
 
         private bool EventExists(int id)
         {
-            return db.Events.Count(e => e.ID == id) > 0;
+            return db.Events.Count(e => e.Id == id) > 0;
         }
     }
 }
