@@ -97,6 +97,8 @@ namespace Thing1.Controllers
                 return View("Failure");
             }
 
+            //insert into clubmembership table
+
             return View("Success");
         }
 
@@ -147,7 +149,8 @@ namespace Thing1.Controllers
             transactionList.Add(new Transaction()
             {
                 description = "Transaction description.",
-                invoice_number = "your invoice number",
+                //generate unique invoice number
+                invoice_number = Convert.ToString(System.DateTime.Now) + Convert.ToString((new Random()).Next(100000)),
                 amount = amount,
                 item_list = itemList
             });
