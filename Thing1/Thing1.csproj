@@ -244,22 +244,14 @@
     <Compile Include="Controllers\MembershipOptionsController.cs" />
     <Compile Include="Controllers\MyProfileController.cs" />
     <Compile Include="Controllers\PaymentHistoryController.cs" />
+    <Compile Include="Controllers\PayPalAccountsController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
     <Compile Include="DTOs\MemberDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>DatabaseModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>DatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>DatabaseModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Club.cs">
@@ -301,6 +293,9 @@
     </Compile>
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\payment.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayPalAccount.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Recipient.cs">
@@ -507,6 +502,13 @@
     <Content Include="Views\MyProfile\Index.cshtml" />
     <Content Include="Views\Clubs\Management.cshtml" />
     <Content Include="Views\Events\DisplayClubEvents.cshtml" />
+    <Content Include="Views\PayPalAccounts\CreatePayPalAccount.cshtml" />
+    <Content Include="Views\PayPalAccounts\DeletePayPalAccount.cshtml" />
+    <Content Include="Views\PayPalAccounts\Details.cshtml" />
+    <Content Include="Views\PayPalAccounts\EditPayPalAccount.cshtml" />
+    <Content Include="Views\PayPalAccounts\Index.cshtml" />
+    <Content Include="Views\PayPalAccounts\ViewPayPalAccount.cshtml" />
+    <Content Include="Views\PayPalAccounts\PayPalAccountAlreadyExist.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
