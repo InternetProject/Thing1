@@ -111,8 +111,8 @@ namespace Thing1.Controllers
 
             //Create new Payment object
             var paymentrecord = new payment {TransactionId = TransactionId, payment_time = System.DateTime.Now,
-                amount = Convert.ToInt32(item.price), clubID = clubMembership.ClubId,
-                payment_duration =Convert.ToInt32(clubMembership.TermDate), payment_type = "membership", userID = clubMembership.UserId};
+                amount = Convert.ToInt32(item.price), clubID = clubMembership.ClubId, payment_type = "membership",
+                userID = clubMembership.UserId};
 
 
             if (ModelState.IsValid)
