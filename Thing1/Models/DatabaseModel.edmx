@@ -4,32 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar(max)" />
-          <Property Name="ClaimValue" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
@@ -127,6 +108,7 @@
           <Property Name="Contact" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" />
           <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="ClubId" Type="int" />
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
@@ -162,6 +144,15 @@
           <Property Name="payment_type" Type="varchar" MaxLength="500" />
           <Property Name="payment_duration" Type="numeric" Precision="10" Scale="3" />
           <Property Name="userID" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="PayPalAccounts">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClubId" Type="int" Nullable="false" />
+          <Property Name="PayPalClientId" Type="varchar(max)" Nullable="false" />
+          <Property Name="PayPalClientSecret" Type="varchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Recipients">
           <Key>
@@ -296,34 +287,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -388,6 +351,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Events">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MembershipOptions_Clubs">
           <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
           <End Role="MembershipOptions" Type="Self.MembershipOptions" Multiplicity="*" />
@@ -436,6 +411,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PayPalAccounts_Clubs">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
+          <End Role="PayPalAccounts" Type="Self.PayPalAccounts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PayPalAccounts">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Recipients_Recipients">
           <End Role="Recipients" Type="Self.Recipients" Multiplicity="1" />
           <End Role="Recipients1" Type="Self.Recipients" Multiplicity="0..1" />
@@ -462,8 +449,6 @@
         </Association>
         <EntityContainer Name="user_managementModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClubEvents" EntityType="Self.ClubEvents" Schema="dbo" store:Type="Tables" />
@@ -474,6 +459,7 @@
           <EntitySet Name="EventsRSVP" EntityType="Self.EventsRSVP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MembershipOptions" EntityType="Self.MembershipOptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="payment" EntityType="Self.payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayPalAccounts" EntityType="Self.PayPalAccounts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recipients" EntityType="Self.Recipients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesOfClubs" EntityType="Self.TypesOfClubs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypesOfMembershipOptions" EntityType="Self.TypesOfMembershipOptions" Schema="dbo" store:Type="Tables" />
@@ -511,14 +497,6 @@
             <End Role="TypesOfClubs" EntitySet="TypesOfClubs" />
             <End Role="Clubs" EntitySet="Clubs" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
@@ -539,6 +517,10 @@
             <End Role="Events" EntitySet="Events" />
             <End Role="EventsRSVP" EntitySet="EventsRSVP" />
           </AssociationSet>
+          <AssociationSet Name="FK_Events" Association="Self.FK_Events">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
           <AssociationSet Name="FK_MembershipOptions_Clubs" Association="Self.FK_MembershipOptions_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="MembershipOptions" EntitySet="MembershipOptions" />
@@ -555,6 +537,10 @@
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="payment" EntitySet="payment" />
           </AssociationSet>
+          <AssociationSet Name="FK_PayPalAccounts_Clubs" Association="Self.FK_PayPalAccounts_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="PayPalAccounts" EntitySet="PayPalAccounts" />
+          </AssociationSet>
           <AssociationSet Name="FK_Recipients_Recipients" Association="Self.FK_Recipients_Recipients">
             <End Role="Recipients" EntitySet="Recipients" />
             <End Role="Recipients1" EntitySet="Recipients" />
@@ -564,7 +550,8 @@
             <End Role="EventsRSVP" EntitySet="EventsRSVP" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="user_managementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -575,27 +562,6 @@
           <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaim">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogin">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUser">
           <Key>
@@ -620,14 +586,12 @@
           <Property Name="TShirtSize" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="PreMBAEmployer" Type="String" MaxLength="256" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="Recipients" Relationship="Self.FK__Recipient__UserI__7720AD13" FromRole="AspNetUsers" ToRole="Recipients" />
           <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_AspNetUsers" FromRole="AspNetUsers" ToRole="ClubMemberships" />
           <NavigationProperty Name="Emails" Relationship="Self.FK_Emails_AspNetUsers" FromRole="AspNetUsers" ToRole="Emails" />
           <NavigationProperty Name="payments" Relationship="Self.FK_payment_AspNetUsers" FromRole="AspNetUsers" ToRole="payment" />
+          <NavigationProperty Name="EventsRSVPs" Relationship="Self.FK_user_id" FromRole="AspNetUsers" ToRole="EventsRSVP" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <NavigationProperty Name="EventsRSVPs" Relationship="user_managementModel.FK_user_id" FromRole="AspNetUser" ToRole="EventsRSVP" />
         </EntityType>
         <EntityType Name="ClubMembership">
           <Key>
@@ -665,9 +629,11 @@
           <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_Clubs" FromRole="Clubs" ToRole="ClubMemberships" />
           <NavigationProperty Name="TypesOfClub" Relationship="Self.FK_Clubs_TypesOfClubs" FromRole="Clubs" ToRole="TypesOfClubs" />
           <NavigationProperty Name="Emails" Relationship="Self.FK_Emails_Clubs" FromRole="Clubs" ToRole="Emails" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Events" FromRole="Clubs" ToRole="Events" />
           <NavigationProperty Name="MembershipOptions" Relationship="Self.FK_MembershipOptions_Clubs" FromRole="Clubs" ToRole="MembershipOptions" />
           <NavigationProperty Name="payments" Relationship="Self.FK_payment_Clubs" FromRole="Clubs" ToRole="payment" />
-          <NavigationProperty Name="Events" Relationship="user_managementModel.ClubEvents" FromRole="Club" ToRole="Event" />
+          <NavigationProperty Name="PayPalAccounts" Relationship="Self.FK_PayPalAccounts_Clubs" FromRole="Clubs" ToRole="PayPalAccounts" />
+          <NavigationProperty Name="Events1" Relationship="Self.ClubEvents" FromRole="Clubs" ToRole="Events" />
         </EntityType>
         <EntityType Name="Email">
           <Key>
@@ -681,6 +647,38 @@
           <Property Name="SentBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_Emails_AspNetUsers" FromRole="Emails" ToRole="AspNetUsers" />
           <NavigationProperty Name="Club" Relationship="Self.FK_Emails_Clubs" FromRole="Emails" ToRole="Clubs" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartsAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndsAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Location" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TargetAudience" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+          <Property Name="Food" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClubId" Type="Int32" />
+          <NavigationProperty Name="Club" Relationship="Self.FK_Events" FromRole="Events" ToRole="Clubs" />
+          <NavigationProperty Name="EventsRSVPs" Relationship="Self.FK_event_id" FromRole="Events" ToRole="EventsRSVP" />
+          <NavigationProperty Name="Clubs" Relationship="Self.ClubEvents" FromRole="Events" ToRole="Clubs" />
+        </EntityType>
+        <EntityType Name="EventsRSVP">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HasPaid" Type="Boolean" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_user_id" FromRole="EventsRSVP" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_event_id" FromRole="EventsRSVP" ToRole="Events" />
         </EntityType>
         <EntityType Name="MembershipOption">
           <Key>
@@ -711,6 +709,16 @@
           <Property Name="userID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="AspNetUser" Relationship="Self.FK_payment_AspNetUsers" FromRole="payment" ToRole="AspNetUsers" />
           <NavigationProperty Name="Club" Relationship="Self.FK_payment_Clubs" FromRole="payment" ToRole="Clubs" />
+        </EntityType>
+        <EntityType Name="PayPalAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClubId" Type="Int32" Nullable="false" />
+          <Property Name="PayPalClientId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PayPalClientSecret" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="Self.FK_PayPalAccounts_Clubs" FromRole="PayPalAccounts" ToRole="Clubs" />
         </EntityType>
         <EntityType Name="Recipient">
           <Key>
@@ -755,34 +763,6 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_TypesOfRoles" FromRole="TypesOfRoles" ToRole="ClubMemberships" />
         </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Recipient__UserI__7720AD13">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
           <End Role="Recipients" Type="Self.Recipient" Multiplicity="*" />
@@ -828,6 +808,18 @@
             </Principal>
             <Dependent Role="payment">
               <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_id">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="EventsRSVP" Type="Self.EventsRSVP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsRSVP">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -891,6 +883,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Events">
+          <End Role="Clubs" Type="Self.Club" Multiplicity="0..1" />
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MembershipOptions_Clubs">
           <End Role="Clubs" Type="Self.Club" Multiplicity="1" />
           <End Role="MembershipOptions" Type="Self.MembershipOption" Multiplicity="*" />
@@ -912,6 +916,30 @@
             </Principal>
             <Dependent Role="payment">
               <PropertyRef Name="clubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PayPalAccounts_Clubs">
+          <End Role="Clubs" Type="Self.Club" Multiplicity="1" />
+          <End Role="PayPalAccounts" Type="Self.PayPalAccount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PayPalAccounts">
+              <PropertyRef Name="ClubId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_event_id">
+          <End Role="Events" Type="Self.Event" Multiplicity="1" />
+          <End Role="EventsRSVP" Type="Self.EventsRSVP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EventsRSVP">
+              <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -943,29 +971,26 @@
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <Association Name="ClubEvents">
+          <End Role="Clubs" Type="Self.Club" Multiplicity="*" />
+          <End Role="Events" Type="Self.Event" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="user_managementEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="ClubMemberships" EntityType="Self.ClubMembership" />
           <EntitySet Name="Clubs" EntityType="Self.Club" />
           <EntitySet Name="Emails" EntityType="Self.Email" />
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="EventsRSVPs" EntityType="Self.EventsRSVP" />
           <EntitySet Name="MembershipOptions" EntityType="Self.MembershipOption" />
           <EntitySet Name="payments" EntityType="Self.payment" />
+          <EntitySet Name="PayPalAccounts" EntityType="Self.PayPalAccount" />
           <EntitySet Name="Recipients" EntityType="Self.Recipient" />
           <EntitySet Name="TypesOfClubs" EntityType="Self.TypesOfClub" />
           <EntitySet Name="TypesOfMembershipOptions" EntityType="Self.TypesOfMembershipOption" />
           <EntitySet Name="TypesOfRecipients" EntityType="Self.TypesOfRecipient" />
           <EntitySet Name="TypesOfRoles" EntityType="Self.TypesOfRole" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
           <AssociationSet Name="FK__Recipient__UserI__7720AD13" Association="Self.FK__Recipient__UserI__7720AD13">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Recipients" EntitySet="Recipients" />
@@ -981,6 +1006,10 @@
           <AssociationSet Name="FK_payment_AspNetUsers" Association="Self.FK_payment_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="payment" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_id" Association="Self.FK_user_id">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
           </AssociationSet>
           <AssociationSet Name="FK_ClubMemberships_Clubs" Association="Self.FK_ClubMemberships_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
@@ -1002,6 +1031,10 @@
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="Emails" EntitySet="Emails" />
           </AssociationSet>
+          <AssociationSet Name="FK_Events" Association="Self.FK_Events">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
           <AssociationSet Name="FK_MembershipOptions_Clubs" Association="Self.FK_MembershipOptions_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="MembershipOptions" EntitySet="MembershipOptions" />
@@ -1009,6 +1042,14 @@
           <AssociationSet Name="FK_payment_Clubs" Association="Self.FK_payment_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="payment" EntitySet="payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PayPalAccounts_Clubs" Association="Self.FK_PayPalAccounts_Clubs">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="PayPalAccounts" EntitySet="PayPalAccounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_event_id" Association="Self.FK_event_id">
+            <End Role="Events" EntitySet="Events" />
+            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
           </AssociationSet>
           <AssociationSet Name="FK_MembershipOptions_TypesOfMembershipOptions" Association="Self.FK_MembershipOptions_TypesOfMembershipOptions">
             <End Role="TypesOfMembershipOptions" EntitySet="TypesOfMembershipOptions" />
@@ -1022,109 +1063,22 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="Events" EntityType="user_managementModel.Event" />
-          <AssociationSet Name="ClubEvents" Association="user_managementModel.ClubEvents">
-            <End Role="Club" EntitySet="Clubs" />
-            <End Role="Event" EntitySet="Events" />
+          <AssociationSet Name="ClubEvents" Association="Self.ClubEvents">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="Events" EntitySet="Events" />
           </AssociationSet>
-          <EntitySet Name="EventsRSVPs" EntityType="user_managementModel.EventsRSVP" />
-          <AssociationSet Name="FK_user_id" Association="user_managementModel.FK_user_id">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_event_id" Association="user_managementModel.FK_event_id">
-            <End Role="Event" EntitySet="Events" />
-            <End Role="EventsRSVP" EntitySet="EventsRSVPs" />
-          </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="Event">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartsAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndsAt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Location" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="TargetAudience" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="IsPublic" Type="Boolean" Nullable="false" />
-          <Property Name="Food" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Clubs" Relationship="user_managementModel.ClubEvents" FromRole="Event" ToRole="Club" />
-          <NavigationProperty Name="EventsRSVPs" Relationship="user_managementModel.FK_event_id" FromRole="Event" ToRole="EventsRSVP" />
-        </EntityType>
-        <Association Name="ClubEvents">
-          <End Type="user_managementModel.Club" Role="Club" Multiplicity="*" />
-          <End Type="user_managementModel.Event" Role="Event" Multiplicity="*" />
-        </Association>
-        <EntityType Name="EventsRSVP">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="EventId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="HasPaid" Type="Boolean" />
-          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUser" Relationship="user_managementModel.FK_user_id" FromRole="EventsRSVP" ToRole="AspNetUser" />
-          <NavigationProperty Name="Event" Relationship="user_managementModel.FK_event_id" FromRole="EventsRSVP" ToRole="Event" />
-        </EntityType>
-        <Association Name="FK_user_id">
-          <End Type="user_managementModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
-          <End Type="user_managementModel.EventsRSVP" Role="EventsRSVP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventsRSVP">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_event_id">
-          <End Type="user_managementModel.Event" Role="Event" Multiplicity="1" />
-          <End Type="user_managementModel.EventsRSVP" Role="EventsRSVP" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Event">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="EventsRSVP">
-              <PropertyRef Name="EventId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        </Schema>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="user_managementModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="user_managementModelStoreContainer" CdmEntityContainer="user_managementEntities1">
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="user_managementModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="user_managementModel.AspNetUserClaim">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="user_managementModel.AspNetUserLogin">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1197,6 +1151,35 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="user_managementModel.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartsAt" ColumnName="StartsAt" />
+                <ScalarProperty Name="EndsAt" ColumnName="EndsAt" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TargetAudience" ColumnName="TargetAudience" />
+                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+                <ScalarProperty Name="Food" ColumnName="Food" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventsRSVPs">
+            <EntityTypeMapping TypeName="user_managementModel.EventsRSVP">
+              <MappingFragment StoreEntitySet="EventsRSVP">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="HasPaid" ColumnName="HasPaid" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MembershipOptions">
             <EntityTypeMapping TypeName="user_managementModel.MembershipOption">
               <MappingFragment StoreEntitySet="MembershipOptions">
@@ -1221,6 +1204,16 @@
                 <ScalarProperty Name="payment_type" ColumnName="payment_type" />
                 <ScalarProperty Name="payment_duration" ColumnName="payment_duration" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayPalAccounts">
+            <EntityTypeMapping TypeName="user_managementModel.PayPalAccount">
+              <MappingFragment StoreEntitySet="PayPalAccounts">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
+                <ScalarProperty Name="PayPalClientId" ColumnName="PayPalClientId" />
+                <ScalarProperty Name="PayPalClientSecret" ColumnName="PayPalClientSecret" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1274,42 +1267,14 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Events">
-            <EntityTypeMapping TypeName="user_managementModel.Event">
-              <MappingFragment StoreEntitySet="Events">
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Contact" ColumnName="Contact" />
-                <ScalarProperty Name="Food" ColumnName="Food" />
-                <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
-                <ScalarProperty Name="TargetAudience" ColumnName="TargetAudience" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="EndsAt" ColumnName="EndsAt" />
-                <ScalarProperty Name="StartsAt" ColumnName="StartsAt" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="ClubEvents" TypeName="user_managementModel.ClubEvents" StoreEntitySet="ClubEvents">
-            <EndProperty Name="Event">
-              <ScalarProperty Name="Id" ColumnName="EventId" />
-            </EndProperty>
-            <EndProperty Name="Club">
+            <EndProperty Name="Clubs">
               <ScalarProperty Name="Id" ColumnName="ClubId" />
             </EndProperty>
+            <EndProperty Name="Events">
+              <ScalarProperty Name="Id" ColumnName="EventId" />
+            </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="EventsRSVPs">
-            <EntityTypeMapping TypeName="user_managementModel.EventsRSVP">
-              <MappingFragment StoreEntitySet="EventsRSVP">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="HasPaid" ColumnName="HasPaid" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="EventId" ColumnName="EventId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

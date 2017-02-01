@@ -1,0 +1,104 @@
+﻿@model Thing1.Models.ClubMembership
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ClubMembership</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TermDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JoinDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JoinDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasAccessToFinance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasAccessToFinance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanEditClubData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanEditClubData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Violation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Violation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Club.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MembershipOption.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MembershipOption.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypesOfRole.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypesOfRole.Description)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

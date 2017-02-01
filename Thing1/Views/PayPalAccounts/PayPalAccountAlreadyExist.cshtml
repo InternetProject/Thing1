@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "This club already has a PayPal account";
+}
+
+<h3>This club already has a PayPal account. It can only have one PayPal account</h3>
+<div>
+    <h4>Club: @ViewBag.ClubName (@ViewBag.ClubNickName)</h4>
+
+    <h4>PayPal Client Id: @ViewBag.PayPalClientId</h4>
+    <h4>PayPal Secret: @ViewBag.PayPalSecret</h4>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "ViewPayPalAccount", new { clubId = ViewBag.ClubId })
+</div>
