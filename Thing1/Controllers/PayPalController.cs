@@ -26,14 +26,12 @@ namespace Thing1.Controllers
         //public ActionResult PaymentWithPaypal(int? clubId, string name, string currency, string price, string quantity)
         public ActionResult PaymentWithPaypal([Bind(Include = "name,currency,price,quantity")] Item item)
         {
-            /*
-            Item item = new Item();
-            item.name = name;
-            item.currency = currency;
-            item.price = price;
-            item.quantity = quantity;
-            */
-
+            //Item item = new Item();
+            //item.name = name;
+            //item.currency = currency;
+            //item.price = price;
+            //item.quantity = quantity;
+            
             var clubMembership = Session["ClubMembership Object"] as ClubMembership;
             var membershipOption = Session["MembershipOption Object"] as MembershipOption;
 
