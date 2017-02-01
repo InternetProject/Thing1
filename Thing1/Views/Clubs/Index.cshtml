@@ -33,20 +33,21 @@
                   }</h3>
                   <p>@Html.DisplayFor(modelItem => item.description)
                   <br/>
-                  @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-                  
+                  <a href=@item.website>Club Page</a>
+                  |
+                 @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)                  
+                      @if (ClubManageable.ContainsKey(item.Id))
+                      {
+                          if (ClubManageable[item.Id] == true)
+                          {
+                              @Html.Raw("|")
+                              @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
 
-                  @if (ClubManageable.ContainsKey(item.Id))
-                   {
-                         if (ClubManageable[item.Id] == true)
-                         {
-                                @Html.Raw("|")
-                                @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-
-                                @Html.Raw("|") 
-                                @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
-                              }
+                              @Html.Raw("|")
+                              @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
                           }
+                      }
+                
                       
                     </p>
               </li>
@@ -93,11 +94,24 @@
                         }
                     </h3>
                     <p>
-                    @Html.DisplayFor(modelItem => item.description)
-                    <br />
-                    @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-                    |
-                    @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+                        @Html.DisplayFor(modelItem => item.description)
+                        <br />
+                        <a href=@item.website>Club Page</a>
+                        |
+                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+
+                        @if (ClubManageable.ContainsKey(item.Id))
+                        {
+                            if (ClubManageable[item.Id] == true)
+                            {
+                                @Html.Raw("|")
+                                @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+
+                                @Html.Raw("|")
+                                @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                            }
+                        }
+
                     </p>
                </li>
             }
@@ -123,10 +137,22 @@
                     <p>
                         @Html.DisplayFor(modelItem => item.description)
                         <br />
-                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, new { @class = "club-button" })
+                        <a href=@item.website>Club Page</a>
                         |
-                        @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, new { @class = "club-button" })
-                    </p>
+                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, new { @class = "club-button" })
+
+                        @if (ClubManageable.ContainsKey(item.Id))
+                        {
+                            if (ClubManageable[item.Id] == true)
+                            {
+                                @Html.Raw("|")
+                                @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+
+                                @Html.Raw("|")
+                                @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                            }
+                        }
+                        </p>
                 </li>
             }
         </ul>
