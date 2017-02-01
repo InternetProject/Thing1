@@ -127,14 +127,29 @@ namespace Thing1.Controllers
                 payment_time = System.DateTime.Now
             };
 
-            if (ModelState.IsValid)
-            {
-                db.ClubMemberships.Add(clubMembership);
-                db.payments.Add(payment);
-                db.SaveChanges();
-            }
+            ClubMembership CM = db.ClubMemberships.Add(clubMembership);
+            db.payments.Add(payment);
+            db.SaveChanges();
+            
+            return RedirectToAction("Success", new { clubId = CM.ClubId, clubMembershipId = CM.Id });
+            //return View("Success");
+        }
+        
+        public ActionResult Success(int? clubId, int? clubMembershipId)
+        {
+            // retrieve the database result and show the congraturation message
 
-            return View("Success");
+            Club club = db.Clubs.Find(clubId);
+            ClubMembership clubMembership = db.ClubMemberships.Find(clubMembershipId);
+
+            ViewBag.ClubId = club.Id;
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            ViewBag.WebSite = club.website;
+            ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
+            ViewBag.TermDate = clubMembership.TermDate.ToString("d");
+            
+            return View();            
         }
 
         private PayPal.Api.Payment payment;
