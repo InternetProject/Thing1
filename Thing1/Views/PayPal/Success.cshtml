@@ -1,7 +1,25 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+
 @{
-    ViewBag.Title = "Success";
+    ViewBag.Title = "Congraturation";
 }
 
-<h2>Success</h2>
+<h2>Welcome to @ViewBag.ClubName (@ViewBag.ClubNickName)!</h2>
+<h3> @User.Identity.GetUserName()!</h3>
+<br/>
+
+<h4>
+    Membership Period:
+    @{
+        var periodText = "";
+        periodText += " " + @ViewBag.JoinDate + "~" + @ViewBag.TermDate;
+    }
+
+    @Html.Raw(periodText)
+</h4>
+
+<br />
+<a href=@ViewBag.WebSite>Go to the Club Page</a>
+
+
 

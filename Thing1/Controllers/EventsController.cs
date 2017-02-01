@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Thing1.Models;
 using PagedList;
 using Thing1.Models.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
@@ -25,12 +26,11 @@ namespace Thing1.Controllers
             return View(upcomingEvents.OrderBy(e => e.StartsAt).ToPagedList(pageNumber, pageSize));
         }
 
-        //public ActionResult ClubEvents(int clubId)
-        //{
-        //    var clubEvents = db.ClubEvents.Where(c => c.ClubId == clubId);
-        //    var upcomingEvents = clubEvents.Where(c => c.Event.StartsAt > DateTime.Now).Include(c => c.Event);
-        //    return View(upcomingEvents.ToList());
-        //}
+        public ActionResult Calendar()
+        {
+            return View();
+        }
+
 
         // GET: Events/DisplayClubEvents
         public ActionResult DisplayClubEvents(int clubId)
@@ -61,6 +61,7 @@ namespace Thing1.Controllers
         public ActionResult Create(int clubID)
         {
             PopulateSponsoringClubs(clubID);
+            ViewBag.PrimaryClubID = clubID;
             return View();
         }
 
@@ -87,29 +88,63 @@ namespace Thing1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
-        public ActionResult Create([Bind(Include = "Title, StartsAt, EndsAt, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string[] sponsoringClubs)
+        public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string primaryClub, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
         {
-            System.Diagnostics.Debug.WriteLine("Clubs: " + sponsoringClubs);
-            if (sponsoringClubs != null)
+            int pclub = int.Parse(primaryClub);
+
+            if (CanCreateAndEditEvents(pclub))
             {
                 @event.Clubs = new List<Thing1.Models.Club>();
-                foreach (string clubID in sponsoringClubs)
+                @event.Clubs.Add(db.Clubs.Find(pclub));
+                if (sponsoringClubs != null)
                 {
-                    var clubToAdd = db.Clubs.Find(int.Parse(clubID));
-                    @event.Clubs.Add(clubToAdd);
+                    foreach (string clubID in sponsoringClubs)
+                    {
+                        var clubToAdd = db.Clubs.Find(int.Parse(clubID));
+                        @event.Clubs.Add(clubToAdd);
+                    }
+                }
+                DateTime sDate = Convert.ToDateTime(startDate);
+                TimeSpan sTime = TimeSpan.Parse(startTime);
+                DateTime start = sDate + sTime;
+
+                DateTime startsAt = Convert.ToDateTime(start);
+
+                DateTime eDate = Convert.ToDateTime(endDate);
+                TimeSpan eTime = TimeSpan.Parse(endTime);
+                DateTime end = eDate + eTime;
+
+                DateTime endsAt = Convert.ToDateTime(end);
+
+                @event.StartsAt = startsAt;
+                @event.EndsAt = endsAt;
+
+                if (ModelState.IsValid)
+                {
+                    db.Events.Add(@event);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
             }
-            if (ModelState.IsValid)
+            else
             {
-                db.Events.Add(@event);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-
             return View();
         }
 
-       
+        private bool CanCreateAndEditEvents(int clubID)
+        {
+            ClubMembership membership = new ClubMembership();
+            var userid = User.Identity.GetUserId();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubID).Single();
+
+            if (membership.CanEditClubData) return true;
+            else return false;
+
+        }
+
+
 
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
@@ -131,14 +166,47 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Title,Date,Time,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime)
         {
+            //if (CanCreateAndEditEvents(clubID))
+            //{
+            //@event.Clubs = new List<Thing1.Models.Club>();
+            //@event.Clubs.Add(db.Clubs.Find(pclub));
+            //if (sponsoringClubs != null)
+            //{
+            //    foreach (string clubID in sponsoringClubs)
+            //    {
+            //        var clubToAdd = db.Clubs.Find(int.Parse(clubID));
+            //        @event.Clubs.Add(clubToAdd);
+            //    }
+            //}
+            DateTime sDate = Convert.ToDateTime(startDate);
+            TimeSpan sTime = TimeSpan.Parse(startTime);
+            DateTime start = sDate + sTime;
+
+            DateTime startsAt = Convert.ToDateTime(start);
+
+            DateTime eDate = Convert.ToDateTime(endDate);
+            TimeSpan eTime = TimeSpan.Parse(endTime);
+            DateTime end = eDate + eTime;
+
+            DateTime endsAt = Convert.ToDateTime(end);
+
+            @event.StartsAt = startsAt;
+            @event.EndsAt = endsAt;
+
             if (ModelState.IsValid)
             {
                 db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            //}
+            //else
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            //}
+
             return View(@event);
         }
 

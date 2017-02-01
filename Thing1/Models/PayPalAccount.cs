@@ -12,12 +12,13 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserLogin
+    public partial class PayPalAccount
     {
-        public string LoginProvider { get; set; }
-        public string ProviderKey { get; set; }
-        public string UserId { get; set; }
+        public int Id { get; set; }
+        public int ClubId { get; set; }
+        public string PayPalClientId { get; set; }
+        public string PayPalClientSecret { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Club Club { get; set; }
     }
 }
