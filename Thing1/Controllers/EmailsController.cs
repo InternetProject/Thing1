@@ -39,7 +39,7 @@ namespace Thing1.Controllers
         }
 
         // GET: Emails/Create
-        public ActionResult Create()
+        public ActionResult Create(int? clubId)
         {
             return View();
         }
@@ -49,31 +49,39 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Subject,Body")] Email email, String everyone, String directors, String vps, String ft1styears, String ft2ndyears)
+        public async Task<ActionResult> Create([Bind(Include = "Subject,Body")] int? ClubId, Email email, String everyone, String directors, String vps, String ft1styears, String ft2ndyears)
         {
             if (ModelState.IsValid)
             {
+                // terminate if user is not logged in or not an officer of the club
+                var theUserId = User.Identity.GetUserId();
+                if (ClubId == null | ClubId == 0 | User.Identity == null | db.ClubMemberships.Where(c => c.AspNetUser.Id == theUserId & c.ClubId == ClubId & (c.Description.StartsWith("Director ") | c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))).ToList().Count == 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
                 email.SentBy = User.Identity.GetUserId();
-                email.ClubId = 2;
+                email.ClubId = (int)ClubId;
                 email.Sent = DateTime.Now;
 
-                var recipients = db.ClubMemberships.Where(c => everyone.Equals("on") | ((directors.Equals("on") & c.Description.StartsWith("Director ")) | (vps.Equals("on") & (c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))) | (ft1styears.Equals("on") & c.AspNetUser.Program.Equals("FT "+DateTime.Now.Year + (DateTime.Now.Month < 7 ? 1 : 2))) | (ft2ndyears.Equals("on") & c.AspNetUser.Program.Trim().Equals("FT " + (DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1))))) ).ToList();
+                var recipients = db.ClubMemberships.Where(c => (c.ClubId == ClubId) & (everyone.Equals("on") | ((directors.Equals("on") & c.Description.StartsWith("Director ")) | (vps.Equals("on") & (c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))) | (ft1styears.Equals("on") & c.AspNetUser.Program.Equals("FT " + DateTime.Now.Year + (DateTime.Now.Month < 7 ? 1 : 2))) | (ft2ndyears.Equals("on") & c.AspNetUser.Program.Trim().Equals("FT " + (DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1))))))).ToList();
                 var message = new MailMessage();
 
-                for (int i=0; i<recipients.Count; i++)
+                for (int i = 0; i < recipients.Count; i++)
                 {
                     message.Bcc.Add(new MailAddress(recipients[i].AspNetUser.Email));
                 }
 
                 message.Subject = email.Subject;
                 message.Body = email.Body;
-                message.From = new MailAddress(db.AspNetUsers.Find(email.SentBy).Email);
+                message.From = new MailAddress(db.AspNetUsers.Find(email.SentBy).Email);// "the.internet.project.ucla@gmail.com");
+                message.ReplyToList.Add(message.From);
 
                 db.Emails.Add(email);
                 db.SaveChanges();
                 // still need to insert into Recipients.
 
-                
+
                 using (var smtp = new SmtpClient())
                 {
                     var credential = new NetworkCredential
@@ -88,9 +96,8 @@ namespace Thing1.Controllers
                     await smtp.SendMailAsync(message);
                     return RedirectToAction("Index");
                 }
-                
 
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
             }
 
             return View(email);
