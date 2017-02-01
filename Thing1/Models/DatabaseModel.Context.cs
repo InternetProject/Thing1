@@ -31,8 +31,11 @@ namespace Thing1.Models
         public virtual DbSet<Club> Clubs { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<EventsRSVP> EventsRSVPs { get; set; }
         public virtual DbSet<MembershipOption> MembershipOptions { get; set; }
         public virtual DbSet<payment> payments { get; set; }
+        public virtual DbSet<PayPalAccount> PayPalAccounts { get; set; }
+        public virtual DbSet<Recipient> Recipients { get; set; }
         public virtual DbSet<TypesOfClub> TypesOfClubs { get; set; }
         public virtual DbSet<TypesOfMembershipOption> TypesOfMembershipOptions { get; set; }
         public virtual DbSet<TypesOfRecipient> TypesOfRecipients { get; set; }

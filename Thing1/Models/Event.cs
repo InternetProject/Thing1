@@ -17,22 +17,27 @@ namespace Thing1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Event()
         {
-            this.ClubEvents = new HashSet<ClubEvent>();
+            this.EventsRSVPs = new HashSet<EventsRSVP>();
+            this.Clubs = new HashSet<Club>();
         }
     
-        public string Title { get; set; }
-        public string Location { get; set; }
         public int Id { get; set; }
+        public System.DateTime StartsAt { get; set; }
+        public System.DateTime EndsAt { get; set; }
+        public string Location { get; set; }
         public string Description { get; set; }
         public string TargetAudience { get; set; }
-        public int IsPublic { get; set; }
+        public bool IsPublic { get; set; }
         public string Food { get; set; }
         public string Contact { get; set; }
         public Nullable<decimal> Price { get; set; }
-        public System.DateTime StartsAt { get; set; }
-        public System.DateTime EndsAt { get; set; }
+        public string Title { get; set; }
+        public Nullable<int> ClubId { get; set; }
     
+        public virtual Club Club { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClubEvent> ClubEvents { get; set; }
+        public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Club> Clubs { get; set; }
     }
 }

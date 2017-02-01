@@ -11,4 +11,8 @@
     });
 
     $(".expandable-menu dt a").click();
+
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+    })
 });

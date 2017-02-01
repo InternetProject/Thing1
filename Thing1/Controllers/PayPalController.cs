@@ -10,16 +10,34 @@ namespace Thing1.Controllers
 {
     public class PayPalController : Controller
     {
+
+        private user_managementEntities db = new user_managementEntities();
+
+        Int32 TransactionId = (Int32)(System.DateTime.Now.Ticks + (new Random()).Next(100000));
         // GET: PayPal
         public ActionResult Index()
         {
             return View();
         }
 
+
+
+
+        //public ActionResult PaymentWithPaypal(int? clubId, string name, string currency, string price, string quantity)
         public ActionResult PaymentWithPaypal([Bind(Include = "name,currency,price,quantity")] Item item)
         {
+            //Item item = new Item();
+            //item.name = name;
+            //item.currency = currency;
+            //item.price = price;
+            //item.quantity = quantity;
+            
+            var clubMembership = Session["ClubMembership Object"] as ClubMembership;
+            var membershipOption = Session["MembershipOption Object"] as MembershipOption;
+
             //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext();
+            APIContext apiContext = Configuration.GetAPIContext(clubMembership.ClubId);
+            //APIContext apiContext = Configuration.GetAPIContext();
 
             try
             {
@@ -97,7 +115,41 @@ namespace Thing1.Controllers
                 return View("Failure");
             }
 
-            return View("Success");
+
+            var payment = new payment
+            {
+                TransactionId = TransactionId,
+                AspNetUser = clubMembership.AspNetUser,
+                clubID = clubMembership.ClubId,
+                userID = clubMembership.UserId,
+                amount = membershipOption.Price,//Convert.ToInt32(item.price),
+                payment_type = "membership",
+                payment_time = System.DateTime.Now
+            };
+
+            ClubMembership CM = db.ClubMemberships.Add(clubMembership);
+            db.payments.Add(payment);
+            db.SaveChanges();
+            
+            return RedirectToAction("Success", new { clubId = CM.ClubId, clubMembershipId = CM.Id });
+            //return View("Success");
+        }
+        
+        public ActionResult Success(int? clubId, int? clubMembershipId)
+        {
+            // retrieve the database result and show the congraturation message
+
+            Club club = db.Clubs.Find(clubId);
+            ClubMembership clubMembership = db.ClubMemberships.Find(clubMembershipId);
+
+            ViewBag.ClubId = club.Id;
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            ViewBag.WebSite = club.website;
+            ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
+            ViewBag.TermDate = clubMembership.TermDate.ToString("d");
+            
+            return View();            
         }
 
         private PayPal.Api.Payment payment;
@@ -147,7 +199,7 @@ namespace Thing1.Controllers
             transactionList.Add(new Transaction()
             {
                 description = "Transaction description.",
-                invoice_number = "your invoice number",
+                invoice_number = TransactionId.ToString(),
                 amount = amount,
                 item_list = itemList
             });

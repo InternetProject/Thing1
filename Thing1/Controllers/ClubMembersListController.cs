@@ -17,9 +17,17 @@ namespace Thing1.Controllers
         // GET: ClubMembersList
         public ActionResult Index(int? id)
         {
-            int clubid = 1;
             var clubMemberships = db.ClubMemberships.Include(c => c.AspNetUser).Include(c => c.Club).Include(c => c.MembershipOption).Include(c => c.TypesOfRole);
-            return View(clubMemberships.Where(c => c.ClubId == clubid).ToList());
+            if (id == null)
+            {
+                return View(clubMemberships.ToList());
+            }
+            else
+            {
+                var clubid = id;
+                return View(clubMemberships.Where(c => c.ClubId == clubid).ToList());
+
+            }
         }
 
         // GET: ClubMembersList/Details/5

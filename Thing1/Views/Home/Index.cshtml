@@ -35,7 +35,7 @@
                 @foreach (var item in Model)
                 {
                     if (!item.CanEditClubData) { continue; }
-                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Management", "Clubs", new { Id = item.Club.Id }, null)</dd>
                 }
             </dl>
             <!--list of clubs user is a member in-->

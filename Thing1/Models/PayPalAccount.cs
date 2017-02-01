@@ -12,13 +12,13 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ClubEvent
+    public partial class PayPalAccount
     {
         public int Id { get; set; }
-        public int EventId { get; set; }
         public int ClubId { get; set; }
+        public string PayPalClientId { get; set; }
+        public string PayPalClientSecret { get; set; }
     
         public virtual Club Club { get; set; }
-        public virtual Event Event { get; set; }
     }
 }

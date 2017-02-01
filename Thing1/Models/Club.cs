@@ -19,9 +19,11 @@ namespace Thing1.Models
         {
             this.ClubMemberships = new HashSet<ClubMembership>();
             this.Emails = new HashSet<Email>();
+            this.Events = new HashSet<Event>();
             this.MembershipOptions = new HashSet<MembershipOption>();
             this.payments = new HashSet<payment>();
-            this.ClubEvents = new HashSet<ClubEvent>();
+            this.PayPalAccounts = new HashSet<PayPalAccount>();
+            this.Events1 = new HashSet<Event>();
         }
     
         public int Id { get; set; }
@@ -40,10 +42,14 @@ namespace Thing1.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Email> Emails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Event> Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MembershipOption> MembershipOptions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<payment> payments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ClubEvent> ClubEvents { get; set; }
+        public virtual ICollection<PayPalAccount> PayPalAccounts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Event> Events1 { get; set; }
     }
 }
