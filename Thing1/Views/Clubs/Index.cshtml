@@ -1,92 +1,77 @@
-﻿@using Microsoft.AspNet.Identity
-@using System.Linq
-@model IEnumerable<Thing1.Models.Club>
-<!--model2 IEnumerable<Thing1.Models.ClubMembership>-->
+﻿@model IEnumerable<Thing1.Models.Club>
 
-    @{
-        ViewBag.Title = "Clubs and Associations at Anderson";
-    }
+@{
+    ViewBag.Title = "Clubs and Associations at Anderson";
+}
 
-    <h2>Clubs and Associations at Anderson</h2>
+<h2>Clubs and Associations at Anderson</h2>
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 
-    <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#professional">Professional</a></li>
-        <li><a data-toggle="tab" href="#identity">Identity</a></li>
-        <li><a data-toggle="tab" href="#interest">Interest</a></li>
-    </ul>
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#professional">Professional</a></li>
+    <li><a data-toggle="tab" href="#identity">Identity</a></li>
+    <li><a data-toggle="tab" href="#interest">Interest</a></li>
+</ul>
 
-    <div class="tab-content">
-        <div id="professional" class="tab-pane active">
-            <ul class="professional-ul">
-                @foreach (var item in Model)
-                {
-                    if (!item.TypesOfClub.Description.Equals("Professional")) { continue; }
+<div class="tab-content">
+    <div id="professional" class="tab-pane active">
+        <ul class="professional-ul">
+            @foreach (var item in Model)
+            {
+                if (!item.TypesOfClub.Description.Equals("Professional")) { continue; }
 
                 <li class="professional-li">
-                    <img src="~/Content/Images/RBA-LOGO.png" style="height:auto; width:150px" />
-                    <h3>
-                        @Html.DisplayFor(modelItem => item.name)
-                    @if (!item.nickname.IsEmpty())
-                    {
-                        @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
-                    }
-                </h3>
-                <p>
-                    @Html.DisplayFor(modelItem => item.description)
-                <br />
-                @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-                |
-                  @{
-                      var clubMemberships = new List<Thing1.Models.ClubMembership>();
-                      var record = clubMemberships.Find(c => c.UserId == User.Identity.GetUserId() && c.ClubId == item.Id);
-                      if (record.CanEditClubData.Equals(true))
-                      {
-                        @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-                      }
-                  }
-            </p>
-        </li >
-                }
-            </ ul >
-        </ div >
+                  <img src="~/Content/Images/RBA-LOGO.png" style="height:auto; width:150px" />
+                  <h3>@Html.DisplayFor(modelItem => item.name)
+                  @if (!item.nickname.IsEmpty())
+                  {
+                    @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                  }</h3>
+                  <p>@Html.DisplayFor(modelItem => item.description)
+                  <br/>
+                  @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                  |
+                  @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)</p>
+              </li>
+            }
+        </ul>
+    </div>
 
-        < div id = "identity" class="tab-pane">
-            <ul class="identity-ul">
-                @foreach(var item in Model)
-                              {
-                                  if (!item.TypesOfClub.Description.Equals("Identity")) { continue; }
+    <div id="identity" class="tab-pane">
+        <ul class="identity-ul">
+            @foreach (var item in Model)
+            {
+                if (!item.TypesOfClub.Description.Equals("Identity")) { continue; }
 
                 <li class="identity-li">
-                    <img src = "~/Content/Images/GCBA.png" style="height:auto; width:150px" />
+                    <img src="~/Content/Images/GCBA.png" style="height:auto; width:150px" />
                     <h3>
                         @Html.DisplayFor(modelItem => item.name)
-                        @if(!item.nickname.IsEmpty())
+                        @if (!item.nickname.IsEmpty())
                         {
-                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
+                          @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                         }
                     </h3>
                     <p>
-                        @Html.DisplayFor(modelItem => item.description)
-                        <br />
-                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id
-                      }, null)
-                        |
-                        @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+                    @Html.DisplayFor(modelItem => item.description)
+                    <br />
+                    @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                    |
+                    @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
                     </p>
-                </li>
-                }
-            </ul>
-        </div>
+               </li>
+            }
+        </ul>
+    </div>
 
-        <div id = "interest" class="tab-pane">
-            <ul class="interest-ul">
-                @foreach(var item in Model)
-                      {
-                          if (!item.TypesOfClub.Description.Equals("Interest")) { continue; }
+    <div id="interest" class="tab-pane">
+        <ul class="interest-ul">
+            @foreach (var item in Model)
+            {
+                if (!item.TypesOfClub.Description.Equals("Interest")) { continue; }
 
                 <li class="interest-li">
                     @*<img src="data:image/png;base64,@item.image" height="175" width="175" />*@
@@ -106,7 +91,7 @@
                         @Html.ActionLink("Edit Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, new { @class = "club-button" })
                     </p>
                 </li>
-                }
-            </ul>
-        </div>
+            }
+        </ul>
     </div>
+</div>
