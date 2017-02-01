@@ -33,6 +33,32 @@
             </div>
     
             <div class="form-group">
+                <label class="control-label col-md-2">Event Start Date</label>
+                <div class="col-md-2">
+                    <input class="form-control" type="date" name="startDate" value="@Model.StartsAt.Date.ToString("yyyy-MM-dd")"/>
+                    @Html.ValidationMessageFor(model => model.StartsAt, "", new { @class = "text-danger" })
+                </div>
+                <label class="control-label col-md-1">Time</label>
+                <div class="col-md-2">
+                    <input class="form-control" type="time" name="startTime" value="@Model.StartsAt.TimeOfDay"/>
+                    @Html.ValidationMessageFor(model => model.StartsAt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">Event End Date</label>
+                <div class="col-md-2">
+                    <input class="form-control" type="date" name="endDate" value="@Model.EndsAt.Date.ToString("yyyy-MM-dd")"/>
+                    @Html.ValidationMessageFor(model => model.EndsAt, "", new { @class = "text-danger" })
+                </div>
+                <label class="control-label col-md-1">Time</label>
+                <div class="col-md-2">
+                    <input class="form-control" type="time" name="endTime" value="@Model.EndsAt.TimeOfDay"/>
+                    @Html.ValidationMessageFor(model => model.EndsAt, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
                 @Html.LabelFor(model => model.StartsAt, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.StartsAt, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
@@ -46,7 +72,7 @@
                     @Html.EditorFor(model => model.EndsAt, new { htmlAttributes = new { @class = "form-control", type = "datetime-local" } })
                     @Html.ValidationMessageFor(model => model.EndsAt, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div>*@
     
             <div class="form-group">
                 @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -56,6 +82,7 @@
                 </div>
             </div>
     
+            @*<input type="hidden" name="clubID" value="@Model.Clubs." />*@
             @Html.HiddenFor(model => model.Id)
     
             <div class="form-group">
