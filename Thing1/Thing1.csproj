@@ -597,6 +597,7 @@
     <Content Include="Views\PayPalAccounts\ViewPayPalAccount.cshtml" />
     <Content Include="Views\PayPalAccounts\PayPalAccountAlreadyExist.cshtml" />
     <Content Include="Views\Events\Calendar.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
