@@ -146,6 +146,23 @@ namespace Thing1.Controllers
             //  .Where(cm => cm.Club.Id == id);
         }
 
+        // GET: api/ClubsWS/5/Events
+        [Route("{id:int}/Events")]
+        public IQueryable<EventDto> GetClubEvents(int id)
+        {
+
+            return (from e in db.Events
+                    where e.ClubId == id
+                    
+                    select new EventDto
+                    {
+                        StartsAt = e.StartsAt,
+                        Title = e.Title,
+                        Location = e.Location,
+                        Description = e.Description
+                    });
+         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

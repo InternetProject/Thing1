@@ -22,6 +22,7 @@ namespace Thing1.Models
             this.Emails = new HashSet<Email>();
             this.payments = new HashSet<payment>();
             this.EventsRSVPs = new HashSet<EventsRSVP>();
+            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
@@ -54,5 +55,7 @@ namespace Thing1.Models
         public virtual ICollection<payment> payments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }

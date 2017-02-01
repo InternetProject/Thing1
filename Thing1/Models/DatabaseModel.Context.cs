@@ -25,6 +25,7 @@ namespace Thing1.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<ClubMembership> ClubMemberships { get; set; }
         public virtual DbSet<Club> Clubs { get; set; }
