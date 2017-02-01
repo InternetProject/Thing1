@@ -104,6 +104,10 @@ namespace Thing1.Controllers
             ViewBag.ClubNickName = club.nickname;
             ViewBag.MembershipOptions = club.MembershipOptions.ToList();
 
+            string userId = User.Identity.GetUserId();
+
+            ViewBag.ClubMemberships = db.ClubMemberships.Where(c => c.UserId == userId && c.ClubId == clubId).ToList();
+
             //Serialize
             Session["Club Object"] = club;
             
@@ -121,10 +125,27 @@ namespace Thing1.Controllers
             if (ModelState.IsValid)
             {
 
-                //db.ClubMemberships.Add(clubMembership);
-                //db.SaveChanges();
+                // duplicate check
+                List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == clubMembership.UserId && c.ClubId == clubMembership.ClubId).ToList();
+
+                if(list.Count > 0)
+                {
+                    foreach(ClubMembership item in list)
+                    {
+                        if(item.MembershipOptionId == clubMembership.MembershipOptionId)
+                        {
+                            // duplicate membership exist
+                            return RedirectToAction("DuplicateMembership", new {
+                                duplicateClubId = clubMembership.ClubId,
+                                duplicateMembershipOptionId = clubMembership.MembershipOptionId,
+                            });
+                        }
+
+                    }
+                }
 
 
+                // proceed with new membership
                 MembershipOption membershipOption = db.MembershipOptions.Where(n=> n.Id == clubMembership.MembershipOptionId).ToList().First();
 
                 if (membershipOption == null)
@@ -133,8 +154,10 @@ namespace Thing1.Controllers
                 }
 
                 clubMembership.JoinDate = DateTime.Now;
-                clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
-                
+                //clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
+                clubMembership.TermDate = membershipOption.ExpDate;
+                clubMembership.Description = membershipOption.Description;
+
                 // Serialize
                 Session["ClubMembership Object"] = clubMembership;
                 Session["MembershipOption Object"] = membershipOption;
@@ -147,6 +170,24 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
+        public ActionResult DuplicateMembership(int? duplicateClubId, int? duplicateMembershipOptionId)
+        {
+            string userId = User.Identity.GetUserId();
+
+            MembershipOption membershipOption = db.MembershipOptions.Where(n => n.Id == duplicateMembershipOptionId).ToList().First();
+            ClubMembership clubMembership = db.ClubMemberships.Where(n => n.ClubId == duplicateClubId && n.UserId == userId && n.MembershipOptionId == duplicateMembershipOptionId).ToList().First();
+            Club club = db.Clubs.Find(duplicateClubId);
+
+            ViewBag.DuplicateClubId = duplicateClubId;
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            ViewBag.Duration = membershipOption.Duration;
+            ViewBag.JoinDate = clubMembership.JoinDate.Day + "/" + clubMembership.JoinDate.Month + "/" + clubMembership.JoinDate.Year;
+            ViewBag.TermDate = clubMembership.TermDate.Day + "/" + clubMembership.TermDate.Month + "/" + clubMembership.TermDate.Year;
+            ViewBag.Description = membershipOption.Description;
+
+            return View();
+        }
 
         // GET: ClubMemberships/MembershipOptionConfirmation/5
         [Authorize]
@@ -168,8 +209,8 @@ namespace Thing1.Controllers
             ViewBag.Price = membershipOption.Price;
             ViewBag.Duration = membershipOption.Duration;
             ViewBag.MembershipOptionId = membershipOption.Id;
-            ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
-            ViewBag.TermDate = clubMembership.TermDate.ToString("d");
+            ViewBag.JoinDate = clubMembership.JoinDate.ToString("G");
+            ViewBag.TermDate = clubMembership.TermDate.ToString("G");
             ViewBag.Description = membershipOption.Description;
 
             //Store description: membershipOption.Description for membershipOption == clubMembership.MembershipOption and ClubID == club.ClubID
@@ -211,49 +252,37 @@ namespace Thing1.Controllers
             {
                 db.ClubMemberships.Add(clubMembership);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Success", "PayPal", new { clubId = clubMembership.ClubId, clubMembershipId = clubMembership.Id });
             }
-
+            else
+            {
+            // Need to repopulate the SelectList (for free payment on MembershipOptionConfirmation.cshtml file)
+            // http://stackoverflow.com/questions/3393521/the-viewdata-item-that-has-the-key-my-key-is-of-type-system-string-but-must
+            
+            
+            // For UserIds
+            IEnumerable<SelectListItem> userIds = db.ClubMemberships.Select(
+                x => new SelectListItem { Value = x.UserId, Text = x.UserId });
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
-            return View(clubMembership);
+            ViewData["UserId"] = userIds;
+
+            // For MembershipOptionIds
+            IEnumerable<SelectListItem> membershipOptionIds = db.ClubMemberships.Select(
+                x => new SelectListItem { Value = x.MembershipOptionId.ToString(), Text = x.MembershipOptionId.ToString() });
+            ViewData["MembershipOptionId"] = membershipOptionIds;
+
+            // For ClubId
+            IEnumerable<SelectListItem> clubIds = db.ClubMemberships.Select(
+                x => new SelectListItem { Value = x.ClubId.ToString(), Text = x.ClubId.ToString() });
+            ViewData["ClubId"] = clubIds;
+             
+            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
+
+            return RedirectToAction("Success", "PayPal", new { clubId = clubMembership.ClubId, clubMembershipId = clubMembership.Id });
+
+            //return View(clubMembership);
+            }
         }
-
-        //public ActionResult Test(TestModel testData)
-        //{
-        //    /*
-        //     * string tempMessage = testData.UserId + " " +
-        //                        testData.ClubId + " " +
-        //                        testData.MembershipOptionId + " " +
-        //                        testData.RoleId + " " +
-        //                        testData.TermDate + " " +
-        //                        testData.JoinDate + " " +
-        //                        testData.Description + " " +
-        //                        testData.HasAccessToFinance + " " +
-        //                        testData.CanEditClubData + " " +
-        //                        testData.Violation;
-        //    */
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    //}
-
-
-        //     ClubMembership clubMembership = new ClubMembership();
-        //     clubMembership.UserId = testData.UserId;
-        //     clubMembership.ClubId = testData.ClubId;
-        //     clubMembership.MembershipOptionId = testData.MembershipOptionId;
-        //     clubMembership.RoleId = testData.RoleId;
-        //     clubMembership.TermDate = testData.TermDate;
-        //     clubMembership.JoinDate = testData.JoinDate;
-        //     clubMembership.Description = testData.Description;
-        //     clubMembership.HasAccessToFinance = testData.HasAccessToFinance;
-        //     clubMembership.CanEditClubData = testData.CanEditClubData;
-        //     clubMembership.Violation = testData.Violation;
-
-        //     db.ClubMemberships.Add(clubMembership);
-        //     db.SaveChanges();
-        //     return RedirectToAction("Index");
-        //}
 
         // GET: ClubMemberships/Edit/5
         public ActionResult Edit(int? id)

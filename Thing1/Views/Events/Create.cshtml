@@ -20,22 +20,22 @@
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Event</h4>
+        <div class="form-horizontal" id="create-form">
+            <h4>Create a new event - Enter details below</h4>
             <hr />
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                <label class="control-label col-md-2">Event Title</label>
+                <label class="control-label col-md-2">Title</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control"} })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Start Date</label>
-                <div class="col-md-2">
+                <label class="control-label col-md-2">Start Date</label>
+                <div class="col-md-3">
                     <input class="form-control" type="date" name="startDate" />
                     @Html.ValidationMessageFor(model => model.StartsAt, "", new { @class = "text-danger" })
                 </div>
@@ -47,9 +47,9 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event End Date</label>
-                <div class="col-md-2">
-                    <input class="form-control" type="date" name="endDate" />
+                <label class="control-label col-md-2">End Date</label>
+                <div class="col-md-3">
+                    <input class="form-control" type="date" name="endDate"  />
                     @Html.ValidationMessageFor(model => model.EndsAt, "", new { @class = "text-danger" })
                 </div>
                 <label class="control-label col-md-1">Time</label>
@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Location</label>
+                <label class="control-label col-md-2">Location</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
@@ -68,7 +68,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Description</label>
+                <label class="control-label col-md-2">Description</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
@@ -76,7 +76,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Target Audience</label>
+                <label class="control-label col-md-2">Target Audience</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.TargetAudience, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.TargetAudience, "", new { @class = "text-danger" })
@@ -84,15 +84,15 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Is Public</label>
+                <label class="control-label col-md-2">Open to everyone</label>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.IsPublic, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.CheckBoxFor(model => model.IsPublic)
                     @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Catered Food From</label>
+                <label class="control-label col-md-2">Catered Food</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Food, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Food, "", new { @class = "text-danger" })
@@ -100,7 +100,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Contact Info</label>
+                <label class="control-label col-md-2">Contact Info</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Contact, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Contact, "", new { @class = "text-danger" })
@@ -108,7 +108,7 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-md-2">Event Price</label>
+                <label class="control-label col-md-2">Price</label>
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
@@ -118,7 +118,7 @@
             <div class="form-group">
                 <label class="control-label col-md-2">Other Sponsoring Clubs</label>
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="hidden" name="primaryClub" value="@ViewBag.PrimaryClubID"/>
+                    <input type="hidden" name="primaryClubID" value="@ViewBag.PrimaryClubID"/>
                     <table>
                         <tr>
                             @{
@@ -138,14 +138,36 @@
                                             <label for="clubID">@club.Name</label>
                                         @:</td>
                                     }
-                                   
-                                 }
+
+                                }
                                  @:</tr>
                               }
                     </table>
                 </div>
             </div>
-
+    
+            @* drop down list - issue with passing multiple clubs
+            <div class="form-group">
+                <label class="control-label col-md-2">Sponsoring Clubs</label>
+                <div class="col-md-10">
+                    <input type="hidden" name="primaryClubID" value="@ViewBag.PrimaryClubID" />
+                    <select multiple>
+                        @{
+                            List<Thing1.Models.ViewModels.SponsoringClubData> clubs = ViewBag.Clubs;
+                            foreach (var club in clubs)
+                            {
+                                if (club.ClubID != ViewBag.PrimaryClubID)
+                                {
+                                    <option id="@club.ClubID" name="sponsoringClubs" value="@club.ClubID">
+                                        @club.Name
+                                    </option>
+                                    }
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            *@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Create" class="btn btn-default" />
@@ -154,7 +176,7 @@
         </div>
     }
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Back to Club", "Details", "Clubs", new { id = ViewBag.PrimaryClubId}, null)
     </div>
 </body>
 </html>

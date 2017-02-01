@@ -17,90 +17,123 @@
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Title)
+                Event Title
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Title)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.StartsAt)
+                Start Time
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.StartsAt)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.EndsAt)
+                End Time
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.EndsAt)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.Location)
+                Location
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Location)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Description)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.TargetAudience)
+               Open To
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.TargetAudience)
             </dd>
-    
+            <!--
             <dt>
-                @Html.DisplayNameFor(model => model.IsPublic)
+                Html.DisplayNameFor(model => model.IsPublic)
             </dt>
-    
+
             <dd>
-                @Html.DisplayFor(model => model.IsPublic)
+                Html.DisplayFor(model => model.IsPublic)
             </dd>
-    
+                -->
+
             <dt>
-                @Html.DisplayNameFor(model => model.Food)
+                Food
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Food)
             </dd>
-    
+
             <dt>
-                @Html.DisplayNameFor(model => model.Contact)
+                Main Contact
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Contact)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Price)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Price)
             </dd>
-    
+
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @{
+            var sponsorClubs = new List<Thing1.Models.Club>();
+            var displayEdit = false;
+            sponsorClubs = Model.Clubs.ToList();
+            foreach (var club in sponsorClubs)
+            {
+                var clubMemberships = new List<Thing1.Models.ClubMembership>();
+                clubMemberships = club.ClubMemberships.ToList();
+                foreach (var membership in clubMemberships)
+                {
+                    if (membership.CanEditClubData)
+                    {
+                        displayEdit = true;
+                    }
+                }
+            }
+            if (displayEdit)
+            {
+            <p>
+                @Html.ActionLink("Show RSVPs...", "DisplayRSVPs", "EventsRSVPs", new { eventId = Model.Id }, null) | 
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) 
+
+            </p>
+            }
+        }
+        <!--RSVP Link below-->
+       @{
+          if (ViewBag.isClubMember == true)
+            {
+                <p>@Html.ActionLink("RSVP...", "Create", "EventsRSVPs", new { eventId = Model.Id }, null)</p>
+            }
+        }
         @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
+        </p>
+    </body>
 </html>

@@ -13,6 +13,28 @@
     $(".expandable-menu dt a").click();
 
     $('#calendar').fullCalendar({
-        // put your options and callbacks here
-    })
+        timezone: 'local',
+        events: '/Events/CalendarData',
+        eventRender: function (event, element, view) {
+            for (var i in event.clubIds) {
+                if ($("#show-club-" + event.clubIds[i]).is(":checked"))
+                    return true;
+            }
+            return false;
+        },
+        error: function () { console.log("Error parsing events") }
+    });
+
+    $(".show-club-checkbox").on('change', function () {
+        $('#calendar').fullCalendar("rerenderEvents");
+    });
+
+    $("#select-all-clubs-calendar").click(function () {
+        $(".show-club-checkbox").prop("checked", true);
+        $('#calendar').fullCalendar("rerenderEvents");
+        return false;
+    });
+
+    $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
 });
+

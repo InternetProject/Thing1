@@ -1,28 +1,53 @@
-﻿@{
+﻿@model Thing1.Models.ViewModels.HomePageViewModel
+
+@{
     ViewBag.Title = "Club Portal Home";
 }
 
-<!--Calendar and links to other pages-->
-<div class="jumbotron">
-    <h1 class="scriptfont">Welcome to the Anderson Club Portal!</h1>
-    <p>@Html.ActionLink("Join Clubs Now", "Index", "Clubs", null, new { @class = "button" })</p>
+<!--Header-->
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <div class="page-header text-center">
+            <img src="~/Content/Images/UCLA-Anderson-logo.png" class="img-responsive center-block" alt="Responsive image">
+        </div>
+    </div>
 </div>
-
 
 <div class="row">
     <!--ASA Master Calendar goes here-->
     <div class="col-md-5 panel-default">
-        <div class="panel-heading">ASA Event Calendar</div>
+        <div class="panel-heading">All Anderson Events</div>
         <div class="panel-body">
-            <p>@Html.ActionLink("Events", "Index", "Events", null, new { @class = "button" })</p>
-          <!--  <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=MONTH&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=c4c.ucla%40gmail.com&ctz=America/Los_Angeles" style="border: 0; width: 100%; height:300px" frameborder="0" scrolling="yes"></iframe>-->
+            <div class="list-group">
+                @foreach (var e in Model.eventsToDisplay)
+                {
+                    <a href="@Url.Action("Details", "Events", new { id = e.Id })" class="list-group-item">
+                        <span class="badge">@e.StartsAt.ToString("MMM dd")<br />@e.StartsAt.ToString("h:mm tt")</span>
+
+                        <h4 class="list-group-item-heading ">@e.Title</h4>
+                        <p class="list-group-item-text">@((e.Description.Length > 100) ? e.Description.Substring(0, 100) + "..." : e.Description)</p>
+                    </a>
+                }
+            </div>        
+            <p>@Html.ActionLink("See All", "Index", "Events", null, null)</p>
         </div>
     </div>
     <!--Show list of user's upcoming events-->
     <div class="col-md-5 panel-default">
         <div class="panel-heading">My Upcoming Events</div>
         <div class="panel-body">
-            <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=v4dpb5tlq8ic4sp4tdrqlg3dvk%40group.calendar.google.com&amp;color=%23711616&amp;ctz=America%2FLos_Angeles" style="border: 0; width: 100%; height: 300px;" frameborder="0" scrolling="yes"></iframe>
+            <div class="list-group">
+                @foreach (var e in Model.myEvents)
+                {
+                    <a href="@Url.Action("Details", "Events", new { id = e.Id })" class="list-group-item">
+                        <span class="badge">@e.StartsAt.ToString("MMM dd")<br/>@e.StartsAt.ToString("h:mm tt")</span>
+
+                        <h4 class="list-group-item-heading ">@e.Title</h4>
+                        <p class="list-group-item-text">@((e.Description.Length > 100) ? e.Description.Substring(0, 100) + "..." : e.Description)</p>
+                    </a>
+                }
+            </div>
+            <p><a href="/Events#my">See All</a></p>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->
@@ -30,20 +55,20 @@
         <div class="panel-heading">My Clubs</div>
         <div class="panel-body">
             <!--List of clubs user is an officer in-->
-            <dl class="list-unstyled expandable-menu">
-                <dt>Officer <a href="#">[+]</a></dt>
-                @foreach (var item in Model)
+            <dl class="list-unstyled">
+                <dt>Officer</dt>
+                @foreach (var item in Model.clubMemberships)
                 {
                     if (!item.CanEditClubData) { continue; }
-                    <dd>@Html.ActionLink((string)item.Club.nickname, "Management", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { id = item.Club.Id }, null)</dd>
                 }
             </dl>
             <!--list of clubs user is a member in-->
-            <dl class="list-unstyled expandable-menu">
-                <dt>Member <a href="#">[+]</a></dt>
-                @foreach (var item in Model)
+            <dl class="list-unstyled">
+                <dt>Member</dt>
+                @foreach (var item in Model.clubMemberships)
                 {
-                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { id = item.Club.Id }, null)</dd>
                 }
             </dl>
         </div>

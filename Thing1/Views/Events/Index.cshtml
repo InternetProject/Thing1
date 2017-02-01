@@ -1,60 +1,135 @@
-﻿@model PagedList.IPagedList<Thing1.Models.Event>
+﻿@model Thing1.Models.ViewModels.EventsViewModel
 @using PagedList.Mvc;
-
+@using System.Collections.Generic;
 @{
     ViewBag.Title = "Upcoming ASA Events";
 }
-<p></p>
-@Html.ActionLink("Display club events", "DisplayClubEvents", "Events", new { clubID = 3 }, null)
 
-<div class="text-center">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
-</div>
+<div class="row">
+    <div class="col-md-2">
+        <a class="btn btn-primary" href=@Url.Action("Calendar") role="button">Calendar View</a>
+        <br />
+        Filter by:
+        @using (Html.BeginForm("Index", "Events", FormMethod.Get))
+        {
+            <select class="form-control" name="clubID">
+                @foreach (var club in Model.clubs)
+                {
+                    <option value="@club.Id"
+                            @if (ViewBag.currentClub == club.Id) { @: selected="selected"
+                                                                                }>
+                        @Html.DisplayFor(modelItem => club.nickname)
+                    </option>
+                }
+            </select>
+            <input type="submit" value="Filter" />
+        }
+        <br />
+        Find by keyword:
+        @using (Html.BeginForm("Index", "Events", FormMethod.Get))
+        {
+            @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        }
+    </div>
 
-@foreach (var item in Model)
-{
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+    <div class="col-md-8">
+        <ul class="nav nav-tabs">
+            <li class="active"><a id="all-link" data-toggle="tab" href="#all">All Events</a></li>
+            <li><a id="my-link" data-toggle="tab" href="#my">My Upcoming Events</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="all" class="tab-pane active">
+                @foreach (var item in Model.events)
+                {
+                    <div class="row">
+                        <div class="col-md-7 col-md-offset-1">
+                            <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </a>
+                            <p>
+                                <dl class="list-unstyled">
+                                    <dd><b>Date: </b>@item.StartsAt.ToString("D") </dd>
+                                    <dd><b>Time: </b>@item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dd>
+                                    <dd><b>Location: </b>@Html.DisplayFor(modelItem => item.Location)</dd>
+                                    <dd><b>Description: </b>@Html.DisplayFor(modelItem => item.Description)</dd>
+                                    <dd><b>Primary Club: </b>@Html.DisplayFor(modelItem => item.Club.nickname)</dd>
+                                    <dd>
+                                        <b>Open to: </b>
+                                        @if (item.IsPublic)
+                                        {
+                                            @:Everyone
+                                        }
+                                        else
+                                        {
+                                            @:Members of
+                                            foreach (var club in item.Clubs)
+                                            {
+                                                @Html.DisplayFor(modelItem => club.nickname) <text> </text>
+                                            }
+                                        }
+                                    </dd>
+                                </dl>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/Content/Images/@item.Club.nickname-LOGO.png" style="height:auto; width:150px" />
+                        </div>
+                    </div>
+                }
+                <br />
+                <div class="text-center">
+                    @Html.PagedListPager(Model.events, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
                 </div>
-                <div class="panel-body">
-                    <dl class="list-unstyled">
-                        <dt>Date: @item.StartsAt.ToString("D")</dt>
-                        <dt>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dt>
-                        <dt>Location: @Html.DisplayFor(modelItem => item.Location)</dt>
-                        <dt>Description: @Html.DisplayFor(modelItem => item.Description)</dt>
-                        <dt>Open to:
-                            @if (item.IsPublic)
-                            {
-                                @:Everyone
-                            }
-                            else
-                            {
-                                foreach (var club in item.Clubs)
-                                {
-                                    @Html.DisplayFor(modelItem => club.nickname) <text> </text>
-                                }
-                            }
-                        </dt>
-                    </dl>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </div>
+            <div id="my" class="tab-pane">
+                @foreach (var item in Model.myEvents)
+                {
+                    <div class="row">
+                        <div class="col-md-7 col-md-offset-1">
+                            <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </a>
+                            <p>
+                                <dl class="list-unstyled">
+                                    <dd><b>Date: </b>@item.StartsAt.ToString("D") </dd>
+                                    <dd><b>Time: </b>@item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dd>
+                                    <dd><b>Location: </b>@Html.DisplayFor(modelItem => item.Location)</dd>
+                                    <dd><b>Description: </b>@Html.DisplayFor(modelItem => item.Description)</dd>
+                                    <dd><b>Primary Club: </b>@Html.DisplayFor(modelItem => item.Club.nickname)</dd>
+                                    <dd>
+                                        <b>Open to: </b>
+                                        @if (item.IsPublic)
+                                        {
+                                            @:Everyone
+                                        }
+                                        else
+                                        {
+                                            @:Members of
+                                            foreach (var club in item.Clubs)
+                                            {
+                                                @Html.DisplayFor(modelItem => club.nickname) <text> </text>
+                                            }
+                                        }
+                                    </dd>
+                                </dl>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <img src="~/Content/Images/@item.Club.nickname-LOGO.png" style="height:auto; width:150px" />
+                        </div>
+                    </div>
+                }
+                <br />
+                <div class="text-center">
+                    @Html.PagedListPager(Model.myEvents, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
                 </div>
             </div>
         </div>
-        <div class="col-md-2"></div>
     </div>
-}
-
-<div class="text-center">
-
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
+
+
 
 

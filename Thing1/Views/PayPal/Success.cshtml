@@ -1,11 +1,25 @@
 ﻿@using Microsoft.AspNet.Identity
+@using System.Security.Claims
 
 @{
-    ViewBag.Title = "Congraturation";
+    ViewBag.Title = "Congratulations";
 }
 
-<h2>Welcome to @ViewBag.ClubName (@ViewBag.ClubNickName)!</h2>
-<h3> @User.Identity.GetUserName()!</h3>
+<h2>Payment Successful!</h2>
+@{
+    string salutation = User.Identity.GetUserName();
+    Claim nameClaim = ((ClaimsIdentity)User.Identity).FindFirst("FirstName");
+    Claim lastNameClaim = ((ClaimsIdentity)User.Identity).FindFirst("LastName");
+    if (nameClaim != null)
+    {
+        salutation = nameClaim.Value;
+        if (lastNameClaim != null)
+        {
+            salutation += " " + lastNameClaim.Value;
+        }
+    }
+}
+<h3>Welcome to @ViewBag.ClubName (@ViewBag.ClubNickName), @salutation!</h3>
 <br/>
 
 <h4>
@@ -16,10 +30,11 @@
     }
 
     @Html.Raw(periodText)
+    <br /> <br /> <br />
+    @Html.ActionLink("View All Club Memberships", "Index", "ClubMemberships", null, new { @class = "btn btn-default" })
 </h4>
 
 <br />
-<a href=@ViewBag.WebSite>Go to the Club Page</a>
-
+@Html.ActionLink("Go to the Club Page", "Index", "Clubs")
 
 

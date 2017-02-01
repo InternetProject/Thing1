@@ -1,0 +1,77 @@
+﻿@model Thing1.Models.EventsRSVP
+
+@{
+    ViewBag.Title = "RSVP for Event";
+}
+
+<h2>RSVP for @ViewBag.thisEventTitle</h2>
+
+
+<!--this code is for debugging purposes
+<p>These are for debugging!  Please delete me once everything works.</p>
+<p>This event's ID is: @ViewBag.thisEventId</p>
+<p>User is: @ViewBag.thisUser</p>
+-->
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Please make an RSVP selection.</h4>
+        <hr />
+
+        <!--Hidden inputs for ID, eventId, and UserId-->
+        @Html.HiddenFor(model => model.EventId)
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.HasPaid)
+
+
+        @*                          BELOW IS THE SCAFFOLDING CODE FOR ENTERING HasPaid FIELD
+                                    THIS WILL NEED TO BE LINKED UP WITH FINANCE TEAM LATER ON 
+                                    OR MAYBE THERE SHOULD BE A LOGIC CHECK AFTER YOU CREATE AN RSVP TO SEND YOU TO A PAYMENT PAGE
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.HasPaid, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.HasPaid)
+                        @Html.ValidationMessageFor(model => model.HasPaid, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        *@
+
+        <!--Create dropdown for selection Status.  This locks only three possible Status strings in the database: "going", "interested", and "not going"-->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Status, new SelectList(
+                  new List<Object>{
+                       new { value = "going" , text = "I'm Going!"  },
+                       new { value = "interested" , text = "I'm Interested?"  },
+                       new { value = "not going" , text = "I'm Not Going." },
+                    },
+                  "value",
+                  "text",
+                   2))
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!--Submit form data-->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Events", "Index", "Events")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -32,12 +32,12 @@ namespace Thing1.Models
         public string Contact { get; set; }
         public Nullable<decimal> Price { get; set; }
         public string Title { get; set; }
-        public Nullable<int> ClubId { get; set; }
+        public int PrimaryClubID { get; set; }
     
-        public virtual Club Club { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Club> Clubs { get; set; }
+        public virtual Club Club { get; set; }
     }
 }
