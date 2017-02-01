@@ -1,0 +1,68 @@
+﻿@model PagedList.IPagedList<Thing1.Models.Event>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Upcoming ASA Events";
+}
+@Html.ActionLink("Create New", "Create", "Events", new { clubID = 5 }, null)
+<p></p>
+@Html.ActionLink("Display club events", "DisplayClubEvents", "Events", new { clubID = 3 }, null)
+
+<div class="text-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Html.DisplayFor(modelItem => item.Title)</h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="list-unstyled">
+                        @{
+                            var sponsorClubs = new List<Thing1.Models.Club>();
+                            sponsorClubs = item.Clubs.ToList();
+                        }
+                        @foreach (var club in sponsorClubs) {
+                            <dt>Sponsoring club: @club.name</dt>
+                        }
+                        <dt>Date: @item.StartsAt.ToString("D")</dt>
+                        <dt>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dt>
+                        <dt>Location: @Html.DisplayFor(modelItem => item.Location)</dt>
+                        <dt>Description: @Html.DisplayFor(modelItem => item.Description)</dt>
+                        <dt>Open to:
+                            @if (item.IsPublic)
+                            {
+                                @:Everyone
+                            }
+                            else
+                            {
+                                foreach (var club in item.Clubs)
+                                {
+                                    @Html.DisplayFor(modelItem => club.nickname) <text> </text>
+                                }
+                            }
+                        </dt>
+                    </dl>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+}
+
+<div class="text-center">
+
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
+

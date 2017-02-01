@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
@@ -17,6 +18,21 @@ namespace Thing1.Controllers
         // GET: Clubs
         public ActionResult Index()
         {
+            string userId = User.Identity.GetUserId();
+
+            Dictionary<int, bool> dictionary = new Dictionary<int, bool>();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == userId).ToList();
+            foreach(ClubMembership item in list)
+            {
+                if (dictionary.ContainsKey(item.ClubId)){
+                    dictionary[item.ClubId] |= item.CanEditClubData; 
+                } else {
+                    dictionary.Add(item.ClubId, item.CanEditClubData);
+                }   
+            }
+
+            ViewBag.ClubManageable = dictionary;
+
             var clubs = db.Clubs.Include(c => c.TypesOfClub);
             return View(clubs.ToList());
         }
@@ -124,6 +140,19 @@ namespace Thing1.Controllers
             db.Clubs.Remove(club);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult Management(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Club club = db.Clubs.Find(id);
+            if (club == null)
+            {
+                return HttpNotFound();
+            }
+            return View(club);
         }
 
         protected override void Dispose(bool disposing)

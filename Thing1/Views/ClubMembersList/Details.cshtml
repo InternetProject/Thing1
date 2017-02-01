@@ -1,0 +1,98 @@
+﻿@model Thing1.Models.ClubMembership
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ClubMembership</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TermDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TermDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JoinDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JoinDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HasAccessToFinance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HasAccessToFinance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CanEditClubData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CanEditClubData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Violation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Violation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Club.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MembershipOption.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MembershipOption.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypesOfRole.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypesOfRole.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

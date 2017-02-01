@@ -12,12 +12,15 @@ namespace Thing1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserLogin
+    public partial class EventsRSVP
     {
-        public string LoginProvider { get; set; }
-        public string ProviderKey { get; set; }
+        public int Id { get; set; }
+        public int EventId { get; set; }
         public string UserId { get; set; }
+        public Nullable<bool> HasPaid { get; set; }
+        public string Status { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Event Event { get; set; }
     }
 }

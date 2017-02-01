@@ -1,0 +1,85 @@
+﻿@model Thing1.Models.Club
+
+@{
+    ViewBag.Title = "Management";
+}
+
+<h2>Management</h2>
+
+<div>
+    <h4>Club</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nickname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nickname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.image)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.image)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.email_template)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email_template)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypesOfClub.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypesOfClub.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index") |
+    @Html.ActionLink("Edit Member List", "Index", "ClubMembersList", new { Id = Model.Id }, null) |
+    @Html.ActionLink("Create New Event", "Create", "Events", new { clubID = Model.Id }, null) |
+    @Html.ActionLink("Email", "Create", "Emails", new { Id = Model.Id }, null)
+</p>

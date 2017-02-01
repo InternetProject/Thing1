@@ -8,6 +8,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/jquery-3.1.1.min.js")
+    @Scripts.Render("~/Scripts/lib/jquery.min.js")
+    @Scripts.Render("~/Scripts/lib/moment.min.js")
+    @Scripts.Render("~/Scripts/fullcalendar.js")
     @Scripts.Render("~/Scripts/Site.js")
 
 
@@ -27,8 +30,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("All Clubs", "Index", "Clubs")</li>
                     <li>@Html.ActionLink("My Account", "Index", "Manage")</li>
-                    <!--<li>@Html.ActionLink("Club Management", "Index", "MemberManagement1")</li>-->
-                    <li>@Html.ActionLink("Club Management", "Index", "MemberManagement1")</li>
+                    <li>@Html.ActionLink("My Profile", "Index", "MyProfile")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

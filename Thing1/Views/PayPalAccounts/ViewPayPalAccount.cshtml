@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Thing1.Models.PayPalAccount>
+
+@{
+    ViewBag.Title = "ViewPayPalAccount";
+}
+
+<h2>ViewPayPalAccount</h2>
+
+<p>
+    @Html.ActionLink("Create New PayPal Account", "CreatePayPalAccount", new { clubId = ViewBag.ClubId })
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PayPalClientId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PayPalClientSecret)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Club.name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PayPalClientId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PayPalClientSecret)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Club.name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "EditPayPalAccount", new { Id = item.Id, clubId = ViewBag.ClubId }) |
+            @Html.ActionLink("Delete", "DeletePayPalAccount", new { Id = item.Id })
+            
+        </td>
+    </tr>
+}
+
+</table>
