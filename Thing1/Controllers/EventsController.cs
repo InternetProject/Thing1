@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Thing1.Models;
 using PagedList;
 using Thing1.Models.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
@@ -87,25 +88,51 @@ namespace Thing1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
-        public ActionResult Create([Bind(Include = "Title, StartsAt, EndsAt, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string[] sponsoringClubs)
+        public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string primaryClub, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
         {
-            System.Diagnostics.Debug.WriteLine("Clubs: " + sponsoringClubs);
-            if (sponsoringClubs != null)
+            int pclub = int.Parse(primaryClub);
+            ClubMembership membership = new ClubMembership();
+            var userid = User.Identity.GetUserId();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == pclub).Single();
+
+            if (membership.CanEditClubData)
             {
                 @event.Clubs = new List<Thing1.Models.Club>();
-                foreach (string clubID in sponsoringClubs)
+                @event.Clubs.Add(db.Clubs.Find(pclub));
+                if (sponsoringClubs != null)
                 {
-                    var clubToAdd = db.Clubs.Find(int.Parse(clubID));
-                    @event.Clubs.Add(clubToAdd);
+                    foreach (string clubID in sponsoringClubs)
+                    {
+                        var clubToAdd = db.Clubs.Find(int.Parse(clubID));
+                        @event.Clubs.Add(clubToAdd);
+                    }
+                }
+                DateTime sDate = Convert.ToDateTime(startDate);
+                TimeSpan sTime = TimeSpan.Parse(startTime);
+                DateTime start = sDate + sTime;
+
+                DateTime startsAt = Convert.ToDateTime(start);
+
+                DateTime eDate = Convert.ToDateTime(endDate);
+                TimeSpan eTime = TimeSpan.Parse(endTime);
+                DateTime end = eDate + eTime;
+
+                DateTime endsAt = Convert.ToDateTime(end);
+
+                @event.StartsAt = startsAt;
+                @event.EndsAt = endsAt;
+
+                if (ModelState.IsValid)
+                {
+                    db.Events.Add(@event);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
             }
-            if (ModelState.IsValid)
+            else
             {
-                db.Events.Add(@event);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
-
             return View();
         }
 
@@ -131,7 +158,7 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Title,Date,Time,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
+        public ActionResult Edit([Bind(Include = "Title,StartsAt,EndsAt,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
         {
             if (ModelState.IsValid)
             {
