@@ -4,8 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a633971fa5104c4c8eb26a77a0bf11a5" Name="Diagram1">
-        <EntityTypeShape EntityType="user_managementModel.AspNetUser" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+      <Diagram DiagramId="04f73f7fec1a46789b1d33d8b00ffa35" Name="Diagram1">
+        <EntityTypeShape EntityType="user_managementModel.AspNetRole" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.AspNetUser" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.ClubMembership" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Email" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
@@ -13,7 +14,7 @@
         <EntityTypeShape EntityType="user_managementModel.EventsRSVP" Width="1.5" PointX="7.5" PointY="18.375" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.MembershipOption" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.payment" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.PayPalAccount" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.PayPalAccount" Width="1.5" PointX="5.25" PointY="29.625" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Recipient" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.TypesOfClub" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.TypesOfMembershipOption" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
@@ -36,6 +37,7 @@
         <AssociationConnector Association="user_managementModel.FK_event_id" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_MembershipOptions_TypesOfMembershipOptions" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_Recipients_Recipients" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.ClubEvents" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
