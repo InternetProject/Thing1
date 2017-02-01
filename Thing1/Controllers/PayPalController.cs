@@ -10,16 +10,36 @@ namespace Thing1.Controllers
 {
     public class PayPalController : Controller
     {
+
+        private user_managementEntities db = new user_managementEntities();
+
+        Int32 TransactionId = (Int32)(System.DateTime.Now.Ticks + (new Random()).Next(100000));
         // GET: PayPal
         public ActionResult Index()
         {
             return View();
         }
 
+
+
+
+        //public ActionResult PaymentWithPaypal(int? clubId, string name, string currency, string price, string quantity)
         public ActionResult PaymentWithPaypal([Bind(Include = "name,currency,price,quantity")] Item item)
         {
+            /*
+            Item item = new Item();
+            item.name = name;
+            item.currency = currency;
+            item.price = price;
+            item.quantity = quantity;
+            */
+
+            var clubMembership = Session["ClubMembership Object"] as ClubMembership;
+            var membershipOption = Session["MembershipOption Object"] as MembershipOption;
+
             //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext();
+            APIContext apiContext = Configuration.GetAPIContext(clubMembership.ClubId);
+            //APIContext apiContext = Configuration.GetAPIContext();
 
             try
             {
@@ -97,6 +117,25 @@ namespace Thing1.Controllers
                 return View("Failure");
             }
 
+
+            var payment = new payment
+            {
+                TransactionId = TransactionId,
+                AspNetUser = clubMembership.AspNetUser,
+                clubID = clubMembership.ClubId,
+                userID = clubMembership.UserId,
+                amount = membershipOption.Price,//Convert.ToInt32(item.price),
+                payment_type = "membership",
+                payment_time = System.DateTime.Now
+            };
+
+            if (ModelState.IsValid)
+            {
+                db.ClubMemberships.Add(clubMembership);
+                db.payments.Add(payment);
+                db.SaveChanges();
+            }
+
             return View("Success");
         }
 
@@ -147,7 +186,7 @@ namespace Thing1.Controllers
             transactionList.Add(new Transaction()
             {
                 description = "Transaction description.",
-                invoice_number = "your invoice number",
+                invoice_number = TransactionId.ToString(),
                 amount = amount,
                 item_list = itemList
             });

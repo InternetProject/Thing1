@@ -25,13 +25,12 @@ namespace Thing1.Controllers
             return View(upcomingEvents.OrderBy(e => e.StartsAt).ToPagedList(pageNumber, pageSize));
         }
 
-        //public ActionResult ClubEvents(int clubId)
-        //{
-        //    var clubEvents = db.ClubEvents.Where(c => c.ClubId == clubId);
-        //    var upcomingEvents = clubEvents.Where(c => c.Event.StartsAt > DateTime.Now).Include(c => c.Event);
-        //    return View(upcomingEvents.ToList());
-        //}
+        public ActionResult Calendar()
+        {
+            return View();
+        }
 
+            
         // GET: Events/DisplayClubEvents
         public ActionResult DisplayClubEvents(int clubId)
         {
