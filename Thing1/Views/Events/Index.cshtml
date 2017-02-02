@@ -4,7 +4,6 @@
 @{
     ViewBag.Title = "Upcoming ASA Events";
 }
-@Html.ActionLink("Create New", "Create", "Events", new { clubID = 5 }, null)
 <p></p>
 @Html.ActionLink("Display club events", "DisplayClubEvents", "Events", new { clubID = 3 }, null)
 
@@ -23,13 +22,6 @@
                 </div>
                 <div class="panel-body">
                     <dl class="list-unstyled">
-                        @{
-                            var sponsorClubs = new List<Thing1.Models.Club>();
-                            sponsorClubs = item.Clubs.ToList();
-                        }
-                        @foreach (var club in sponsorClubs) {
-                            <dt>Sponsoring club: @club.name</dt>
-                        }
                         <dt>Date: @item.StartsAt.ToString("D")</dt>
                         <dt>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dt>
                         <dt>Location: @Html.DisplayFor(modelItem => item.Location)</dt>
