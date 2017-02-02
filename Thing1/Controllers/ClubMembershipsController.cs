@@ -134,7 +134,8 @@ namespace Thing1.Controllers
 
                 clubMembership.JoinDate = DateTime.Now;
                 clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
-                
+                clubMembership.Description = membershipOption.Description;
+
                 // Serialize
                 Session["ClubMembership Object"] = clubMembership;
                 Session["MembershipOption Object"] = membershipOption;
