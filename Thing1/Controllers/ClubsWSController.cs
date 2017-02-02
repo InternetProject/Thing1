@@ -163,6 +163,20 @@ namespace Thing1.Controllers
                     });
          }
 
+        // GET: api/ClubsWS/5/Description
+        [Route("{id:int}/Description")]
+        public IQueryable<DescriptionDto> GetClubsDescription(int id)
+        {
+
+            return (from c in db.Clubs
+                    where c.Id == id
+
+                    select new DescriptionDto
+                    {
+                        Description = c.description
+                    });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

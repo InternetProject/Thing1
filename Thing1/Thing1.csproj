@@ -246,6 +246,7 @@
     <Compile Include="Controllers\PaymentHistoryController.cs" />
     <Compile Include="Controllers\PayPalAccountsController.cs" />
     <Compile Include="Controllers\PayPalController.cs" />
+    <Compile Include="DTOs\DescriptionDTO.cs" />
     <Compile Include="DTOs\EventDTO.cs" />
     <Compile Include="DTOs\MemberDTO.cs" />
     <Compile Include="Global.asax.cs">
