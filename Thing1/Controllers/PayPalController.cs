@@ -137,7 +137,7 @@ namespace Thing1.Controllers
 
         public ActionResult Success(int? clubId, int? clubMembershipId)
         {
-            // retrieve the database result and show the congraturation message
+            // retrieve the database result and show the congratulation message
 
             Club club = db.Clubs.Find(clubId);
             ClubMembership clubMembership = db.ClubMemberships.Find(clubMembershipId);

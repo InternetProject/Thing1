@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 
 @{
-    ViewBag.Title = "Congraturation";
+    ViewBag.Title = "Congratulations";
 }
 
 <h2>Welcome to @ViewBag.ClubName (@ViewBag.ClubNickName)!</h2>
@@ -16,6 +16,8 @@
     }
 
     @Html.Raw(periodText)
+    <br /> <br /> <br />
+    @Html.ActionLink("View All Club Memberships", "Index", "ClubMemberships", null, new { @class = "btn btn-default" })
 </h4>
 
 <br />

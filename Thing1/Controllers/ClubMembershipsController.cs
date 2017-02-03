@@ -134,7 +134,7 @@ namespace Thing1.Controllers
 
                 clubMembership.JoinDate = DateTime.Now;
                 clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
-                clubMembership.Description = membershipOption.Description;
+                clubMembership.Description = "Member"; //membershipOption.Description;
 
                 // Serialize
                 Session["ClubMembership Object"] = clubMembership;
@@ -212,49 +212,37 @@ namespace Thing1.Controllers
             {
                 db.ClubMemberships.Add(clubMembership);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Success", "PayPal", new { clubId = clubMembership.ClubId, clubMembershipId = clubMembership.Id });
             }
-
+            else
+            {
+            // Need to repopulate the SelectList (for free payment on MembershipOptionConfirmation.cshtml file)
+            // http://stackoverflow.com/questions/3393521/the-viewdata-item-that-has-the-key-my-key-is-of-type-system-string-but-must
+            
+            
+            // For UserIds
+            IEnumerable<SelectListItem> userIds = db.ClubMemberships.Select(
+                x => new SelectListItem { Value = x.UserId, Text = x.UserId });
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
-            return View(clubMembership);
+            ViewData["UserId"] = userIds;
+
+            // For MembershipOptionIds
+            IEnumerable<SelectListItem> membershipOptionIds = db.ClubMemberships.Select(
+                x => new SelectListItem { Value = x.MembershipOptionId.ToString(), Text = x.MembershipOptionId.ToString() });
+            ViewData["MembershipOptionId"] = membershipOptionIds;
+
+            // For ClubId
+            IEnumerable<SelectListItem> clubIds = db.ClubMemberships.Select(
+                x => new SelectListItem { Value = x.ClubId.ToString(), Text = x.ClubId.ToString() });
+            ViewData["ClubId"] = clubIds;
+             
+            ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
+
+            return RedirectToAction("Success", "PayPal", new { clubId = clubMembership.ClubId, clubMembershipId = clubMembership.Id });
+
+            //return View(clubMembership);
+            }
         }
-
-        //public ActionResult Test(TestModel testData)
-        //{
-        //    /*
-        //     * string tempMessage = testData.UserId + " " +
-        //                        testData.ClubId + " " +
-        //                        testData.MembershipOptionId + " " +
-        //                        testData.RoleId + " " +
-        //                        testData.TermDate + " " +
-        //                        testData.JoinDate + " " +
-        //                        testData.Description + " " +
-        //                        testData.HasAccessToFinance + " " +
-        //                        testData.CanEditClubData + " " +
-        //                        testData.Violation;
-        //    */
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    //}
-
-
-        //     ClubMembership clubMembership = new ClubMembership();
-        //     clubMembership.UserId = testData.UserId;
-        //     clubMembership.ClubId = testData.ClubId;
-        //     clubMembership.MembershipOptionId = testData.MembershipOptionId;
-        //     clubMembership.RoleId = testData.RoleId;
-        //     clubMembership.TermDate = testData.TermDate;
-        //     clubMembership.JoinDate = testData.JoinDate;
-        //     clubMembership.Description = testData.Description;
-        //     clubMembership.HasAccessToFinance = testData.HasAccessToFinance;
-        //     clubMembership.CanEditClubData = testData.CanEditClubData;
-        //     clubMembership.Violation = testData.Violation;
-
-        //     db.ClubMemberships.Add(clubMembership);
-        //     db.SaveChanges();
-        //     return RedirectToAction("Index");
-        //}
 
         // GET: ClubMemberships/Edit/5
         public ActionResult Edit(int? id)
