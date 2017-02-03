@@ -169,8 +169,8 @@ namespace Thing1.Controllers
             ViewBag.Price = membershipOption.Price;
             ViewBag.Duration = membershipOption.Duration;
             ViewBag.MembershipOptionId = membershipOption.Id;
-            ViewBag.JoinDate = clubMembership.JoinDate.ToString("d");
-            ViewBag.TermDate = clubMembership.TermDate.ToString("d");
+            ViewBag.JoinDate = clubMembership.JoinDate.ToString("G");
+            ViewBag.TermDate = clubMembership.TermDate.ToString("G");
             ViewBag.Description = membershipOption.Description;
 
             //Store description: membershipOption.Description for membershipOption == clubMembership.MembershipOption and ClubID == club.ClubID
