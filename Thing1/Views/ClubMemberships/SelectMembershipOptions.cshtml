@@ -24,32 +24,38 @@
 
     <br/>
     <div class="form-horizontal">
-    @foreach (var item in (ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>))
-    {
-        <div class="form-group">
-        @{ var btnText = " " + item.Description + " - USD " + item.Price.ToString() + "<br/><br/>"; }
-
-        <div class="col-md-10">
-        @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
-        @Html.Raw(btnText)       
-              
-
-        </div>
+        @{
+            var membershipOptionsList = ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>;
+        }
+        @if (membershipOptionsList.Count(x => x.IsActive == true) > 0)
+        {
+            foreach (var item in membershipOptionsList)
+            {
+                <div class="form-group">
+                    @{ var btnText = " " + item.Description + " - USD " + item.Price.ToString() + "<br/><br/>"; }
+                    <div class="col-md-10">
+                        @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
+                        @Html.Raw(btnText)
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input id="Submit" type="submit" value="Next" class="btn btn-default" />
+                    @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+                </div>
             </div>
-       }
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input id="Submit" type="submit" value="Next" class="btn btn-default" />
-                @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
-            </div>
-        </div>
+        }
+        else
+        {
+            <h4>Sorry, there are not any active memberships for (@ViewBag.ClubNickName). Please reach out to a club officer for more information.</h4>
+        }
     </div>
-                        }
+}
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index","Clubs")
 </div>
 
 @section Scripts {
