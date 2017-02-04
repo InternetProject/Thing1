@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Thing1.Models
 {
     using System;
@@ -24,7 +26,11 @@ namespace Thing1.Models
         public int ClubId { get; set; }
         public int TypeId { get; set; }
         public int Duration { get; set; }
-        public System.DateTime ExpDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime ExpDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C0}")]
         public decimal Price { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }

@@ -56,7 +56,7 @@ else
         @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
         @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
         @Html.HiddenFor(model => model.Violation, new { @Value = false })
-        <input type="Submit" value="Join Free Club!"/> 
+        <input type="Submit" value="Join Free Club!" class="btn btn-default"/> 
         }
     }
 @Html.ActionLink("Cancel" , "Index" , "Clubs" , null , new { @class = "btn btn-default" })

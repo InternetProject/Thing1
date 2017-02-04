@@ -133,8 +133,9 @@ namespace Thing1.Controllers
                 }
 
                 clubMembership.JoinDate = DateTime.Now;
-                clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
-                clubMembership.Description = "Member"; //membershipOption.Description;
+                //clubMembership.TermDate = clubMembership.JoinDate.AddYears(membershipOption.Duration);
+                clubMembership.TermDate = membershipOption.ExpDate;
+                clubMembership.Description = membershipOption.Description;
 
                 // Serialize
                 Session["ClubMembership Object"] = clubMembership;
