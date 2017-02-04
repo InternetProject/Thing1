@@ -13,8 +13,7 @@
     @Scripts.Render("~/Scripts/fullcalendar.js")
     @Scripts.Render("~/Scripts/Site.js")
 
-
-</head>
+  </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
@@ -32,11 +31,13 @@
                     <li>@Html.ActionLink("My Account", "Index", "Manage")</li>
                     <li>@Html.ActionLink("My Profile", "Index", "MyProfile")</li>
                 </ul>
+                              
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
     <div class="container body-content">
+
         @RenderBody()
         <hr />
         <footer>
