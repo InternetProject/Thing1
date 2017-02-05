@@ -37,7 +37,7 @@ namespace Thing1.Controllers
         {
             var clubToView = db.Clubs.Find(clubId);
             var clubEvents = new List<Thing1.Models.Event>();
-            clubEvents = clubToView.Events.ToList();
+            clubEvents = clubToView.Events.Where(e => e.EndsAt > DateTime.Now).ToList();
             return View(clubEvents);
         }
 
