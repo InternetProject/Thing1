@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-2"></div>
                         </div>
-                    </div>                    
+                    </div>
                     @foreach (var item in Model.eventsToDisplay)
                     {
                         <div class="item">
@@ -89,7 +89,17 @@
     <div class="col-md-5 panel-default">
         <div class="panel-heading">My Upcoming Events</div>
         <div class="panel-body">
-            <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=v4dpb5tlq8ic4sp4tdrqlg3dvk%40group.calendar.google.com&amp;color=%23711616&amp;ctz=America%2FLos_Angeles" style="border: 0; width: 100%; height: 300px;" frameborder="0" scrolling="yes"></iframe>
+            <div class="list-group">
+                @foreach (var e in Model.myEvents)
+                {
+                    <a href="@Url.Action("Details", "Events", new { id = e.Id })" class="list-group-item">
+                        <span class="badge">@e.StartsAt.ToString("MMM dd")</span>
+
+                        <h4 class="list-group-item-heading ">@e.Title</h4>
+                        <p class="list-group-item-text">@((e.Description.Length > 100) ? e.Description.Substring(0, 100) + "..." : e.Description)</p>
+                    </a>
+                }
+            </div>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->
