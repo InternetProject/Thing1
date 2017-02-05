@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="user_managementModel.AspNetRole" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.AspNetUser" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.ClubMembership" Width="1.5" PointX="5.25" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="user_managementModel.Club" Width="1.5" PointX="0.625" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Email" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.Event" Width="1.5" PointX="5.25" PointY="17.625" IsExpanded="true" />
         <EntityTypeShape EntityType="user_managementModel.EventsRSVP" Width="1.5" PointX="7.5" PointY="18.375" IsExpanded="true" />
@@ -30,7 +30,6 @@
         <AssociationConnector Association="user_managementModel.FK_ClubMemberships_TypesOfRoles" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_Clubs_TypesOfClubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_Emails_Clubs" ManuallyRouted="false" />
-        <AssociationConnector Association="user_managementModel.FK_Events" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_MembershipOptions_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_payment_Clubs" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.FK_PayPalAccounts_Clubs" ManuallyRouted="false" />
