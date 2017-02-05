@@ -7,6 +7,7 @@ using System.Web;
 using Thing1.Models;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Thing1.Models.ViewModels;
 
 namespace Thing1.Controllers
 {
@@ -21,8 +22,13 @@ namespace Thing1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
             }
             var userid = User.Identity.GetUserId();
-            var clubMemberships = db.ClubMemberships.Include(c => c.Club);
-            return View(clubMemberships.Where(c => c.UserId == userid).ToList());
+            var clubMemberships = db.ClubMemberships.Include(c => c.Club).Where(c => c.UserId == userid).ToList();
+            var numEventsToReturn = 4;
+            var upcomingEvents = db.Events.Where(e => e.EndsAt > DateTime.Now).OrderBy(e => e.StartsAt).Take(numEventsToReturn).ToList();
+            var homePageData = new HomePageViewModel();
+            homePageData.clubMemberships = clubMemberships;
+            homePageData.eventsToDisplay = upcomingEvents;
+            return View(homePageData);
         }
     }
 }
