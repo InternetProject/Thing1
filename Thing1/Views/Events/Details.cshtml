@@ -99,7 +99,28 @@
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @{
+            var sponsorClubs = new List<Thing1.Models.Club>();
+            var displayEdit = false;
+            sponsorClubs = Model.Clubs.ToList();
+            foreach (var club in sponsorClubs)
+            {
+                var clubMemberships = new List<Thing1.Models.ClubMembership>();
+                clubMemberships = club.ClubMemberships.ToList();
+                foreach (var membership in clubMemberships)
+                {
+                    if (membership.CanEditClubData)
+                    {
+                        displayEdit = true;
+                    }
+                }
+            }
+            if (displayEdit)
+            {
+                <p>@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })</p>
+            }
+        }
         @Html.ActionLink("Back to List", "Index")
     </p>
 </body>

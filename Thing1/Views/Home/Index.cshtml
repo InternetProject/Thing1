@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Thing1.Models.ViewModels.HomePageViewModel
+
+@{
     ViewBag.Title = "Club Portal Home";
 }
 
@@ -12,17 +14,92 @@
 <div class="row">
     <!--ASA Master Calendar goes here-->
     <div class="col-md-5 panel-default">
-        <div class="panel-heading">ASA Event Calendar</div>
+        <div class="panel-heading">Upcoming Anderson Events</div>
         <div class="panel-body">
-            <p>@Html.ActionLink("Events", "Index", "Events", null, new { @class = "button" })</p>
-          <!--  <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=MONTH&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=c4c.ucla%40gmail.com&ctz=America/Los_Angeles" style="border: 0; width: 100%; height:300px" frameborder="0" scrolling="yes"></iframe>-->
+            <p>@Html.ActionLink("All Anderson Events", "Index", "Events", null, null)</p>
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Title: @Html.DisplayFor(item => Model.eventsToDisplay.ElementAt(0).Title)</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <dl class="list-unstyled">
+                                            <dt>Date: @Html.DisplayFor(item => Model.eventsToDisplay.ElementAt(0).StartsAt)</dt>
+                                            <dt>Location: @Html.DisplayFor(item => Model.eventsToDisplay.ElementAt(0).Location)</dt>
+                                            <dt>Description: @Html.DisplayFor(item => Model.eventsToDisplay.ElementAt(0).Description)</dt>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+                    @foreach (var item in Model.eventsToDisplay)
+                    {
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Title: @Html.DisplayFor(modItem => item.Title)</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <dl class="list-unstyled">
+                                                <dt>Date: @Html.DisplayFor(modItem => item.StartsAt)</dt>
+                                                <dt>Location: @Html.DisplayFor(modItem => item.Location)</dt>
+                                                <dt>Description: @Html.DisplayFor(modItem => item.Description)</dt>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
     </div>
     <!--Show list of user's upcoming events-->
     <div class="col-md-5 panel-default">
         <div class="panel-heading">My Upcoming Events</div>
         <div class="panel-body">
-            <iframe src="https://calendar.google.com/calendar/embed?showNav=0&amp;showCalendars=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=v4dpb5tlq8ic4sp4tdrqlg3dvk%40group.calendar.google.com&amp;color=%23711616&amp;ctz=America%2FLos_Angeles" style="border: 0; width: 100%; height: 300px;" frameborder="0" scrolling="yes"></iframe>
+            <div class="list-group">
+                @foreach (var e in Model.myEvents)
+                {
+                    <a href="@Url.Action("Details", "Events", new { id = e.Id })" class="list-group-item">
+                        <span class="badge">@e.StartsAt.ToString("MMM dd")</span>
+
+                        <h4 class="list-group-item-heading ">@e.Title</h4>
+                        <p class="list-group-item-text">@((e.Description.Length > 100) ? e.Description.Substring(0, 100) + "..." : e.Description)</p>
+                    </a>
+                }
+            </div>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->
@@ -32,7 +109,7 @@
             <!--List of clubs user is an officer in-->
             <dl class="list-unstyled expandable-menu">
                 <dt>Officer <a href="#">[+]</a></dt>
-                @foreach (var item in Model)
+                @foreach (var item in Model.clubMemberships)
                 {
                     if (!item.CanEditClubData) { continue; }
                     <dd>@Html.ActionLink((string)item.Club.nickname, "Management", "Clubs", new { Id = item.Club.Id }, null)</dd>
@@ -41,7 +118,7 @@
             <!--list of clubs user is a member in-->
             <dl class="list-unstyled expandable-menu">
                 <dt>Member <a href="#">[+]</a></dt>
-                @foreach (var item in Model)
+                @foreach (var item in Model.clubMemberships)
                 {
                     <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { Id = item.Club.Id }, null)</dd>
                 }

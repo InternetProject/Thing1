@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="user_managementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -63,10 +63,11 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="TermDate" Type="datetime" Nullable="false" />
           <Property Name="JoinDate" Type="datetime" Nullable="false" />
-          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="HasAccessToFinance" Type="bit" Nullable="false" />
           <Property Name="CanEditClubData" Type="bit" Nullable="false" />
           <Property Name="Violation" Type="bit" />
+          <Property Name="IsCurrentOfficer" Type="bit" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Clubs">
           <Key>
@@ -108,7 +109,6 @@
           <Property Name="Contact" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" />
           <Property Name="Title" Type="nvarchar(max)" />
-          <Property Name="ClubId" Type="int" />
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
@@ -351,18 +351,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Events">
-          <End Role="Clubs" Type="Self.Clubs" Multiplicity="0..1" />
-          <End Role="Events" Type="Self.Events" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clubs">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Events">
-              <PropertyRef Name="ClubId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MembershipOptions_Clubs">
           <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
           <End Role="MembershipOptions" Type="Self.MembershipOptions" Multiplicity="*" />
@@ -517,10 +505,6 @@
             <End Role="Events" EntitySet="Events" />
             <End Role="EventsRSVP" EntitySet="EventsRSVP" />
           </AssociationSet>
-          <AssociationSet Name="FK_Events" Association="Self.FK_Events">
-            <End Role="Clubs" EntitySet="Clubs" />
-            <End Role="Events" EntitySet="Events" />
-          </AssociationSet>
           <AssociationSet Name="FK_MembershipOptions_Clubs" Association="Self.FK_MembershipOptions_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="MembershipOptions" EntitySet="MembershipOptions" />
@@ -550,8 +534,7 @@
             <End Role="EventsRSVP" EntitySet="EventsRSVP" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="user_managementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -604,7 +587,7 @@
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="TermDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HasAccessToFinance" Type="Boolean" Nullable="false" />
           <Property Name="CanEditClubData" Type="Boolean" Nullable="false" />
           <Property Name="Violation" Type="Boolean" />
@@ -612,6 +595,7 @@
           <NavigationProperty Name="Club" Relationship="Self.FK_ClubMemberships_Clubs" FromRole="ClubMemberships" ToRole="Clubs" />
           <NavigationProperty Name="MembershipOption" Relationship="Self.FK_ClubMemberships_MembershipOptions" FromRole="ClubMemberships" ToRole="MembershipOptions" />
           <NavigationProperty Name="TypesOfRole" Relationship="Self.FK_ClubMemberships_TypesOfRoles" FromRole="ClubMemberships" ToRole="TypesOfRoles" />
+          <Property Name="IsCurrentOfficer" Type="Boolean" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Club">
           <Key>
@@ -629,11 +613,10 @@
           <NavigationProperty Name="ClubMemberships" Relationship="Self.FK_ClubMemberships_Clubs" FromRole="Clubs" ToRole="ClubMemberships" />
           <NavigationProperty Name="TypesOfClub" Relationship="Self.FK_Clubs_TypesOfClubs" FromRole="Clubs" ToRole="TypesOfClubs" />
           <NavigationProperty Name="Emails" Relationship="Self.FK_Emails_Clubs" FromRole="Clubs" ToRole="Emails" />
-          <NavigationProperty Name="Events" Relationship="Self.FK_Events" FromRole="Clubs" ToRole="Events" />
           <NavigationProperty Name="MembershipOptions" Relationship="Self.FK_MembershipOptions_Clubs" FromRole="Clubs" ToRole="MembershipOptions" />
           <NavigationProperty Name="payments" Relationship="Self.FK_payment_Clubs" FromRole="Clubs" ToRole="payment" />
           <NavigationProperty Name="PayPalAccounts" Relationship="Self.FK_PayPalAccounts_Clubs" FromRole="Clubs" ToRole="PayPalAccounts" />
-          <NavigationProperty Name="Events1" Relationship="Self.ClubEvents" FromRole="Clubs" ToRole="Events" />
+          <NavigationProperty Name="Events" Relationship="Self.ClubEvents" FromRole="Clubs" ToRole="Events" />
         </EntityType>
         <EntityType Name="Email">
           <Key>
@@ -663,8 +646,6 @@
           <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClubId" Type="Int32" />
-          <NavigationProperty Name="Club" Relationship="Self.FK_Events" FromRole="Events" ToRole="Clubs" />
           <NavigationProperty Name="EventsRSVPs" Relationship="Self.FK_event_id" FromRole="Events" ToRole="EventsRSVP" />
           <NavigationProperty Name="Clubs" Relationship="Self.ClubEvents" FromRole="Events" ToRole="Clubs" />
         </EntityType>
@@ -883,18 +864,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Events">
-          <End Role="Clubs" Type="Self.Club" Multiplicity="0..1" />
-          <End Role="Events" Type="Self.Event" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clubs">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Events">
-              <PropertyRef Name="ClubId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MembershipOptions_Clubs">
           <End Role="Clubs" Type="Self.Club" Multiplicity="1" />
           <End Role="MembershipOptions" Type="Self.MembershipOption" Multiplicity="*" />
@@ -975,7 +944,7 @@
           <End Role="Clubs" Type="Self.Club" Multiplicity="*" />
           <End Role="Events" Type="Self.Event" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="user_managementEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="user_managementEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="ClubMemberships" EntityType="Self.ClubMembership" />
@@ -1031,10 +1000,6 @@
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="Emails" EntitySet="Emails" />
           </AssociationSet>
-          <AssociationSet Name="FK_Events" Association="Self.FK_Events">
-            <End Role="Clubs" EntitySet="Clubs" />
-            <End Role="Events" EntitySet="Events" />
-          </AssociationSet>
           <AssociationSet Name="FK_MembershipOptions_Clubs" Association="Self.FK_MembershipOptions_Clubs">
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="MembershipOptions" EntitySet="MembershipOptions" />
@@ -1073,7 +1038,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="user_managementModelStoreContainer" CdmEntityContainer="user_managementEntities1">
+        <EntityContainerMapping StorageEntityContainer="user_managementModelStoreContainer" CdmEntityContainer="user_managementEntities">
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="user_managementModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -1110,6 +1075,7 @@
           <EntitySetMapping Name="ClubMemberships">
             <EntityTypeMapping TypeName="user_managementModel.ClubMembership">
               <MappingFragment StoreEntitySet="ClubMemberships">
+                <ScalarProperty Name="IsCurrentOfficer" ColumnName="IsCurrentOfficer" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ClubId" ColumnName="ClubId" />
@@ -1165,7 +1131,6 @@
                 <ScalarProperty Name="Contact" ColumnName="Contact" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="ClubId" ColumnName="ClubId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
