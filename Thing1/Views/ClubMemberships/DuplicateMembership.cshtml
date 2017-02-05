@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Duplicate Membership";
+}
+
+<h3>You already have the membershp you have chosen</h3>
+<h4>Club: @ViewBag.ClubName (@ViewBag.ClubNickName)</h4>
+
+
+<h4>Join Date: @ViewBag.JoinDate</h4>
+<h4>Termination Date: @ViewBag.TermDate</h4>
+<h4>Description: @ViewBag.Description</h4>
+
+@Html.ActionLink("Back", "SelectMembershipOptions", "ClubMemberships", new { clubId = @ViewBag.DuplicateClubId }, new { @class = "btn btn-default" })
+
+
+
+
+
+

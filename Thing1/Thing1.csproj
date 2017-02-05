@@ -602,6 +602,7 @@
     <Content Include="Views\Events\Calendar.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\MembershipOptions\Test.cshtml" />
+    <Content Include="Views\ClubMemberships\DuplicateMembership.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
