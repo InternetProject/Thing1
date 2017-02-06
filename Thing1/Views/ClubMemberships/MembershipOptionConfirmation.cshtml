@@ -29,15 +29,36 @@
 </h4>
 <h4>Price (USD): @ViewBag.Price</h4>
 
-@Html.ActionLink("Pay with Paypal Account", "PaymentWithPaypal", "Paypal",
-    new {
-        name = ViewBag.ClubNickName + " - " + periodText,
-        currency = "USD",
-        price = ViewBag.Price,
-        quantity = "1",
-    },    
-    new { @class = "btn btn-default" })
-
+@if (ViewBag.Price > 0)
+{
+        @Html.ActionLink("Pay with Paypal Account", "PaymentWithPaypal", "Paypal",
+  new
+  {
+      name = ViewBag.ClubNickName + " - " + periodText,
+      currency = "USD",
+      price = ViewBag.Price,
+      quantity = "1",
+  },
+  new { @class = "btn btn-default" })
+}
+else
+{
+    using (Html.BeginForm("Create", "ClubMemberships", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
+        @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
+        @Html.HiddenFor(model => model.MembershipOptionId, new { @Value = ViewBag.MembershipOptionId })
+        @Html.HiddenFor(model => model.RoleId, new { @Value = 4 })
+        @Html.HiddenFor(model => model.TermDate, new { @Value = ViewBag.TermDate })
+        @Html.HiddenFor(model => model.JoinDate, new { @Value = ViewBag.JoinDate })
+        @Html.HiddenFor(model => model.Description, new { @Value = ViewBag.Description })
+        @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
+        @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
+        @Html.HiddenFor(model => model.Violation, new { @Value = false })
+        <input type="Submit" value="Join Free Club!" class="btn btn-default"/> 
+        }
+    }
 @Html.ActionLink("Cancel" , "Index" , "Clubs" , null , new { @class = "btn btn-default" })
 
 

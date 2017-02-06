@@ -5,7 +5,6 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
@@ -127,41 +126,47 @@ namespace Thing1.Controllers
 
         // GET: api/ClubsWS/5/Officers
         [Route("{id:int}/Officers")]
-        public IQueryable<MemberDto> GetClubOfficers(int id)
+        public IEnumerable<MemberDto> GetClubOfficers(int id)
         {
 
             return (from anu in db.AspNetUsers
                     join cm in db.ClubMemberships on anu.Id equals cm.UserId
                     join c in db.Clubs on cm.ClubId equals c.Id
                     where c.Id == id
-                    //missing condition for officers
-                    //select anu);
+                    //TODO: uncomment missing condition to filter only officers
+                    //&& cm.IsCurrentOfficer == true
                     select new MemberDto {
                         FirstName = anu.FirstName,
                         LastName = anu.LastName,
                         Email = anu.Email,
                         Program = anu.Program
                     });
-            //return db.ClubMemberships
-            //  .Where(cm => cm.Club.Id == id);
         }
 
         // GET: api/ClubsWS/5/Events
         [Route("{id:int}/Events")]
-        public IQueryable<EventDto> GetClubEvents(int id)
+        public IEnumerable<EventDto> GetClubEvents(int id)
         {
-
-            return (from e in db.Events
-                    where e.ClubId == id
-                    
-                    select new EventDto
-                    {
-                        StartsAt = e.StartsAt,
-                        Title = e.Title,
-                        Location = e.Location,
-                        Description = e.Description
-                    });
-         }
+            //TODO: uncomment missing condition for upcoming events
+            //var eventIds = db.Events.Where(e => e.EndsAt > DateTime.Now && e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
+            var eventIds = db.Events.Where(e => e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
+            var events = db.Events.Where(e => eventIds.Contains(e.Id)).OrderBy(e => e.StartsAt).Include(e => e.Clubs).ToList();
+            return events.Select(o =>
+                new EventDto
+                {
+                    Title = o.Title,
+                    Date = o.StartsAt.ToString("D"),
+                    StartsAt = o.StartsAt.ToString("t"),
+                    EndsAt = o.EndsAt.ToString("t"),
+                    Location = o.Location,
+                    Description = o.Description,
+                    IsPublic = o.IsPublic,
+                    Clubs = o.Clubs.Select(x => x.nickname).ToList<String>(),
+                    Food = o.Food == null ? "" : o.Food,
+                    Contact = o.Contact == null ? "" : o.Contact,
+                    Price = o.Price.ToString()
+                });
+        }
 
         // GET: api/ClubsWS/5/Description
         [Route("{id:int}/Description")]

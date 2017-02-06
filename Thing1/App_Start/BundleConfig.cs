@@ -28,9 +28,6 @@ namespace Thing1
                       "~/Content/site.css",
                       "~/Content/fullcalendar.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/fullcalendar").Include(
-                      "~/Scripts/lib/moment.js",
-                      "~/Scripts/lib/fullcalendar.js"));
         }
     }
 }

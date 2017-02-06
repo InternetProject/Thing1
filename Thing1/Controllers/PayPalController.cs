@@ -56,7 +56,7 @@ namespace Thing1.Controllers
                     // So we have provided URL of this controller only
 
                     string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/PayPal/PaymentWithPayPal?";
-
+                    string cancelUrl = Request.Url.Scheme + "://" + Request.Url.Authority + "/ClubMemberships/MembershipOptionConfirmation";
                     //guid we are generating for storing the paymentID received in session
 
                     //after calling the create function and it is used in the payment execution
@@ -67,8 +67,9 @@ namespace Thing1.Controllers
 
                     //on which payer is redirected for paypal acccount payment
 
-                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, item);
-
+                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, cancelUrl, item);
+                    //var createdPayment = this.CreatePayment(apiContext, testredirect, item);
+                    
                     //get links returned from paypal in response to Create function call
 
                     var links = createdPayment.links.GetEnumerator();
@@ -122,7 +123,7 @@ namespace Thing1.Controllers
                 AspNetUser = clubMembership.AspNetUser,
                 clubID = clubMembership.ClubId,
                 userID = clubMembership.UserId,
-                amount = membershipOption.Price,//Convert.ToInt32(item.price),
+                amount = membershipOption.Price,
                 payment_type = "membership",
                 payment_time = System.DateTime.Now
             };
@@ -130,14 +131,13 @@ namespace Thing1.Controllers
             ClubMembership CM = db.ClubMemberships.Add(clubMembership);
             db.payments.Add(payment);
             db.SaveChanges();
-            
             return RedirectToAction("Success", new { clubId = CM.ClubId, clubMembershipId = CM.Id });
-            //return View("Success");
+            
         }
-        
+
         public ActionResult Success(int? clubId, int? clubMembershipId)
         {
-            // retrieve the database result and show the congraturation message
+            // retrieve the database result and show the congratulation message
 
             Club club = db.Clubs.Find(clubId);
             ClubMembership clubMembership = db.ClubMemberships.Find(clubMembershipId);
@@ -161,7 +161,7 @@ namespace Thing1.Controllers
             return this.payment.Execute(apiContext, paymentExecution);
         }
 
-        private Payment CreatePayment(APIContext apiContext, string redirectUrl, Item item)
+        private Payment CreatePayment(APIContext apiContext, string redirectUrl, string cancelUrl,Item item)
         {
 
             //similar to credit card create itemlist and add item objects to it
@@ -174,7 +174,7 @@ namespace Thing1.Controllers
             // Configure Redirect Urls here with RedirectUrls object
             var redirUrls = new RedirectUrls()
             {
-                cancel_url = redirectUrl,
+                cancel_url = cancelUrl,
                 return_url = redirectUrl
             };
 

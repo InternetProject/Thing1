@@ -81,5 +81,7 @@
     @Html.ActionLink("Edit Member List", "Index", "ClubMembersList", new { Id = Model.Id }, null) |
     @Html.ActionLink("Create New Event", "Create", "Events", new { clubID = Model.Id }, null) |
     @Html.ActionLink("Email", "Create", "Emails", new { @clubId = Model.Id }, null) |
+    @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = Model.Id }, null) |
+    @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = Model.Id }, null) |
     @Html.ActionLink("Back to List", "Index")
 </p>

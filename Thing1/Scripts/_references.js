@@ -2,6 +2,7 @@
 /// <reference path="bootstrap.min.js" />
 /// <reference path="fullcalendar.min.js" />
 /// <reference path="gcal.js" />
+/// <reference path="jquery.unobtrusive-ajax.min.js" />
 /// <reference path="jquery.validate.min.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-3.1.1.js" />

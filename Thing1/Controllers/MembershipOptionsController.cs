@@ -24,6 +24,11 @@ namespace Thing1.Controllers
             }, "Value", "Text", currentDuration);
         }
 
+        public ActionResult Test()
+        {
+            return View();
+        }
+
         // GET: MembershipOption
         public ActionResult Index()
         {
