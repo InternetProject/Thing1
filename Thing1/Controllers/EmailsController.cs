@@ -64,7 +64,7 @@ namespace Thing1.Controllers
                 email.ClubId = (int)ClubId;
                 email.Sent = DateTime.Now;
 
-                var recipients = db.ClubMemberships.Where(c => (c.ClubId == ClubId) & (everyone.Equals("on") | ((directors.Equals("on") & c.Description.StartsWith("Director ")) | (vps.Equals("on") & (c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))) | (ft1styears.Equals("on") & c.AspNetUser.Program.Equals("FT " + DateTime.Now.Year + (DateTime.Now.Month < 7 ? 1 : 2))) | (ft2ndyears.Equals("on") & c.AspNetUser.Program.Trim().Equals("FT " + (DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1))))))).ToList();
+                var recipients = db.ClubMemberships.Where(c => (c.ClubId == ClubId) & (c.JoinDate < DateTime.Now & c.TermDate > DateTime.Now) & (everyone.Equals("on") | ((directors.Equals("on") & c.Description.StartsWith("Director ")) | (vps.Equals("on") & (c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))) | (ft1styears.Equals("on") & c.AspNetUser.Program.Equals("FT " + DateTime.Now.Year + (DateTime.Now.Month < 7 ? 1 : 2))) | (ft2ndyears.Equals("on") & c.AspNetUser.Program.Trim().Equals("FT " + (DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1))))))).ToList();
                 var message = new MailMessage();
 
                 for (int i = 0; i < recipients.Count; i++)
