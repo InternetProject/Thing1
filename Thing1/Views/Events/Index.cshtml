@@ -5,15 +5,17 @@
     ViewBag.Title = "Upcoming ASA Events";
 }
 
-<div class="text-center">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<div class="row">
+    <div class="col-md-offset-10">
+        <a class="btn btn-primary" href=@Url.Action("Calendar") role="button">Calendar View</a>
+    </div>
 </div>
+
 
 @foreach (var item in Model)
 {
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">@Html.DisplayFor(modelItem => item.Title)</h3>
@@ -42,7 +44,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2"></div>
     </div>
 }
 

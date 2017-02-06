@@ -1,12 +1,19 @@
-﻿@{ 
-    Layout = null;
+﻿@{
+    ViewBag.Title = "Upcoming ASA Events";
 }
-
-@Styles.Render("~/Content/css")
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/fullcalendar")
-@Scripts.Render("~/Scripts/Site.js")
-
 <div class="row">
-    <div id='calendar' class="fc fc-unthemed fc-ltr">Calendar Should Be Here</div>
+    <div class="col-md-offset-10">
+        <a class="btn btn-primary" href=@Url.Action("Index") role="button">List View</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-offset-1 col-md-10">
+        <div class="panel">
+            <div class="panel-heading">ASA Master Calendar</div>
+            <div class="panel-body">
+                <div id="calendar" class="fc">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

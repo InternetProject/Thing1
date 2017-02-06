@@ -14,9 +14,8 @@
 <div class="row">
     <!--ASA Master Calendar goes here-->
     <div class="col-md-5 panel-default">
-        <div class="panel-heading">Upcoming Anderson Events</div>
+        <div class="panel-heading">All Anderson Events</div>
         <div class="panel-body">
-            <p>@Html.ActionLink("All Anderson Events", "Index", "Events", null, null)</p>
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
@@ -83,6 +82,7 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            <p>@Html.ActionLink("See All", "Calendar", "Events", null, null)</p>
         </div>
     </div>
     <!--Show list of user's upcoming events-->
@@ -93,7 +93,7 @@
                 @foreach (var e in Model.myEvents)
                 {
                     <a href="@Url.Action("Details", "Events", new { id = e.Id })" class="list-group-item">
-                        <span class="badge">@e.StartsAt.ToString("MMM dd")</span>
+                        <span class="badge">@e.StartsAt.ToString("MMM dd")<br/>@e.StartsAt.ToString("h:mm tt")</span>
 
                         <h4 class="list-group-item-heading ">@e.Title</h4>
                         <p class="list-group-item-text">@((e.Description.Length > 100) ? e.Description.Substring(0, 100) + "..." : e.Description)</p>

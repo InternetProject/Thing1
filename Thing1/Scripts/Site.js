@@ -13,6 +13,7 @@
     $(".expandable-menu dt a").click();
 
     $('#calendar').fullCalendar({
-        // put your options and callbacks here
-    })
+        events: '/Events/CalendarData',
+        error: function () { console.log("Error parsing events") }
+    });
 });
