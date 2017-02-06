@@ -1,21 +1,32 @@
 ﻿@model PagedList.IPagedList<Thing1.Models.Event>
 @using PagedList.Mvc;
-
+@using System.Collections.Generic;
 @{
     ViewBag.Title = "Upcoming ASA Events";
 }
-
-<div class="row">
-    <div class="col-md-offset-10">
-        <a class="btn btn-primary" href=@Url.Action("Calendar") role="button">Calendar View</a>
-    </div>
+<div class="text-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
 </div>
-
+@using (Html.BeginForm("index", "Events", FormMethod.Get))
+{
+    <p>
+        Find by keyword/club: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Sort by Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+    </tr>
+</table>
 
 @foreach (var item in Model)
 {
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">@Html.DisplayFor(modelItem => item.Title)</h3>
@@ -26,7 +37,8 @@
                         <dt>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dt>
                         <dt>Location: @Html.DisplayFor(modelItem => item.Location)</dt>
                         <dt>Description: @Html.DisplayFor(modelItem => item.Description)</dt>
-                        <dt>Open to:
+                        <dt>
+                            Open to:
                             @if (item.IsPublic)
                             {
                                 @:Everyone
@@ -44,14 +56,14 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-2"></div>
     </div>
 }
-
+<br />
 <div class="text-center">
-
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 </div>
+
 
 
