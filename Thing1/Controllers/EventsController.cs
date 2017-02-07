@@ -44,6 +44,7 @@ namespace Thing1.Controllers
          
             var events = from s in db.Events
                          select s;
+            events = events.Where(e => e.EndsAt > DateTime.Now);
             if (!String.IsNullOrEmpty(searchString))
             {
                 events = events.Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString));
