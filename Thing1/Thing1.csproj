@@ -238,6 +238,7 @@
     <Compile Include="Controllers\ClubsWSController.cs" />
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\EventsRSVPsController.cs" />
     <Compile Include="Controllers\EventsWSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -606,6 +607,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\MembershipOptions\Test.cshtml" />
     <Content Include="Views\ClubMemberships\DuplicateMembership.cshtml" />
+    <Content Include="Views\EventsRSVPs\Create.cshtml" />
+    <Content Include="Views\EventsRSVPs\Delete.cshtml" />
+    <Content Include="Views\EventsRSVPs\Details.cshtml" />
+    <Content Include="Views\EventsRSVPs\Edit.cshtml" />
+    <Content Include="Views\EventsRSVPs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

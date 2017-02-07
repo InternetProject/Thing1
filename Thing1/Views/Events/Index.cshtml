@@ -54,6 +54,10 @@
                         </dt>
                     </dl>
                     @Html.ActionLink("Details", "Details", new { id = item.Id })
+
+                    <!--RSVP Link below-->
+                    <p>@Html.ActionLink("RSVP...", "Create", "EventsRSVPs", new { eventId = item.Id }, null)</p>
+
                 </div>
             </div>
         </div>
