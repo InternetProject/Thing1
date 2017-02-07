@@ -68,6 +68,27 @@ namespace Thing1.Controllers
         {
             return View();
         }
+
+        public JsonResult CalendarData()
+        {
+            DateTime start = DateTime.Parse(this.Request.QueryString["start"]);
+            DateTime end = DateTime.Parse(this.Request.QueryString["end"]);
+            var dbEvents = db.Events.Where(e => start <= e.StartsAt && e.StartsAt <= end).ToList();
+            var events = new List<object>();
+            foreach (var e in dbEvents)
+            {
+                var @event = new
+                {
+                    title = e.Title,
+                    start = e.StartsAt,
+                    end = e.EndsAt,
+                    url = Url.Action("Details", "Events", new { id = e.Id }),
+                };
+                events.Add(@event);
+            }
+            return Json(events, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Events/DisplayClubEvents
         public ActionResult DisplayClubEvents(int clubId)
         {
