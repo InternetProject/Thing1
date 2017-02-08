@@ -115,9 +115,16 @@ namespace Thing1.Controllers
         // GET: Events/Create
         public ActionResult Create(int clubID)
         {
-            PopulateSponsoringClubs(clubID);
-            ViewBag.PrimaryClubID = clubID;
-            return View();
+            if (CanCreateAndEditEvents(clubID))
+            {
+                PopulateSponsoringClubs(clubID);
+                ViewBag.PrimaryClubID = clubID;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied", "Home", null);
+            }
         }
         //
         private void PopulateSponsoringClubs(int clubID)

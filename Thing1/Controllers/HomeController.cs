@@ -35,5 +35,10 @@ namespace Thing1.Controllers
             homePageData.eventsToDisplay = upcomingEvents;
             return View(homePageData);
         }
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
