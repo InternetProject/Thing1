@@ -149,9 +149,8 @@ namespace Thing1.Controllers
         [Route("{id:int}/Events")]
         public IEnumerable<EventDto> GetClubEvents(int id)
         {
-            //TODO: uncomment missing condition for upcoming events
-            //var eventIds = db.Events.Where(e => e.EndsAt > DateTime.Now && e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
-            var eventIds = db.Events.Where(e => e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
+            var eventIds = db.Events.Where(e => e.EndsAt > DateTime.Now && e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
+            //var eventIds = db.Events.Where(e => e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
             var events = db.Events.Where(e => eventIds.Contains(e.Id)).OrderBy(e => e.StartsAt).Include(e => e.Clubs).ToList();
             return events.Select(o =>
                 new EventDto
