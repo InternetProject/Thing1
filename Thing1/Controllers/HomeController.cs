@@ -26,7 +26,7 @@ namespace Thing1.Controllers
             var numEventsToReturn = 4;
             var upcomingEvents = db.Events.Where(e => e.EndsAt > DateTime.Now).OrderBy(e => e.StartsAt).Take(numEventsToReturn).ToList();
             var homePageData = new HomePageViewModel();
-            var myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userid).Where(r => r.Event.EndsAt > DateTime.Now).OrderBy(r => r.Event.StartsAt).Take(numEventsToReturn).ToList();
+            var myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userid).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).OrderBy(r => r.Event.StartsAt).Take(numEventsToReturn).ToList();
             foreach (var rsvp in myEventRSVPS)
             {
                 homePageData.myEvents.Add(rsvp.Event);

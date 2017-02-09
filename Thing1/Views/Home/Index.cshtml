@@ -29,7 +29,7 @@
                     </a>
                 }
             </div>        
-            <p>@Html.ActionLink("See All", "Calendar", "Events", null, null)</p>
+            <p>@Html.ActionLink("See All", "Index", "Events", null, null)</p>
         </div>
     </div>
     <!--Show list of user's upcoming events-->
@@ -47,6 +47,7 @@
                     </a>
                 }
             </div>
+            <p>@Html.ActionLink("See All", "MyEvents", "Events", null, null)</p>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->

@@ -65,6 +65,24 @@ namespace Thing1.Controllers
             int pageNumber = (page ?? 1);
             return View(events.ToPagedList(pageNumber, pageSize));
         }
+
+        public ActionResult MyEvents(int? page)
+        {
+            if (!Request.IsAuthenticated)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
+            }
+            var userid = User.Identity.GetUserId();
+            var events = new List<Thing1.Models.Event>();
+            var myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userid).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).OrderBy(r => r.Event.StartsAt).ToList();
+            foreach (var rsvp in myEventRSVPS)
+            {
+                events.Add(rsvp.Event);
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(events.ToPagedList(pageNumber, pageSize));
+        }
         public ActionResult Calendar()
         {
             return View();
@@ -282,6 +300,8 @@ namespace Thing1.Controllers
             }
             base.Dispose(disposing);
         }
+
+        
     }
 }
 
