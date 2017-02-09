@@ -14,7 +14,7 @@ using Thing1.Models;
 namespace Thing1.Controllers
 {
     [RoutePrefix("api/ClubsWS")]
-    [EnableCors(origins: "http://localhost", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ClubsWSController : ApiController
     {
         private user_managementEntities db = new user_managementEntities();
@@ -132,13 +132,15 @@ namespace Thing1.Controllers
             return (from anu in db.AspNetUsers
                     join cm in db.ClubMemberships on anu.Id equals cm.UserId
                     join c in db.Clubs on cm.ClubId equals c.Id
-                    where c.Id == id
+                    where c.Id == id && cm.RoleId == 1
                     //TODO: uncomment missing condition to filter only officers
                     //&& cm.IsCurrentOfficer == true
                     select new MemberDto {
                         FirstName = anu.FirstName,
                         LastName = anu.LastName,
                         Email = anu.Email,
+                        RoleId = cm.RoleId,
+                        Description = cm.Description,
                         Program = anu.Program
                     });
         }
@@ -165,6 +167,20 @@ namespace Thing1.Controllers
                     Contact = o.Contact == null ? "" : o.Contact,
                     Price = o.Price.ToString()
                 });
+        }
+
+        // GET: api/ClubsWS/5/Description
+        [Route("{id:int}/Description")]
+        public IQueryable<DescriptionDto> GetClubsDescription(int id)
+        {
+
+            return (from c in db.Clubs
+                    where c.Id == id
+
+                    select new DescriptionDto
+                    {
+                        Description = c.description
+                    });
         }
 
         protected override void Dispose(bool disposing)

@@ -104,6 +104,10 @@ namespace Thing1.Controllers
             ViewBag.ClubNickName = club.nickname;
             ViewBag.MembershipOptions = club.MembershipOptions.ToList();
 
+            string userId = User.Identity.GetUserId();
+
+            ViewBag.ClubMemberships = db.ClubMemberships.Where(c => c.UserId == userId && c.ClubId == clubId).ToList();
+
             //Serialize
             Session["Club Object"] = club;
             
@@ -121,10 +125,27 @@ namespace Thing1.Controllers
             if (ModelState.IsValid)
             {
 
-                //db.ClubMemberships.Add(clubMembership);
-                //db.SaveChanges();
+                // duplicate check
+                List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == clubMembership.UserId && c.ClubId == clubMembership.ClubId).ToList();
+
+                if(list.Count > 0)
+                {
+                    foreach(ClubMembership item in list)
+                    {
+                        if(item.MembershipOptionId == clubMembership.MembershipOptionId)
+                        {
+                            // duplicate membership exist
+                            return RedirectToAction("DuplicateMembership", new {
+                                duplicateClubId = clubMembership.ClubId,
+                                duplicateMembershipOptionId = clubMembership.MembershipOptionId,
+                            });
+                        }
+
+                    }
+                }
 
 
+                // proceed with new membership
                 MembershipOption membershipOption = db.MembershipOptions.Where(n=> n.Id == clubMembership.MembershipOptionId).ToList().First();
 
                 if (membershipOption == null)
@@ -149,6 +170,24 @@ namespace Thing1.Controllers
             return View(clubMembership);
         }
 
+        public ActionResult DuplicateMembership(int? duplicateClubId, int? duplicateMembershipOptionId)
+        {
+            string userId = User.Identity.GetUserId();
+
+            MembershipOption membershipOption = db.MembershipOptions.Where(n => n.Id == duplicateMembershipOptionId).ToList().First();
+            ClubMembership clubMembership = db.ClubMemberships.Where(n => n.ClubId == duplicateClubId && n.UserId == userId && n.MembershipOptionId == duplicateMembershipOptionId).ToList().First();
+            Club club = db.Clubs.Find(duplicateClubId);
+
+            ViewBag.DuplicateClubId = duplicateClubId;
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            ViewBag.Duration = membershipOption.Duration;
+            ViewBag.JoinDate = clubMembership.JoinDate.Day + "/" + clubMembership.JoinDate.Month + "/" + clubMembership.JoinDate.Year;
+            ViewBag.TermDate = clubMembership.TermDate.Day + "/" + clubMembership.TermDate.Month + "/" + clubMembership.TermDate.Year;
+            ViewBag.Description = membershipOption.Description;
+
+            return View();
+        }
 
         // GET: ClubMemberships/MembershipOptionConfirmation/5
         [Authorize]

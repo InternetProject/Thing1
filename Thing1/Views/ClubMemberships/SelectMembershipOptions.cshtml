@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Thing1.Models
+@using System.Collections.Generic
 @model Thing1.Models.ClubMembership
 
 @{
@@ -6,77 +8,128 @@
 }
 
 <h2>Welcome, @User.Identity.GetUserName()</h2>
-<h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+@{
+    List<ClubMembership> list = ViewBag.ClubMemberships as List<ClubMembership>;
 
-    @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
-    @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
-    @Html.HiddenFor(model => model.RoleId, new { @Value = 4 })    
-    @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
-    @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
-    @Html.HiddenFor(model => model.Violation, new { @Value = false })
-    @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
-    @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })
+    if (list.Count > 0)
+    {
+            <h3>Your current membership for @ViewBag.ClubName (@ViewBag.ClubNickName) is</h3>
 
+    }
 
-    <br/>
-    <div class="form-horizontal">
+    foreach (ClubMembership item in @ViewBag.ClubMemberships as List<ClubMembership>)
+    {
+        <div>
         @{
-            var membershipOptionsList = ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>;
+             var curText = item.Description + " (" + item.JoinDate.Day + "/" + item.JoinDate.Month + "/" + item.JoinDate.Year + "~" + item.TermDate.Day + "/" + item.TermDate.Month + "/" + item.TermDate.Year + ")";
         }
-        @if (membershipOptionsList.Count(x => x.IsActive == true) > 0)
-        {
-            foreach (var item in membershipOptionsList)
+        @Html.Raw(curText)
+        </div>
+     }
+}
+
+            
+
+           
+
+          <h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
+
+            @using (Html.BeginForm())
             {
-                <div class="form-group">
-                    @{ var btnText = " " + item.Description + " - USD " + item.Price.ToString() + "<br/><br/>"; }
-                    <div class="col-md-10">
-                        @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
-                        @Html.Raw(btnText)
-                    </div>
+                @Html.AntiForgeryToken()
+
+                @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
+                @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
+                @Html.HiddenFor(model => model.RoleId, new { @Value = 4 })
+                @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
+                @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
+                @Html.HiddenFor(model => model.Violation, new { @Value = false })
+                @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
+                @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })
+
+
+                <br />
+                <div class="form-horizontal">
+                    @{
+                        var membershipOptionsList = ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>;
+                    }
+                    @if (membershipOptionsList.Count(x => x.IsActive == true) > 0)
+                {
+                    foreach (var item in membershipOptionsList)
+                    {
+                            <div class="form-group">
+                                @{ var btnText =
+                                         " " +
+                                         item.Description +
+                                         " - USD " +
+                                         item.Price.ToString() +
+                                         " (" +
+                                         DateTime.Now.Day + "/" +
+                                         DateTime.Now.Month + "/" +
+                                         DateTime.Now.Year + " ~ " +
+                                         item.ExpDate.Day + "/" +
+                                         item.ExpDate.Month + "/" +
+                                         item.ExpDate.Year + ")" +
+                                         "<br/><br/>";
+                                }
+                                <div class="col-md-10">
+                                    @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
+                                    @Html.Raw(btnText)
+                                </div>
+                            </div>
+                                    }
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input id="Submit" type="submit" value="Next" class="btn btn-default" />
+                                            <script>
+
+                                            </script>
+                                            @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
+                                        </div>
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <h4>Sorry, there are not any active memberships for @ViewBag.ClubNickName. Please reach out to a club officer for more information.</h4>
+                                    }
                 </div>
-            }
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input id="Submit" type="submit" value="Next" class="btn btn-default" />
-                    @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
-                </div>
+                                    }
+
+
+
+
+
+
+
+
+
+
+
+            <div>
+                @Html.ActionLink("Back to List", "Index", "Clubs")
             </div>
-        }
-        else
-        {
-            <h4>Sorry, there are not any active memberships for @ViewBag.ClubNickName. Please reach out to a club officer for more information.</h4>
-        }
-    </div>
-}
 
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+            }
 
-<div>
-    @Html.ActionLink("Back to List", "Index","Clubs")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-<script>
-$(function(){
-    //removed duplicates form the following array
-    $(jQuery.unique(
-        //create an array with the names of the groups
-        $('INPUT:radio')
-            .map(function(i,e){
-                return $(e).attr('name') }
-            ).get()
-    ))
-    //interate the array (array with unique names of groups)
-    .each(function(i,e){
-        //make the first radio-button of each group checked
-        $('INPUT:radio[name="'+e+'"]:visible:first')
-            .attr('checked','checked');
-    });
-});
-</script>
+            <script>
+                $(function () {
+                    //removed duplicates form the following array
+                    $(jQuery.unique(
+                        //create an array with the names of the groups
+                        $('INPUT:radio')
+                            .map(function (i, e) {
+                                return $(e).attr('name')
+                            }
+                            ).get()
+                    ))
+                    //interate the array (array with unique names of groups)
+                    .each(function (i, e) {
+                        //make the first radio-button of each group checked
+                        $('INPUT:radio[name="' + e + '"]:visible:first')
+                            .attr('checked', 'checked');
+                    });
+                });
+            </script>
