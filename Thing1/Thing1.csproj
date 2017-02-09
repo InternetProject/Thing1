@@ -334,8 +334,10 @@
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\Images\andersoneats.png" />
     <Content Include="Content\Images\GCBA.png" />
+    <Content Include="Content\Images\grey-linen-background.jpg" />
     <Content Include="Content\Images\RBA-LOGO.png" />
     <Content Include="Content\Images\seamless_paper_texture.png" />
+    <Content Include="Content\Images\UCLA-Anderson-logo.png" />
     <Content Include="Content\Images\UCLA.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />

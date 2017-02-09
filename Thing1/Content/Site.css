@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url(../Content/Images/seamless_paper_texture.png)
+    background-image: url(../Content/Images/grey-linen-background.jpg)
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -19,8 +19,6 @@
 
 .jumbotron {
     margin-top: 20px;
-    background-image: url('../Content/Images/UCLA.jpg');
-    background-size:cover;
     color: azure;
 }
 
