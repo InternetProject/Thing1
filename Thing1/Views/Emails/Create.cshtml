@@ -2,10 +2,41 @@
 
 @{
     ViewBag.Title = "Create";
-    //FT @Html.Raw(DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1))
 }
 
-<h2>Create</h2>
+<h2>Send</h2>
+<script type="text/javascript">
+    function changedEveryone() {
+        document.getElementById("directors").checked = document.getElementById("vps").checked = document.getElementById("ft1styears").checked = document.getElementById("ft2ndyears").checked = document.getElementById("fembas").checked = document.getElementById("everyone").checked;
+        updateRecipientList();
+    }
+    function changedSomethingElse(isChecked) {
+        if (!isChecked) document.getElementById("everyone").checked = false;
+        updateRecipientList();
+    }
+    function updateRecipientList() {
+        $.ajax({
+            type: 'POST',
+            url: 'RecipientEmails',
+            data: $('form').serialize(),
+            success: function (data) {
+                document.getElementById("recipientList").innerText = data.Recipients;
+            },
+            error: function (err) {
+                console.log('Error', err);
+                if (err.status === 0) {
+                    document.getElementById("recipientList").innerText = "Error";
+                }
+                else {
+                    document.getElementById("recipientList").innerText = "Error " + err.status;
+                }
+            }
+        });
+    }
+    function copyToClipboard() {
+        window.prompt("Press Ctrl+C to copy the list of emails", document.getElementById("recipientList").innerText);
+    }
+</script>
 
 
 @using (Html.BeginForm())
@@ -18,13 +49,22 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            <label class="control-label col-md-2">Send to:</label>
+            <label class="control-label col-md-2">Send to</label>
             <div class="col-md-10">
-                <input type="checkbox" id="everyone" name="everyone" /><label for="everyone">Everyone</label>
-                <input type="checkbox" id="directors" name="directors" /><label for="directors">Directors</label>
-                <input type="checkbox" id="vps" name="vps" /><label for="vps">VPs and President</label>
-                <input type="checkbox" id="ft1styears" name="ft1styears" /><label for="ft1styear">FT 1st-years</label>
-                <input type="checkbox" id="ft2ndyears" name="ft2ndyears" /><label for="ft2ndyear">FT 2nd-years</label>
+                <input type="checkbox" id="everyone" name="everyone" onchange="changedEveryone();" /><label for="everyone">Everyone</label>
+                <input type="checkbox" id="directors" name="directors" onchange="changedSomethingElse(this.checked)" /><label for="directors">Directors</label>
+                <input type="checkbox" id="vps" name="vps" onchange="changedSomethingElse(this.checked)" /><label for="vps">VPs and President</label>
+                <input type="checkbox" id="ft1styears" name="ft1styears" onchange="changedSomethingElse(this.checked)" /><label for="ft1styears">FT 1st-years</label>
+                <input type="checkbox" id="ft2ndyears" name="ft2ndyears" onchange="changedSomethingElse(this.checked)" /><label for="ft2ndyears">FT 2nd-years</label>
+                <input type="checkbox" id="fembas" name="fembas" onchange="changedSomethingElse(this.checked)" /><label for="fembas">FEMBAs</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Email list</label>
+            <div id="recipientList" class="col-md-9"></div>
+            <div class="col-md-1">
+                <input type="button" class="btn" onclick="copyToClipboard();" value="Copy"/>
             </div>
         </div>
 
@@ -48,7 +88,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Send" class="btn btn-default" />
             </div>
         </div>
     </div>
