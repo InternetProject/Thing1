@@ -19,51 +19,48 @@ namespace Thing1.Controllers
         private user_managementEntities db = new user_managementEntities();
         // GET: Events
 
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult Index(string currentFilter, string searchString, int? clubID, int? page)
         {
             user_managementEntities dbContext = new user_managementEntities();
-                IEnumerable<SelectListItem> items = dbContext.Clubs.Select(c => new SelectListItem
-                {
-                Value = c.nickname,
-                Text = c.nickname
-                    });
-            ViewBag.ClubList = items;
 
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            System.Diagnostics.Debug.WriteLine(clubID);
 
-            if (searchString != null)
+            var events = new List<Thing1.Models.Event>();
+            if (clubID != null)
             {
-                page = 1;
+                ViewBag.currentClub = clubID;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString)).ToList();
+                    page = 1;
+                }
+                else
+                {
+                    events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).ToList();
+                    searchString = currentFilter;
+                }
             }
             else
             {
-                searchString = currentFilter;
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString)).ToList();
+                    page = 1;
+                }
+                else
+                {
+                    events = db.Events.Where(e => e.EndsAt > DateTime.Now).ToList();
+                    searchString = currentFilter;
+                }
             }
             ViewBag.CurrentFilter = searchString;
-         
-            var events = from s in db.Events
-                         select s;
-            events = events.Where(e => e.EndsAt > DateTime.Now);
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                events = events.Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString));
-            }
-            switch (sortOrder)
-            {
-                case "Date":
-                    events = events.OrderBy(s => s.StartsAt);
-                    break;
-                case "date_desc":
-                    events = events.OrderByDescending(s => s.StartsAt);
-                    break;
-                default:
-                    events = events.OrderBy(s => s.StartsAt);
-                    break;
-            }
+
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            return View(events.ToPagedList(pageNumber, pageSize));
+            var eventsData = new EventsViewModel();
+            eventsData.events = events.OrderBy(s => s.StartsAt).ToPagedList(pageNumber, pageSize);
+            eventsData.clubs = db.Clubs.ToList();
+            return View(eventsData);
         }
 
         public ActionResult MyEvents(int? page)
@@ -85,11 +82,13 @@ namespace Thing1.Controllers
         }
         public ActionResult Calendar()
         {
-            return View();
+            return View(db.Clubs.ToList());
         }
 
         public JsonResult CalendarData()
         {
+            var colorList = new List<string> {"#d00","#0d0","#00d","#cc0","#c0c","#0cc"};
+
             DateTime start = DateTime.Parse(this.Request.QueryString["start"]);
             DateTime end = DateTime.Parse(this.Request.QueryString["end"]);
             var dbEvents = db.Events.Where(e => start <= e.StartsAt && e.StartsAt <= end).ToList();
@@ -102,6 +101,8 @@ namespace Thing1.Controllers
                     start = e.StartsAt,
                     end = e.EndsAt,
                     url = Url.Action("Details", "Events", new { id = e.Id }),
+                    clubIds = e.Clubs.Select( c => c.Id).ToList(),
+                    color = colorList[e.Club.Id%colorList.Count]
                 };
                 events.Add(@event);
             }
@@ -166,13 +167,15 @@ namespace Thing1.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
-        public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string primaryClub, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
+        public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string primaryClubID, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
         {
-            int pclub = int.Parse(primaryClub);
+            int pclub = int.Parse(primaryClubID);
             if (CanCreateAndEditEvents(pclub))
             {
                 @event.Clubs = new List<Thing1.Models.Club>();
-                @event.Clubs.Add(db.Clubs.Find(pclub));
+                var primaryClub = db.Clubs.Find(pclub);
+                @event.Clubs.Add(primaryClub);
+                @event.Club = primaryClub;
                 if (sponsoringClubs != null)
                 {
                     foreach (string clubID in sponsoringClubs)
@@ -301,7 +304,7 @@ namespace Thing1.Controllers
             base.Dispose(disposing);
         }
 
-        
+
     }
 }
 

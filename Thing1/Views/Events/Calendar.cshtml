@@ -1,13 +1,24 @@
-﻿@{
+﻿@model List<Thing1.Models.Club>
+@{
     ViewBag.Title = "Upcoming ASA Events";
 }
 <div class="row">
-    <div class="col-md-offset-10">
+    <div class="col-md-2">
         <a class="btn btn-primary" href=@Url.Action("Index") role="button">List View</a>
+        <br/>
+        <dl class="list-unstyled">
+            <dt>Show Events For:</dt>
+            @foreach (var club in Model)
+            {
+                <dd>
+                    @Html.CheckBox("show-club-" + club.Id.ToString(), true, new { @class = "show-club-checkbox"})
+                    <label for="show-club-@club.Id.ToString()">@club.nickname</label>
+                </dd>
+            }
+            <dd><a href="#" id="select-all-clubs-calendar">Select all clubs</a></dd>
+        </dl>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-offset-1 col-md-10">
+    <div class="col-md-8">
         <div class="panel">
             <div class="panel-heading">ASA Master Calendar</div>
             <div class="panel-body">

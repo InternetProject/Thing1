@@ -23,6 +23,7 @@ namespace Thing1.Models
             this.payments = new HashSet<payment>();
             this.PayPalAccounts = new HashSet<PayPalAccount>();
             this.Events = new HashSet<Event>();
+            this.Events1 = new HashSet<Event>();
         }
     
         public int Id { get; set; }
@@ -48,5 +49,7 @@ namespace Thing1.Models
         public virtual ICollection<PayPalAccount> PayPalAccounts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Event> Events { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Event> Events1 { get; set; }
     }
 }
