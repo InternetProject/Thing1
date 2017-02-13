@@ -108,7 +108,8 @@
           <Property Name="Food" Type="nvarchar(max)" />
           <Property Name="Contact" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" />
-          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PrimaryClubID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
@@ -435,6 +436,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="PrimaryClubIDFK">
+          <End Role="Clubs" Type="Self.Clubs" Multiplicity="1" />
+          <End Role="Events" Type="Self.Events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clubs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Events">
+              <PropertyRef Name="PrimaryClubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="user_managementModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
@@ -533,6 +546,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="EventsRSVP" EntitySet="EventsRSVP" />
           </AssociationSet>
+          <AssociationSet Name="PrimaryClubIDFK" Association="Self.PrimaryClubIDFK">
+            <End Role="Clubs" EntitySet="Clubs" />
+            <End Role="Events" EntitySet="Events" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -617,6 +634,7 @@
           <NavigationProperty Name="payments" Relationship="Self.FK_payment_Clubs" FromRole="Clubs" ToRole="payment" />
           <NavigationProperty Name="PayPalAccounts" Relationship="Self.FK_PayPalAccounts_Clubs" FromRole="Clubs" ToRole="PayPalAccounts" />
           <NavigationProperty Name="Events" Relationship="Self.ClubEvents" FromRole="Clubs" ToRole="Events" />
+          <NavigationProperty Name="Events1" Relationship="user_managementModel.PrimaryClubIDFK" FromRole="Club" ToRole="Event" />
         </EntityType>
         <EntityType Name="Email">
           <Key>
@@ -645,9 +663,11 @@
           <Property Name="Food" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Contact" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="EventsRSVPs" Relationship="Self.FK_event_id" FromRole="Events" ToRole="EventsRSVP" />
           <NavigationProperty Name="Clubs" Relationship="Self.ClubEvents" FromRole="Events" ToRole="Clubs" />
+          <Property Name="PrimaryClubID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Club" Relationship="user_managementModel.PrimaryClubIDFK" FromRole="Event" ToRole="Club" />
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
@@ -1032,7 +1052,23 @@
             <End Role="Clubs" EntitySet="Clubs" />
             <End Role="Events" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="PrimaryClubIDFK" Association="user_managementModel.PrimaryClubIDFK">
+            <End Role="Club" EntitySet="Clubs" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="PrimaryClubIDFK">
+          <End Type="user_managementModel.Club" Role="Club" Multiplicity="1" />
+          <End Type="user_managementModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Club">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="PrimaryClubID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1120,6 +1156,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="user_managementModel.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="PrimaryClubID" ColumnName="PrimaryClubID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="StartsAt" ColumnName="StartsAt" />
                 <ScalarProperty Name="EndsAt" ColumnName="EndsAt" />

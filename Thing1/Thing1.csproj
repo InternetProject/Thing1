@@ -319,6 +319,7 @@
     <Compile Include="Models\TypesOfRole.cs">
       <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\EventsViewModel.cs" />
     <Compile Include="Models\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Models\ViewModels\SponsoringClubData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

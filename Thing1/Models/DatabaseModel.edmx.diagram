@@ -38,6 +38,7 @@
         <AssociationConnector Association="user_managementModel.FK_Recipients_Recipients" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="user_managementModel.ClubEvents" ManuallyRouted="false" />
+        <AssociationConnector Association="user_managementModel.PrimaryClubIDFK" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
