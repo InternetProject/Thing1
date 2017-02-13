@@ -22,7 +22,7 @@
     {
         <div>
         @{
-             var curText = item.Description + " (" + item.JoinDate.Day + "/" + item.JoinDate.Month + "/" + item.JoinDate.Year + "~" + item.TermDate.Day + "/" + item.TermDate.Month + "/" + item.TermDate.Year + ")";
+            var curText = item.Description + " (" + item.JoinDate.Month + "/" + item.JoinDate.Day + "/" + item.JoinDate.Year + "~" + item.TermDate.Month + "/" + item.TermDate.Day + "/" + item.TermDate.Year + ")";
         }
         @Html.Raw(curText)
         </div>
@@ -65,11 +65,11 @@
                                          " - USD " +
                                          item.Price.ToString() +
                                          " (" +
-                                         DateTime.Now.Day + "/" +
                                          DateTime.Now.Month + "/" +
+                                         DateTime.Now.Day + "/" +
                                          DateTime.Now.Year + " ~ " +
-                                         item.ExpDate.Day + "/" +
                                          item.ExpDate.Month + "/" +
+                                         item.ExpDate.Day + "/" +
                                          item.ExpDate.Year + ")" +
                                          "<br/><br/>";
                                 }
