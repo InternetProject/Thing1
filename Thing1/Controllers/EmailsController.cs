@@ -108,7 +108,7 @@ namespace Thing1.Controllers
                     smtp.Host = "smtp.gmail.com";
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
-                    smtp.Send(message);
+                    await smtp.SendMailAsync(message);
                     return RedirectToAction("Index");
                 }
 
