@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url(../Content/Images/grey-linen-background.jpg)
+    /*background-image: url(../Content/Images/grey-linen-background.jpg)*/
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -66,31 +66,38 @@ textarea {
   margin: 10px;
 }
 
-.tab-content .professional-ul, .tab.content .identity-ul, .tab-content .interest-ul{
+.tab-content .clubs-ul, .tab-content events-ul{
   list-style-type: none;
   width: 100%;
 }
 
-.tab-content h3 {
+.tab-content .clubs-h3, .tab-content .events-h3 {
   font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
 }
 
-.tab-content .professional-li img, .tab-content .identity-li img, .tab-content .interest-li img {
+.tab-content .clubs-li img{
   float: left;
   margin: 0 15px 0 0;
 }
 
-.tab-content .professional-li p, .identity-li p, .interest-li p{
-  font: 200 12px/1.5 Georgia, Times New Roman, serif;
-  clear:left;
+.tab-content .events-li img{
+    float: right;
+    margin: 0 15px 0 0;
 }
 
-.professional-li, .identity-li, .interest-li {
+.tab-content .clubs-li p, .tab-content .events-li p{
+  font: 200 12px/1.5 Georgia, Times New Roman, serif;
+  /*clear:left;*/
+}
+
+.clubs-li, .events-li{
   padding: 10px;
   overflow: auto;
 }
 
-.professional-li:hover, .identity-li:hover, .interest-li:hover {
+.clubs-li:hover, .events-li:hover{
   background: #eee;
   cursor: pointer;
 }
+
+
