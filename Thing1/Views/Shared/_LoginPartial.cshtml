@@ -1,35 +1,16 @@
 ﻿@using Microsoft.AspNet.Identity
-@using System.Security.Claims
-
 @if (Request.IsAuthenticated)
 {
-    string salutation = User.Identity.GetUserName();
-    Claim nameClaim = ((ClaimsIdentity)User.Identity).FindFirst("FirstName");
-    Claim lastNameClaim = ((ClaimsIdentity)User.Identity).FindFirst("LastName");
-    if (nameClaim != null)
-    {
-        salutation = nameClaim.Value;
-        if (lastNameClaim != null)
-        {
-            salutation += " " + lastNameClaim.Value;
-        }
-    }
-    PageData["salutation"] = salutation;
-
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-        @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-
-                @Html.ActionLink("Hello " + salutation + "!", "Index", "MyProfile", routeValues: null, htmlAttributes: new { title = "Manage" })
-
-            </li>
-            <li>
-                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-            </li>
-        </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "MyProfile", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+    </ul>
     }
 }
 else
