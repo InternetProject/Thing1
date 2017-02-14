@@ -1,11 +1,25 @@
 ﻿@using Microsoft.AspNet.Identity
+@using System.Security.Claims
 
 @{
     ViewBag.Title = "Congratulations";
 }
 
 <h2>Welcome to @ViewBag.ClubName (@ViewBag.ClubNickName)!</h2>
-<h3> @User.Identity.GetUserName()!</h3>
+@{ 
+    string salutation = User.Identity.GetUserName();
+    Claim nameClaim = ((ClaimsIdentity)User.Identity).FindFirst("FirstName");
+    Claim lastNameClaim = ((ClaimsIdentity)User.Identity).FindFirst("LastName");
+    if (nameClaim != null)
+    {
+        salutation = nameClaim.Value;
+        if (lastNameClaim != null)
+        {
+            salutation += " " + lastNameClaim.Value;
+        }
+    }
+}
+<h3> @salutation!</h3>
 <br/>
 
 <h4>
