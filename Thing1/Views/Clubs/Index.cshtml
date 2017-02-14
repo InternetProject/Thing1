@@ -41,6 +41,9 @@
                           if (ClubManageable[item.Id] == true)
                           {
                               @Html.Raw("|")
+                              @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+
+                              @Html.Raw("|")
                               @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
 
                               @Html.Raw("|")
@@ -105,6 +108,9 @@
                             if (ClubManageable[item.Id] == true)
                             {
                                 @Html.Raw("|")
+                                @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+
+                                @Html.Raw("|")
                                 @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
 
                                 @Html.Raw("|")
@@ -145,6 +151,9 @@
                         {
                             if (ClubManageable[item.Id] == true)
                             {
+                                @Html.Raw("|")
+                                @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+
                                 @Html.Raw("|")
                                 @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
 
