@@ -70,10 +70,10 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Convert.ToString(string.Format("{0:dd/MM/yyyy}",item.JoinDate))
+            @Convert.ToString(string.Format("{0:MM/dd/yyyy}",item.JoinDate))
         </td>
         <td>
-            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.TermDate))
+            @Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.TermDate))
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.HasAccessToFinance)
