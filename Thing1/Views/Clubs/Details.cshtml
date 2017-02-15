@@ -1,81 +1,88 @@
 ﻿@model Thing1.Models.Club
-
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Club</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.name)
-        </dt>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Club Details</title>
+</head>
+<body>
+    <div>
+        <h3>Club Details</h3>
+        <hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
+   
+            <dl class="dl-horizontal">
+                <dt>
+                    Club Name
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.nickname)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.name)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.nickname)
-        </dd>
+                <dt>
+                    Club Nickname
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.email)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.nickname)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.email)
-        </dd>
+                <dt>
+                    Email
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.website)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.email)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.website)
-        </dd>
+                <dt>
+                    Website URL
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.description)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.website)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
+                <dt>
+                    Summary
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.image)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.description)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.image)
-        </dd>
+                <dt>
+                    Logo
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.email_template)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.image)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.email_template)
-        </dd>
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.TypesOfClub.Description)
-        </dt>
+                <dt>
+                    Email Template
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypesOfClub.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.email_template)
+                </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                <dt>
+                    Type of Club
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TypesOfClub.Description)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+</body>
