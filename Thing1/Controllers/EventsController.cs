@@ -21,9 +21,16 @@ namespace Thing1.Controllers
 
         public ViewResult Index(string currentFilter, string searchString, int? clubID, int? page)
         {
-            user_managementEntities dbContext = new user_managementEntities();
+            string userId = User.Identity.GetUserId();
 
-            System.Diagnostics.Debug.WriteLine(clubID);
+            List<int> clubs = new List<int>();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == userId).ToList();
+            foreach (ClubMembership item in list)
+            {
+                clubs.Add(item.ClubId);
+            }
+
+            ViewBag.MyClubs = clubs;
 
             var events = new List<Thing1.Models.Event>();
             if (clubID != null)

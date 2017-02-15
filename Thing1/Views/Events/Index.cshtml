@@ -24,12 +24,11 @@
             <select class="form-control" name="clubID">
                 @foreach (var club in Model.clubs)
                 {
-                    <option value="@club.Id" 
-                            @if (ViewBag.currentClub == club.Id)
-                            { 
-                                @:selected="selected" 
-                            }
-                    >@Html.DisplayFor(modelItem => club.nickname)</option>
+                    <option value="@club.Id"
+                            @if (ViewBag.currentClub == club.Id) { @: selected="selected"
+                                                        }>
+                        @Html.DisplayFor(modelItem => club.nickname)
+                                                    </option>
                 }
             </select>
             <input type="submit" value="Filter" />
@@ -37,44 +36,59 @@
 
     </div>
     <div class="col-md-8">
-        @foreach (var item in Model.events)
-        {
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#all">All Events</a></li>
+            <li><a data-toggle="tab" href="#professional">My Club Events</a></li>
+            <li><a data-toggle="tab" href="#identity">My Upcoming Events</a></li>
+        </ul>
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">@Html.DisplayFor(modelItem => item.Title)</h3>
-                </div>
-                <div class="panel-body">
-                    <dl class="list-unstyled">
-                        <dt>Date: @item.StartsAt.ToString("D")</dt>
-                        <dt>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dt>
-                        <dt>Location: @Html.DisplayFor(modelItem => item.Location)</dt>
-                        <dt>Description: @Html.DisplayFor(modelItem => item.Description)</dt>
-                        <dt>Primary Club: @Html.DisplayFor(modelItem => item.Club.nickname)</dt>
-                        <dt>
-                            Open to:
-                            @if (item.IsPublic)
-                            {
-                                @:Everyone
-                            }
-                            else
-                            {
-                                @:Members of:
-                                foreach (var club in item.Clubs)
+        <div class="tab-content">
+            <div id="all" class="tab-pane active">
+                <dl class="events-ul">
+                    @foreach (var item in Model.events)
+                    {
+                        <dd class="events-li">
+                            <img src="~/Content/Images/@item.Club.nickname-LOGO.png" style="height:auto; width:150px" />
+
+                            <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </a>
+                            <p>
+                                <dl class="list-unstyled">
+                                    <dd>Date: @item.StartsAt.ToString("D")</dd>
+                                    <dd>Time: @item.StartsAt.ToString("t") to @item.EndsAt.ToString("t")</dd>
+                                    <dd>Location: @Html.DisplayFor(modelItem => item.Location)</dd>
+                                    <dd>Description: @Html.DisplayFor(modelItem => item.Description)</dd>
+                                    <dd>Primary Club: @Html.DisplayFor(modelItem => item.Club.nickname)</dd>
+                                    <dd>
+                                        Open to:
+                                        @if (item.IsPublic)
+                                        {
+                                            @:Everyone
+                                        }
+                                        else
+                                        {
+                                            @:Members of:
+                                            foreach (var club in item.Clubs)
+                                            {
+                                                @Html.DisplayFor(modelItem => club.nickname) <text> </text>
+                                            }
+                                        }
+                                    </dd>
+                                </dl>
+                                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @if (ViewBag.MyClubs.Contains(item.Club.Id) || item.IsPublic)
                                 {
-                                    @Html.DisplayFor(modelItem => club.nickname) <text> </text>
-                                }
-                            }
-                        </dt>
-                    </dl>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("RSVP", "Create", "EventsRSVPs", new { eventId = item.Id }, null)
+                                }*@
+                            </p>
+                        </dd>
+                    }
+                </dl>
 
-                    <!--RSVP Link below-->
-                    @Html.ActionLink("RSVP", "Create", "EventsRSVPs", new { eventId = item.Id }, null)
-
-                </div>
             </div>
-        }
+
+        </div>
     </div>
 </div>
 
