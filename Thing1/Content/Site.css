@@ -100,4 +100,23 @@ textarea {
   cursor: pointer;
 }
 
+/* Form css*/
+#event-create-form{
+    background-color: #f2ede4;
+    max-width: 700px;
+    margin: 10px auto 10px;
+    padding: 40px;
+    color: #858b8e;
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.2);
+}
+
+#event-create-form .btn{
+    width: 26%;
+    margin: 20px auto 0;
+    display:inline-block;
+    outline: none;
+}
+
+
+
 
