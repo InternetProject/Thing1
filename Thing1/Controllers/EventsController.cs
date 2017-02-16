@@ -119,7 +119,7 @@ namespace Thing1.Controllers
             return View(clubEvents);
         }
         // GET: Events/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? clubId)
         {
             if (id == null)
             {
@@ -130,6 +130,14 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
+
+          /*  ViewBag.ClubId = clubId;
+
+            Club club = db.Clubs.Find(clubId);
+            ViewBag.ClubName = club.name;
+            ViewBag.ClubNickName = club.nickname;
+            */
+
             return View(@event);
         }
         // GET: Events/Create

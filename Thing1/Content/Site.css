@@ -15,6 +15,7 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+    padding-left:2em;
 }
 
 .jumbotron {
@@ -106,9 +107,7 @@ textarea {
     outline: none;
 }
 
-h1, h2, h3{
-    font: bold Helvetica, Verdana, sans-serif;
-}
 
+}
 
 
