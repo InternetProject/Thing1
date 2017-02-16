@@ -142,7 +142,7 @@ namespace Thing1.Controllers
             //Passes whether or not user is a club member to Details view (if True, then they can RSVP)
             ClubMembership membership = new ClubMembership();
             var userid = User.Identity.GetUserId();
-            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubId).FirstOrDefault();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == @event.PrimaryClubID).FirstOrDefault();
             if (membership == null)
             {
                 ViewBag.isClubMember = false;
@@ -151,10 +151,6 @@ namespace Thing1.Controllers
             {
                 ViewBag.isClubMember = true;
             }
-
-
-
-
 
             return View(@event);
         }
