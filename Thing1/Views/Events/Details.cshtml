@@ -125,7 +125,15 @@
             }
         }
         <!--RSVP Link below-->
-        <p>@Html.ActionLink("RSVP...", "Create", "EventsRSVPs", new { eventId = Model.Id }, null)</p>
+    @{
+        if (ViewBag.isClubMember)
+        {
+            <p>@Html.ActionLink("RSVP...", "Create", "EventsRSVPs", new { eventId = Model.Id }, null)</p>
+        }
+    }
+
+
+
         @Html.ActionLink("Back to List", "Index")
         </p>
     </body>

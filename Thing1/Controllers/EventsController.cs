@@ -131,12 +131,30 @@ namespace Thing1.Controllers
                 return HttpNotFound();
             }
 
-          /*  ViewBag.ClubId = clubId;
+            /*  ViewBag.ClubId = clubId;
 
-            Club club = db.Clubs.Find(clubId);
-            ViewBag.ClubName = club.name;
-            ViewBag.ClubNickName = club.nickname;
-            */
+              Club club = db.Clubs.Find(clubId);
+              ViewBag.ClubName = club.name;
+              ViewBag.ClubNickName = club.nickname;
+              */
+
+            //This code is to help determine if user can RSVP to event
+            //Passes whether or not user is a club member to Details view (if True, then they can RSVP)
+            ClubMembership membership = new ClubMembership();
+            var userid = User.Identity.GetUserId();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubId).FirstOrDefault();
+            if (membership == null)
+            {
+                ViewBag.isClubMember = false;
+            }
+            else
+            {
+                ViewBag.isClubMember = true;
+            }
+
+
+
+
 
             return View(@event);
         }
