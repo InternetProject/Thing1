@@ -606,7 +606,6 @@
     <Content Include="Views\MyProfile\Details.cshtml" />
     <Content Include="Views\MyProfile\Edit.cshtml" />
     <Content Include="Views\MyProfile\Index.cshtml" />
-    <Content Include="Views\Clubs\Management.cshtml" />
     <Content Include="Views\Events\DisplayClubEvents.cshtml" />
     <Content Include="Views\PayPalAccounts\CreatePayPalAccount.cshtml" />
     <Content Include="Views\PayPalAccounts\DeletePayPalAccount.cshtml" />
