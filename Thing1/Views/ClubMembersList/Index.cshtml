@@ -32,13 +32,14 @@
                     <td>
                         @item.TermDate.ToString("MMM dd, yyyy")
                     </td>
-                    @*<td>
+                    <td>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>*@
+                    </td>
                 </tr>
             }
         </table>
+        @*@Html.ActionLink("Add new member", "Create", new {id = Model.First().ClubId})*@
     </div>
 </div>
+@Html.ActionLink("Back to Club","Details", "Clubs", new { id = Model.First().ClubId}, null)

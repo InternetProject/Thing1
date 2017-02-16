@@ -66,7 +66,7 @@
                         @Html.ActionLink("Edit Club Details", "Edit", new { id = Model.club.Id })
                     </dd>
                     <dd>
-                        @Html.ActionLink("Edit Member List", "Edit", "ClubMembersList", new { Id = Model.club.Id }, null)
+                        @Html.ActionLink("View Member List", "Index", "ClubMembersList", new { Id = Model.club.Id }, null)
                     </dd>
                     <dd>
                         @Html.ActionLink("Create New Event", "Create", "Events", new { clubID = Model.club.Id }, null)
@@ -77,9 +77,9 @@
                     <dd>
                         @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = Model.club.Id }, null)
                     </dd>
-                    <dd>
+                    @*<dd>
                         @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = Model.club.Id }, null)
-                    </dd>
+                    </dd>*@
                 }
             </dl>
 

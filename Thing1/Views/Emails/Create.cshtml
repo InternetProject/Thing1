@@ -94,7 +94,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Details", "Clubs", new { id = this.Request.Params["clubId"] }, null)
 </div>
 
 @section Scripts {
