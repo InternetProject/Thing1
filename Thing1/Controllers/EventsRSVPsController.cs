@@ -91,11 +91,39 @@ namespace Thing1.Controllers
             {
                 db.EventsRSVPs.Add(eventsRSVP);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Events");
             }
 
             return RedirectToAction("Index", "Home");
         }
+
+        //This method will display list of RSVPs for club officers
+        public ActionResult DisplayRSVPs(int? eventId)
+        {
+            //Use the eventId passed into the DisplayRSVPs to find the event from the database
+            if (eventId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Event thisEvent = db.Events.Find(eventId);
+            if (thisEvent == null)
+            {
+                return HttpNotFound();
+            }
+            
+            //Use ViewBags to help setup view title and event info (passedEventId is used in action link to return user back to even details page)
+            ViewBag.passedEventTitle = thisEvent.Title;
+            ViewBag.passedEventId = thisEvent.Id;
+
+            //get a list of RSVPs that have the same eventId as thisEvent
+            //var thisEventRSVPs = db.EventsRSVPs.Include(e => e.EventId == thisEvent.Id);
+            var thisEventRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Include(e => e.Event.Id);
+
+            //return View(thisEventRSVPs.ToList());  //add where() here?  view models?
+            return View();
+
+        }
+
 
         // GET: EventsRSVPs/Edit/5
         public ActionResult Edit(int? id)
@@ -129,7 +157,7 @@ namespace Thing1.Controllers
             {
                 db.Entry(eventsRSVP).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Events");
             }
 
             //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", eventsRSVP.UserId);

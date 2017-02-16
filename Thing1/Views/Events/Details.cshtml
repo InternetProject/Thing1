@@ -119,9 +119,11 @@
             if (displayEdit)
             {
             <p>
+                @Html.ActionLink("Show RSVPs...", "DisplayRSVPs", "EventsRSVPs", new { eventId = Model.Id }, null) | 
                 @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
-        </p>
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) 
+
+            </p>
             }
         }
         <!--RSVP Link below-->

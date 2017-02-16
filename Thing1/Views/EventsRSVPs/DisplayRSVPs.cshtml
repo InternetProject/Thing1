@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Thing1.Models.EventsRSVP>
+
+@{
+    ViewBag.Title = "Display RSVPs";
+}
+
+<h2 style="color:red;">This page is still under construction :(</h2>
+
+<h2>Current RSVPs for event : <b>@ViewBag.passedEventTitle</b></h2>
+
+
+
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h3>Members who are going:</h3>
+        <!-- Table -->
+        <table class="table table-condensed">
+            <!--Table Headings-->
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Paid?</th>
+            </tr>
+
+            <!--Table Content...STILL IN PROGRESS -->
+         @*   @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasPaid)
+                    </td>
+                </tr>
+            } *@
+        </table>
+    </div>
+</div>
+
+@Html.ActionLink("Back to Event Details", "Details", "Events", new { id = ViewBag.passedEventId }, null)
