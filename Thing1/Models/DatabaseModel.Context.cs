@@ -40,6 +40,5 @@ namespace Thing1.Models
         public virtual DbSet<TypesOfMembershipOption> TypesOfMembershipOptions { get; set; }
         public virtual DbSet<TypesOfRecipient> TypesOfRecipients { get; set; }
         public virtual DbSet<TypesOfRole> TypesOfRoles { get; set; }
-        public virtual DbSet<ClubEvent> ClubEvents { get; set; }
     }
 }
