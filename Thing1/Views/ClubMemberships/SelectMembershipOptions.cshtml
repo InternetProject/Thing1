@@ -7,94 +7,94 @@
     ViewBag.Title = "Select Membership Options";
 }
 
-<h2>Welcome, @User.Identity.GetUserName()</h2>
+<h4>Welcome, @User.Identity.GetUserName()</h4>
+<div class="form-horizontal" id="create-form">
+    @{
+        List<ClubMembership> list = ViewBag.ClubMemberships as List<ClubMembership>;
 
-@{
-    List<ClubMembership> list = ViewBag.ClubMemberships as List<ClubMembership>;
-
-    if (list.Count > 0)
-    {
+        if (list.Count > 0)
+        {
             <h3>You currently have the following membership(s) with the @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
 
-    }
-
-    foreach (ClubMembership item in @ViewBag.ClubMemberships as List<ClubMembership>)
-    {
-        <div>
-        @{
-            var curText = item.Description + " (" + item.JoinDate.Month + "/" + item.JoinDate.Day + "/" + item.JoinDate.Year + "~" + item.TermDate.Month + "/" + item.TermDate.Day + "/" + item.TermDate.Year + ")";
         }
-        @Html.Raw(curText)
-        </div>
-     }
-}
 
-            
-
-           
-
-          <h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
-
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
-                @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
-                @Html.HiddenFor(model => model.RoleId, new { @Value = 4 })
-                @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
-                @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
-                @Html.HiddenFor(model => model.Violation, new { @Value = false })
-                @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
-                @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })
-
-
-                <br />
-                <div class="form-horizontal">
-                    @{
-                        var membershipOptionsList = ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>;
+        foreach (ClubMembership item in @ViewBag.ClubMemberships as List<ClubMembership>)
+        {
+            <div>
+                @{
+                    var curText = item.Description + " (" + item.JoinDate.Month + "/" + item.JoinDate.Day + "/" + item.JoinDate.Year + "~" + item.TermDate.Month + "/" + item.TermDate.Day + "/" + item.TermDate.Year + ")";
+                }
+                @Html.Raw(curText)
+            </div>
                     }
-                    @if (membershipOptionsList.Count(x => x.IsActive == true) > 0)
+    }
+    </div>
+
+
+   <div class="form-horizontal" id="create-form">
+
+    <h3>Here are membership options for @ViewBag.ClubName (@ViewBag.ClubNickName)</h3>
+
+    @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
+
+        @Html.HiddenFor(model => model.UserId, new { @Value = User.Identity.GetUserId() })
+        @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
+        @Html.HiddenFor(model => model.RoleId, new { @Value = 4 })
+        @Html.HiddenFor(model => model.HasAccessToFinance, new { @Value = false })
+        @Html.HiddenFor(model => model.CanEditClubData, new { @Value = false })
+        @Html.HiddenFor(model => model.Violation, new { @Value = false })
+        @Html.HiddenFor(model => model.JoinDate, new { @Value = @DateTime.Now })
+        @Html.HiddenFor(model => model.TermDate, new { @Value = @DateTime.Now })
+
+
+        <br />
+        <div class="form-horizontal">
+            @{
+                var membershipOptionsList = ViewBag.MembershipOptions as List<Thing1.Models.MembershipOption>;
+            }
+            @if (membershipOptionsList.Count(x => x.IsActive == true) > 0)
                 {
                     foreach (var item in membershipOptionsList)
                     {
+                    <div class="form-group">
+                        @{ var btnText =
+                                     " " +
+                                     item.Description +
+                                     " - USD " +
+                                     item.Price.ToString() +
+                                     " (" +
+                                     DateTime.Now.Month + "/" +
+                                     DateTime.Now.Day + "/" +
+                                     DateTime.Now.Year + " ~ " +
+                                     item.ExpDate.Month + "/" +
+                                     item.ExpDate.Day + "/" +
+                                     item.ExpDate.Year + ")" +
+                                     "<br/><br/>";
+                        }
+                        <div class="col-md-10">
+                            @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
+                            @Html.Raw(btnText)
+                        </div>
+                    </div>
+                            }
                             <div class="form-group">
-                                @{ var btnText =
-                                         " " +
-                                         item.Description +
-                                         " - USD " +
-                                         item.Price.ToString() +
-                                         " (" +
-                                         DateTime.Now.Month + "/" +
-                                         DateTime.Now.Day + "/" +
-                                         DateTime.Now.Year + " ~ " +
-                                         item.ExpDate.Month + "/" +
-                                         item.ExpDate.Day + "/" +
-                                         item.ExpDate.Year + ")" +
-                                         "<br/><br/>";
-                                }
-                                <div class="col-md-10">
-                                    @Html.RadioButtonFor(model => model.MembershipOptionId, item.Id)
-                                    @Html.Raw(btnText)
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input id="Submit" type="submit" value="Next" class="btn btn-default" />
+                                    <script>
+
+                                    </script>
+                                    @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
                                 </div>
                             </div>
-                                    }
-                                    <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
-                                            <input id="Submit" type="submit" value="Next" class="btn btn-default" />
-                                            <script>
-
-                                            </script>
-                                            @Html.ActionLink("Cancel", "Index", "Clubs", null, new { @class = "btn btn-default" })
-                                        </div>
-                                    </div>
-                                    }
-                                    else
-                                    {
-                                        <h4>Sorry, there are not any active memberships for @ViewBag.ClubNickName. Please reach out to a club officer for more information.</h4>
-                                    }
-                </div>
-                                    }
+                            }
+                            else
+                            {
+                                <h4>Sorry, there are not any active memberships for @ViewBag.ClubNickName. Please reach out to a club officer for more information.</h4>
+                            }
+        </div>
+                            }
 
 
 
@@ -103,6 +103,9 @@
 
 
 
+
+
+</div>
 
 
 
