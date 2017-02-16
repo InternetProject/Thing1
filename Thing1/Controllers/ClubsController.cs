@@ -15,52 +15,65 @@ namespace Thing1.Controllers
     public class ClubsController : Controller
     {
         private user_managementEntities db = new user_managementEntities();
+        private Dictionary<int, bool> clubOfficerInfo = new Dictionary<int, bool>();
+        private List<int> clubMembershipInfo = new List<int>();
+        private void GetClubOfficerInfo()
+        {
+            string userId = User.Identity.GetUserId();
+
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == userId).ToList();
+            foreach(ClubMembership item in list)
+            {
+                if (clubOfficerInfo.ContainsKey(item.ClubId))
+                {
+                    clubOfficerInfo[item.ClubId] |= item.CanEditClubData;
+                }
+                else
+                {
+                    clubOfficerInfo.Add(item.ClubId, item.CanEditClubData);
+                }
+            }
+        }
+        private List<int> GetClubMembershipInfo()
+        {
+            string userId = User.Identity.GetUserId();
+
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == userId).ToList();
+            foreach (ClubMembership item in list)
+            {
+                clubMembershipInfo.Add(item.ClubId);
+            }
+            return clubMembershipInfo;
+        }
+
+        private bool IsOfficer(int clubId)
+        {
+            return clubOfficerInfo[clubId];
+        }
 
         // GET: Clubs
         public ActionResult Index()
         {
-            string userId = User.Identity.GetUserId();
-
-            Dictionary<int, bool> dictionary = new Dictionary<int, bool>();
-            List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == userId).ToList();
-            foreach(ClubMembership item in list)
-            {
-                if (dictionary.ContainsKey(item.ClubId)){
-                    dictionary[item.ClubId] |= item.CanEditClubData; 
-                } else {
-                    dictionary.Add(item.ClubId, item.CanEditClubData);
-                }   
-            }
-
-            ViewBag.ClubManageable = dictionary;
-
+            GetClubOfficerInfo();
+            ViewBag.MembershipData = GetClubMembershipInfo();
+            ViewBag.ClubManageable = clubOfficerInfo;
+ 
             var clubs = db.Clubs.Include(c => c.TypesOfClub);
             return View(clubs.ToList());
         }
 
 
-        // GET: Clubs/Details/5
-        /* public ActionResult Details(int? id)
-         {
-             if (id == null)
-             {
-                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-             }
-             Club club = db.Clubs.Find(id);
-             if (club == null)
-             {
-                 return HttpNotFound();
-             }
-
-             return View(club);
-         }*/
-
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
             ClubAndEventsViewModel combinedModel = new ClubAndEventsViewModel();
             combinedModel.club = db.Clubs.Find(id);
             DateTime currentTime = DateTime.Now;
             combinedModel.Events = db.Events.Where(e => e.StartsAt >= currentTime && e.PrimaryClubID == id).ToList();
+            GetClubOfficerInfo();
+            bool isMember = GetClubMembershipInfo().Contains(id);
+            if (isMember) ViewBag.ClubManageable = IsOfficer(id);
+            else ViewBag.ClubManageable = false;
+            ViewBag.IsMember = isMember;
             return View(combinedModel);
         }
 
@@ -154,15 +167,6 @@ namespace Thing1.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public ActionResult Management(int? id)
-        {
-            ClubAndEventsViewModel combinedModel = new ClubAndEventsViewModel();
-            combinedModel.club = db.Clubs.Find(id);
-            DateTime currentTime = DateTime.Now;
-            combinedModel.Events = db.Events.Where(e => e.StartsAt >= currentTime && e.PrimaryClubID == id).ToList();
-            return View(combinedModel);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
