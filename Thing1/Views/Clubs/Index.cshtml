@@ -5,26 +5,31 @@
     var ClubManageable = ViewBag.ClubManageable as Dictionary<int, bool>;
 }
 
-<h2>Clubs and Associations at Anderson</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-
-<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#all">All</a></li>
-    <li><a data-toggle="tab" href="#professional">Professional</a></li>
-    <li><a data-toggle="tab" href="#identity">Identity</a></li>
-    <li><a data-toggle="tab" href="#interest">Interest</a></li>
-</ul>
-
-<div class="tab-content">
+<!--Header-->
+<div class="row header">
+    <div class="col-md-offset-2 col-md-8">
+        <div class="page-header text-center">
+            <h1>Clubs and Associations at Anderson</h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <ul class="nav nav-tabs col-md-offset-2 col-md-8">
+        <li class="active"><a data-toggle="tab" href="#all">All</a></li>
+        <li><a data-toggle="tab" href="#professional">Professional</a></li>
+        <li><a data-toggle="tab" href="#identity">Identity</a></li>
+        <li><a data-toggle="tab" href="#interest">Interest</a></li>
+    </ul>
+</div>
+<div class="tab-content row">
     <div id="all" class="tab-pane active">
-        <dl class="clubs-ul">
-            @foreach (var item in Model)
+        @foreach (var item in Model)
             {
-                <dd class="clubs-li">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-2">
                     <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px" />
+                </div>
+                <div class="col-md-6">
                     <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
                         @Html.DisplayFor(modelItem => item.name)
                         @if (!item.nickname.IsEmpty())
@@ -52,148 +57,145 @@
                             }
                         }
                     </p>
-                </dd>
-            }
-        </dl>
-
+                </div>
+            </div>
+        }
     </div>
+
     <div id="professional" class="tab-pane">
-        <ul class="clubs-ul">
-            @foreach (var item in Model)
+        @foreach (var item in Model)
             {
                 if (!item.TypesOfClub.Description.Equals("Professional")) { continue; }
 
-                <li class="clubs-li">
-                    <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px" />
-                    <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
-                        @Html.DisplayFor(modelItem => item.name)
-                        @if (!item.nickname.IsEmpty())
-                        {
-                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
-                        }
-                    </a>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.description)
-                        <br />
-                        <a href=@item.website>Club Page</a>
-                        |
-                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-                        @if (ClubManageable.ContainsKey(item.Id))
-                        {
-                        if (ClubManageable[item.Id] == true)
-                        {
-                                @Html.Raw("|")
-                                @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
-
-                                @Html.Raw("|")
-                                @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-
-                                @Html.Raw("|")
-                                @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-2">
+                        <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px" />
+                    </div>
+                    <div class="col-md-6">
+                        <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
+                            @Html.DisplayFor(modelItem => item.name)
+                            @if (!item.nickname.IsEmpty())
+                            {
+                                @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                             }
-                        }
-                    </p>
-                </li>
-            }
-        </ul>
+                        </a>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.description)
+                            <br />
+                            <a href=@item.website>Club Page</a>
+                            |
+                            @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                            @if (ClubManageable.ContainsKey(item.Id))
+                            {
+                                if (ClubManageable[item.Id] == true)
+                                {
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                                }
+                            }
+                        </p>
+                    </div>
+                </div>
+        }
     </div>
 
-    @{
-        var periodText = "";
-        if (@ViewBag.Duration == 1)
-        {
-            periodText += @ViewBag.Duration + " year";
-        }
-        else
-        {
-            periodText += @ViewBag.Duration + " years";
-        }
-
-        periodText += " (" + @ViewBag.JoinDate + "~" + @ViewBag.TermDate + ")";
-    }
-
     <div id="identity" class="tab-pane">
-        <ul class="clubs-ul">
-            @foreach (var item in Model)
+        @foreach (var item in Model)
             {
                 if (!item.TypesOfClub.Description.Equals("Identity")) { continue; }
 
-                <li class="clubs-li">
-                    <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px"/>
-                    <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
-                        @Html.DisplayFor(modelItem => item.name)
-                        @if (!item.nickname.IsEmpty())
-                        {
-                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
-                        }
-                    </a>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.description)
-                        <br />
-                        <a href=@item.website>Club Page</a>
-                        |
-                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-
-                        @if (ClubManageable.ContainsKey(item.Id))
-                        {
-                            if (ClubManageable[item.Id] == true)
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-2">
+                        <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px" />
+                    </div>
+                    <div class="col-md-6">
+                        <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
+                            @Html.DisplayFor(modelItem => item.name)
+                            @if (!item.nickname.IsEmpty())
                             {
-                                @Html.Raw("|")
-                                @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
-
-                                @Html.Raw("|")
-                                @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-
-                                @Html.Raw("|")
-                                @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                                @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                             }
-                        }
+                        </a>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.description)
+                            <br />
+                            <a href=@item.website>Club Page</a>
+                            |
+                            @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
 
-                    </p>
-                </li>
-            }
-        </ul>
+                            @if (ClubManageable.ContainsKey(item.Id))
+                            {
+                                if (ClubManageable[item.Id] == true)
+                                {
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                                }
+                            }
+
+                        </p>
+                    </div>
+                </div>
+        }
     </div>
 
     <div id="interest" class="tab-pane">
-        <ul class="clubs-ul">
-            @foreach (var item in Model)
+        @foreach (var item in Model)
             {
                 if (!item.TypesOfClub.Description.Equals("Interest")) { continue; }
 
-                <li class="clubs-li">
-                    <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px" />
-                    <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
-                        @Html.DisplayFor(modelItem => item.name)
-                        @if (!item.nickname.IsEmpty())
-                        {
-                            @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
-                        }
-                    </a>
-                    <p>
-                        @Html.DisplayFor(modelItem => item.description)
-                        <br />
-                        <a href=@item.website>Club Page</a>
-                        |
-                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, new { @class = "club-button" })
-
-                        @if (ClubManageable.ContainsKey(item.Id))
-                        {
-                            if (ClubManageable[item.Id] == true)
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-2">
+                        <img src="~/Content/Images/@item.nickname-LOGO.png" style="height:auto; width:150px" />
+                    </div>
+                    <div class="col-md-6">
+                        <a class="clubs-h3" href=@Url.Action("Details", new { id = item.Id})>
+                            @Html.DisplayFor(modelItem => item.name)
+                            @if (!item.nickname.IsEmpty())
                             {
-                                @Html.Raw("|")
-                                @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
-
-                                @Html.Raw("|")
-                                @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
-
-                                @Html.Raw("|")
-                                @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                                @Html.Raw("("); @Html.DisplayFor(modelItem => item.nickname); @Html.Raw(")");
                             }
-                        }
-                    </p>
-                </li>
-            }
-        </ul>
+                        </a>
+                        <p>
+                            @Html.DisplayFor(modelItem => item.description)
+                            <br />
+                            <a href=@item.website>Club Page</a>
+                            |
+                            @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, new { @class = "club-button" })
+
+                            @if (ClubManageable.ContainsKey(item.Id))
+                            {
+                                if (ClubManageable[item.Id] == true)
+                                {
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
+
+                                    @Html.Raw("|")
+                                    @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
+                                }
+                            }
+                        </p>
+                    </div>
+                </div>
+        }
     </div>
 </div>
+<p class="text-right">
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+

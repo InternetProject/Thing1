@@ -623,7 +623,6 @@
     <Content Include="Views\EventsRSVPs\Edit.cshtml" />
     <Content Include="Views\EventsRSVPs\Index.cshtml" />
     <Content Include="Views\Home\AccessDenied.cshtml" />
-    <Content Include="Views\Events\MyEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

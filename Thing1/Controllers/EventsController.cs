@@ -33,17 +33,22 @@ namespace Thing1.Controllers
             ViewBag.MyClubs = clubs;
 
             var events = new List<Thing1.Models.Event>();
+            var myEvents = new List<Thing1.Models.Event>();
+            var myEventRSVPS = new List<Thing1.Models.EventsRSVP>(); 
+
             if (clubID != null)
             {
                 ViewBag.currentClub = clubID;
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString)).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.Clubs.Any(c => c.Id == clubID)).Where(r => r.Event.EndsAt > DateTime.Now).Where(r => r.Event.Title.Contains(searchString) || r.Event.Description.Contains(searchString) || r.Event.TargetAudience.Contains(searchString)).ToList();
                     page = 1;
                 }
                 else
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.Clubs.Any(c => c.Id == clubID)).Where(r => r.Event.EndsAt > DateTime.Now).ToList();
                     searchString = currentFilter;
                 }
             }
@@ -52,41 +57,30 @@ namespace Thing1.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString)).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).Where(r => r.Event.Title.Contains(searchString) || r.Event.Description.Contains(searchString) || r.Event.TargetAudience.Contains(searchString)).ToList();
                     page = 1;
                 }
                 else
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).ToList();
                     searchString = currentFilter;
                 }
             }
             ViewBag.CurrentFilter = searchString;
-
+            foreach (var rsvp in myEventRSVPS)
+            {
+                myEvents.Add(rsvp.Event);
+            }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
             var eventsData = new EventsViewModel();
             eventsData.events = events.OrderBy(s => s.StartsAt).ToPagedList(pageNumber, pageSize);
+            eventsData.myEvents = myEvents.OrderBy(r => r.StartsAt).ToPagedList(pageNumber, pageSize);
             eventsData.clubs = db.Clubs.ToList();
             return View(eventsData);
         }
 
-        public ActionResult MyEvents(int? page)
-        {
-            if (!Request.IsAuthenticated)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
-            }
-            var userid = User.Identity.GetUserId();
-            var events = new List<Thing1.Models.Event>();
-            var myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userid).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).OrderBy(r => r.Event.StartsAt).ToList();
-            foreach (var rsvp in myEventRSVPS)
-            {
-                events.Add(rsvp.Event);
-            }
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(events.ToPagedList(pageNumber, pageSize));
-        }
         public ActionResult Calendar()
         {
             return View(db.Clubs.ToList());

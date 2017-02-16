@@ -56,19 +56,9 @@ textarea {
   transform: translateY(4px);
 }
 
-.row .panel-heading {
-    background-color: #225378;
-    color: white;
-}
-
 
 .tab-content {
   margin: 10px;
-}
-
-.tab-content .clubs-ul, .tab-content events-ul{
-  list-style-type: none;
-  width: 100%;
 }
 
 .tab-content .clubs-h3, .tab-content .events-h3 {
@@ -87,7 +77,6 @@ textarea {
 
 .tab-content .clubs-li p, .tab-content .events-li p{
   font: 200 12px/1.5 Georgia, Times New Roman, serif;
-  /*clear:left;*/
 }
 
 .clubs-li, .events-li{
@@ -117,6 +106,9 @@ textarea {
     outline: none;
 }
 
+h1, h2, h3{
+    font: bold Helvetica, Verdana, sans-serif;
+}
 
 
 
