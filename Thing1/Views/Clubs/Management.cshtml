@@ -156,7 +156,7 @@
                     @Html.ActionLink("Edit Club Details", "Edit", new { id = Model.club.Id })
                 </li>
                 <li>
-                    @Html.ActionLink("Edit Member List", "Index", "ClubMembersList", new { Id = Model.club.Id }, null)
+                    @Html.ActionLink("Edit Member List", "Edit", "ClubMembersList", new { Id = Model.club.Id }, null)
                 </li>
                 <li>
                     @Html.ActionLink("Create New Event", "Create", "Events", new { clubID = Model.club.Id }, null)
