@@ -220,7 +220,9 @@ namespace Thing1.Controllers
         {
             ClubMembership membership = new ClubMembership();
             var userid = User.Identity.GetUserId();
-            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubID).Single();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubID).FirstOrDefault();
+            if (membership == null)
+                return false;
             if (membership.CanEditClubData) return true;
             else return false;
         }
@@ -236,17 +238,20 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            if (CanCreateAndEditEvents(@event.Club.Id))
+                return View(@event);
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
         // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime)
+        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime, int clubId)
         {
-            //if (CanCreateAndEditEvents(clubID))
-            //{
+            if (CanCreateAndEditEvents(clubId))
+            {
             //@event.Clubs = new List<Thing1.Models.Club>();
             //@event.Clubs.Add(db.Clubs.Find(pclub));
             //if (sponsoringClubs != null)
@@ -273,11 +278,11 @@ namespace Thing1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //}
-            //else
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            //}
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
             return View(@event);
         }
         // GET: Events/Delete/5
