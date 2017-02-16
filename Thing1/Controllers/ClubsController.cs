@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
+using Thing1.Models.ViewModels;
 using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
@@ -37,20 +38,32 @@ namespace Thing1.Controllers
             return View(clubs.ToList());
         }
 
+
         // GET: Clubs/Details/5
+        /* public ActionResult Details(int? id)
+         {
+             if (id == null)
+             {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             }
+             Club club = db.Clubs.Find(id);
+             if (club == null)
+             {
+                 return HttpNotFound();
+             }
+
+             return View(club);
+         }*/
+
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Club club = db.Clubs.Find(id);
-            if (club == null)
-            {
-                return HttpNotFound();
-            }
-            return View(club);
+            ClubAndEventsViewModel combinedModel = new ClubAndEventsViewModel();
+            combinedModel.club = db.Clubs.Find(id);
+            DateTime currentTime = DateTime.Now;
+            combinedModel.Events = db.Events.Where(e => e.StartsAt >= currentTime && e.PrimaryClubID == id).ToList();
+            return View(combinedModel);
         }
+
 
         // GET: Clubs/Create
         public ActionResult Create()
@@ -143,16 +156,11 @@ namespace Thing1.Controllers
         }
         public ActionResult Management(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Club club = db.Clubs.Find(id);
-            if (club == null)
-            {
-                return HttpNotFound();
-            }
-            return View(club);
+            ClubAndEventsViewModel combinedModel = new ClubAndEventsViewModel();
+            combinedModel.club = db.Clubs.Find(id);
+            DateTime currentTime = DateTime.Now;
+            combinedModel.Events = db.Events.Where(e => e.StartsAt >= currentTime && e.PrimaryClubID == id).ToList();
+            return View(combinedModel);
         }
 
         protected override void Dispose(bool disposing)

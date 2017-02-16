@@ -15,6 +15,7 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+    padding-left:2em;
 }
 
 .jumbotron {
@@ -117,6 +118,19 @@ textarea {
     outline: none;
 }
 
+#club-details-form{
+    background-color:#ecf0f1;
+    max-width: 700px;
+    margin: 10px auto 10px;
+    padding: 40px;
+    color:black;
+    box-shadow: 6px 6px 6px rgba(0,0,0,0.2)
+}
 
+#details-list-form{
+    padding:1px;
+    margin:10px;
+
+}
 
 

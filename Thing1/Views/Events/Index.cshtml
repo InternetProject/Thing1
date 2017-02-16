@@ -76,11 +76,11 @@
                                         }
                                     </dd>
                                 </dl>
-                                @*@Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @if (ViewBag.MyClubs.Contains(item.Club.Id) || item.IsPublic)
-                                {
-                                    @Html.ActionLink("RSVP", "Create", "EventsRSVPs", new { eventId = item.Id }, null)
-                                }*@
+                                @*@Html.ActionLink("Details", "Details", new { id = item.Id, clubId = item.PrimaryClubID }) |
+    @if (ViewBag.MyClubs.Contains(item.Club.Id) || item.IsPublic)
+    {
+        @Html.ActionLink("RSVP", "Create", "EventsRSVPs", new { eventId = item.Id }, null)
+    }*@
                             </p>
                         </dd>
                     }

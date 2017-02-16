@@ -34,7 +34,7 @@
                             }
                         </dt>
                     </dl>
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) | 
+                    @Html.ActionLink("Details", "Details", new { id = item.Id,}) | 
 
                     <!--RSVP Link below-->
                     @Html.ActionLink("Change RSVP", "Create", "EventsRSVPs", new { eventId = item.Id }, null)

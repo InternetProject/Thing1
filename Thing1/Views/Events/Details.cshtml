@@ -13,11 +13,11 @@
 </head>
 <body>
     <div>
-        <h4>Event</h4>
+        <h4>Event for @ViewBag.ClubName (@ViewBag.ClubNickName)</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Title)
+                Event Title
             </dt>
 
             <dd>
@@ -25,7 +25,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.StartsAt)
+                Start Time
             </dt>
 
             <dd>
@@ -33,7 +33,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.EndsAt)
+                End Time
             </dt>
 
             <dd>
@@ -41,7 +41,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Location)
+                Location
             </dt>
 
             <dd>
@@ -49,7 +49,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </dt>
 
             <dd>
@@ -57,23 +57,24 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.TargetAudience)
+               Open To
             </dt>
 
             <dd>
                 @Html.DisplayFor(model => model.TargetAudience)
             </dd>
-
+            <!--
             <dt>
-                @Html.DisplayNameFor(model => model.IsPublic)
+                Html.DisplayNameFor(model => model.IsPublic)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.IsPublic)
+                Html.DisplayFor(model => model.IsPublic)
             </dd>
+                -->
 
             <dt>
-                @Html.DisplayNameFor(model => model.Food)
+                Food?
             </dt>
 
             <dd>
@@ -81,7 +82,7 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Contact)
+                Main Contact
             </dt>
 
             <dd>
