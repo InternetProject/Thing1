@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Thing1.Controllers
 {
+    /// <summary>
+    /// Sends Emails.
+    /// </summary>
     public class EmailsController : Controller
     {
         private user_managementEntities db = new user_managementEntities();
@@ -44,6 +47,17 @@ namespace Thing1.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Grabs a JSON list of emails based on the ClubID and the checked boxes
+        /// </summary>
+        /// <param name="ClubId">ClubId</param>
+        /// <param name="everyone">on or off</param>
+        /// <param name="directors">on or off</param>
+        /// <param name="vps">on or off</param>
+        /// <param name="ft1styears">on or off</param>
+        /// <param name="ft2ndyears">on or off</param>
+        /// <param name="fembas">on or off</param>
+        /// <returns>Emails in a String</returns>
         public JsonResult RecipientEmails(int? ClubId, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas)
         {
             List<ClubMembership> recipients = RecipientList(ClubId, everyone, directors, vps, ft1styears, ft2ndyears, fembas);
@@ -59,6 +73,17 @@ namespace Thing1.Controllers
             return Json(new { Recipients=recipientEmails.Substring(2) }, JsonRequestBehavior.DenyGet);
         }
 
+        /// <summary>
+        /// Grabs a list of ClubMembership objects based on the ClubID and the checked boxes
+        /// </summary>
+        /// <param name="ClubId">ClubId</param>
+        /// <param name="everyone">on or off</param>
+        /// <param name="directors">on or off</param>
+        /// <param name="vps">on or off</param>
+        /// <param name="ft1styears">on or off</param>
+        /// <param name="ft2ndyears">on or off</param>
+        /// <param name="fembas">on or off</param>
+        /// <returns>List of ClubMemberships</returns>
         private List<ClubMembership> RecipientList(int? ClubId, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas)
         {
             string theUserId = User.Identity.GetUserId();
@@ -72,6 +97,18 @@ namespace Thing1.Controllers
         // POST: Emails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Sends the emails
+        /// </summary>
+        /// <param name="ClubId"></param>
+        /// <param name="email"></param>
+        /// <param name="everyone"></param>
+        /// <param name="directors"></param>
+        /// <param name="vps"></param>
+        /// <param name="ft1styears"></param>
+        /// <param name="ft2ndyears"></param>
+        /// <param name="fembas"></param>
+        /// <returns>async</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Subject,Body")] int? ClubId, Email email, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas)
