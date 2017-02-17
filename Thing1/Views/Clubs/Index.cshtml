@@ -88,15 +88,19 @@
                         <p>
                             @Html.DisplayFor(modelItem => item.description)
                             <br />
-                            <a href=@item.website>Club Page</a>
-                            |
-                            @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                            @if (!ClubMembershipData.Contains(item.Id))
+                            {
+                                @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                                @:|
+                        }
+                            <a href=@item.website>Website</a>|
+                            @Html.ActionLink("Details", "Details", "Clubs", new { id = item.Id }, null)
                             @if (ClubManageable.ContainsKey(item.Id))
                             {
                                 if (ClubManageable[item.Id] == true)
                                 {
                                     @Html.Raw("|")
-                                    @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+                                    @Html.ActionLink("Manage", "Details", "Clubs", new { id = item.Id }, null)
 
                                     @Html.Raw("|")
                                     @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
@@ -131,16 +135,19 @@
                         <p>
                             @Html.DisplayFor(modelItem => item.description)
                             <br />
-                            <a href=@item.website>Club Page</a>
-                            |
-                            @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
-
+                            @if (!ClubMembershipData.Contains(item.Id))
+                            {
+                                @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = item.Id }, null)
+                                @:|
+                        }
+                            <a href=@item.website>Website</a>|
+                            @Html.ActionLink("Details", "Details", "Clubs", new { id = item.Id }, null)
                             @if (ClubManageable.ContainsKey(item.Id))
                             {
                                 if (ClubManageable[item.Id] == true)
                                 {
                                     @Html.Raw("|")
-                                    @Html.ActionLink("Club Management Page", "Management", "Clubs", new { Id = item.Id }, null)
+                                    @Html.ActionLink("Manage", "Details", "Clubs", new { id = item.Id }, null)
 
                                     @Html.Raw("|")
                                     @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = item.Id }, null)
@@ -149,7 +156,6 @@
                                     @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = item.Id }, null)
                                 }
                             }
-
                         </p>
                     </div>
                 </div>

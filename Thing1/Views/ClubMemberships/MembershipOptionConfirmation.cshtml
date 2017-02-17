@@ -22,7 +22,7 @@
         periodText += @ViewBag.Duration + " years";
     }
 
-    periodText += " (" + @ViewBag.JoinDate + "~" + @ViewBag.TermDate + ")";
+    periodText += " (" + @ViewBag.JoinDate + "to" + @ViewBag.TermDate + ")";
 }
 
 @Html.Raw(periodText)
