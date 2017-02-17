@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Thing1.Models;
+using Thing1.Models.ViewModels;
+
 
 namespace Thing1.Controllers
 {
@@ -110,18 +112,34 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            
+
             //Use ViewBags to help setup view title and event info (passedEventId is used in action link to return user back to even details page)
             ViewBag.passedEventTitle = thisEvent.Title;
             ViewBag.passedEventId = thisEvent.Id;
 
-            //get a list of RSVPs that have the same eventId as thisEvent
-            //var thisEventRSVPs = db.EventsRSVPs.Include(e => e.EventId == thisEvent.Id);
-            var thisEventRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Include(e => e.Event.Id);
+            //pull RSVPs of each type (going, interested, not going) and put into temp var's
+            var thisEventGoingRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Where(e => e.EventId == eventId).Where(e => e.Status == "going");
+            var thisEventInterestedRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Where(e => e.EventId == eventId).Where(e => e.Status == "interested");
+            var thisEventNotGoingRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Where(e => e.EventId == eventId).Where(e => e.Status == "not going");
 
-            //return View(thisEventRSVPs.ToList());  //add where() here?  view models?
-            return View();
+            //initialize RSVP view model
+            var rsvpPageData = new RSVPsViewModel();
 
+            //populate each list in the RSVP view model with what was pulled into var's above
+            foreach (var a in thisEventGoingRSVPs)
+            {
+                rsvpPageData.membersGoing.Add(a.AspNetUser);
+            }
+            foreach (var a in thisEventInterestedRSVPs)
+            {
+                rsvpPageData.membersInterested.Add(a.AspNetUser);
+            }
+            foreach (var a in thisEventNotGoingRSVPs)
+            {
+                rsvpPageData.membersNotGoing.Add(a.AspNetUser);
+            }
+
+            return View(rsvpPageData);
         }
 
 
