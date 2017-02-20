@@ -1,0 +1,128 @@
+﻿@*@model IEnumerable<Thing1.Models.EventsRSVP>*@
+@model Thing1.Models.ViewModels.RSVPsViewModel
+
+@{
+    ViewBag.Title = "Display RSVPs";
+}
+
+<h2>Current RSVPs for event : <b>@ViewBag.passedEventTitle</b></h2>
+
+
+<!--Table for showing members going:-->
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h3>Going: @Model.membersGoing.Count()</h3>
+        <!--Print "none" if nobody has RSVP for this status, instead of showing an empty table-->
+        @if (Model.membersGoing.Count() == 0)
+        {
+            <p>(None)</p>
+        }
+        @*otherwise, show list of members in that RSVP status*@
+        else
+        {
+        <!-- Table -->
+            <table class="table table-condensed">
+                <!--Table Headings-->
+                <tr>
+                    <th>Name</th>
+                    <!--       <th>Paid?</th>             IMPLEMENT Paid? later  -->
+                </tr>
+
+                <!--Table Content...-->
+                @foreach (var item in Model.membersGoing)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(listItem => item.FirstName) @Html.DisplayFor(listItem => item.LastName)
+                        </td>
+                        <!--   IMPLEMENT Paid? later
+                        <td>
+                          @* @Html.DisplayFor(modelItem => item.HasPaid) *@
+                        </td>
+                        -->
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+<!--Table for showing members interested:-->
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h3>Interested: @Model.membersInterested.Count()</h3>
+        <!--Print "none" if nobody has RSVP for this status, instead of showing an empty table-->
+        @if (Model.membersInterested.Count() == 0)
+        {
+            <p>(None)</p>
+        }
+        @*otherwise, show list of members in that RSVP status*@
+        else
+        {
+        <!-- Table -->
+            <table class="table table-condensed">
+                <!--Table Headings-->
+                <tr>
+                    <th>Name</th>
+                    <!--       <th>Paid?</th>             IMPLEMENT Paid? later  -->
+                </tr>
+
+                <!--Table Content...-->
+                @foreach (var item in Model.membersInterested)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(listItem => item.FirstName) @Html.DisplayFor(listItem => item.LastName)
+                        </td>
+                        <!--   IMPLEMENT Paid? later
+                    <td>
+                      @* @Html.DisplayFor(modelItem => item.HasPaid) *@
+                    </td>
+                    -->
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+<!--Table for showing members not going:-->
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h3>Not Going: @Model.membersNotGoing.Count()</h3>
+        <!--Print "none" if nobody has RSVP for this status, instead of showing an empty table-->
+        @if (Model.membersNotGoing.Count() == 0)
+        {
+            <p>(None)</p>
+        }
+        @*otherwise, show list of members in that RSVP status*@
+        else
+        {
+        <!-- Table -->
+            <table class="table table-condensed">
+                <!--Table Headings-->
+                <tr>
+                    <th>Name</th>
+                    <!--       <th>Paid?</th>             IMPLEMENT Paid? later  -->
+                </tr>
+
+                <!--Table Content...-->
+                @foreach (var item in Model.membersNotGoing)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(listItem => item.FirstName) @Html.DisplayFor(listItem => item.LastName)
+                        </td>
+                        <!--   IMPLEMENT Paid? later
+                        <td>
+                          @* @Html.DisplayFor(modelItem => item.HasPaid) *@
+                        </td>
+                        -->
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+
+@Html.ActionLink("Back to Event Details", "Details", "Events", new { id = ViewBag.passedEventId }, null)

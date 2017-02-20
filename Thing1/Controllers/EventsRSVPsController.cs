@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Thing1.Models;
+using Thing1.Models.ViewModels;
+
 
 namespace Thing1.Controllers
 {
@@ -91,11 +93,55 @@ namespace Thing1.Controllers
             {
                 db.EventsRSVPs.Add(eventsRSVP);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Events");
             }
 
             return RedirectToAction("Index", "Home");
         }
+
+        //This method will display list of RSVPs for club officers
+        public ActionResult DisplayRSVPs(int? eventId)
+        {
+            //Use the eventId passed into the DisplayRSVPs to find the event from the database
+            if (eventId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Event thisEvent = db.Events.Find(eventId);
+            if (thisEvent == null)
+            {
+                return HttpNotFound();
+            }
+
+            //Use ViewBags to help setup view title and event info (passedEventId is used in action link to return user back to even details page)
+            ViewBag.passedEventTitle = thisEvent.Title;
+            ViewBag.passedEventId = thisEvent.Id;
+
+            //pull RSVPs of each type (going, interested, not going) and put into temp var's
+            var thisEventGoingRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Where(e => e.EventId == eventId).Where(e => e.Status == "going");
+            var thisEventInterestedRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Where(e => e.EventId == eventId).Where(e => e.Status == "interested");
+            var thisEventNotGoingRSVPs = db.EventsRSVPs.Include(e => e.AspNetUser).Where(e => e.EventId == eventId).Where(e => e.Status == "not going");
+
+            //initialize RSVP view model
+            var rsvpPageData = new RSVPsViewModel();
+
+            //populate each list in the RSVP view model with what was pulled into var's above
+            foreach (var a in thisEventGoingRSVPs)
+            {
+                rsvpPageData.membersGoing.Add(a.AspNetUser);
+            }
+            foreach (var a in thisEventInterestedRSVPs)
+            {
+                rsvpPageData.membersInterested.Add(a.AspNetUser);
+            }
+            foreach (var a in thisEventNotGoingRSVPs)
+            {
+                rsvpPageData.membersNotGoing.Add(a.AspNetUser);
+            }
+
+            return View(rsvpPageData);
+        }
+
 
         // GET: EventsRSVPs/Edit/5
         public ActionResult Edit(int? id)
@@ -129,7 +175,7 @@ namespace Thing1.Controllers
             {
                 db.Entry(eventsRSVP).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Events");
             }
 
             //ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", eventsRSVP.UserId);

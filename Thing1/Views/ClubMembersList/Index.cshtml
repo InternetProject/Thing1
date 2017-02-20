@@ -1,106 +1,45 @@
 ﻿@model IEnumerable<Thing1.Models.ClubMembership>
 
 @{
-    ViewBag.Title = Model.First().Club.name;
+    ViewBag.Title = Model.First().Club.name + " Members";
 }
 
-<h2>@Model.First().Club.name</h2>
-
-<!--
-<p>
-    Html.ActionLink("Add a new member", "Create")
-</p>
--->
-
-<table class="table">
-    <tr>
-        <th>
-            First Name
-        </th>
-        <th>
-            Last Name
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Title
-        </th>
-        <th>
-            Membership Start Date
-        </th>
-        <th>
-            Membership End Date
-        </th>
-        <th>
-            Access to Finance?
-        </th>
-        <th>
-            Edit Club Data?
-        </th>
-        <!--
-        <th>
-            Violation?
-        </th>
-        <th>
-            Club
-        </th>
-        <th>
-            Membership Type
-        </th>
-        <th>
-            Role ID
-        </th>
-        -->
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Convert.ToString(string.Format("{0:dd/MM/yyyy}",item.JoinDate))
-        </td>
-        <td>
-            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.TermDate))
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HasAccessToFinance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CanEditClubData)
-        </td>
-        <!--
-        <td>
-            Html.DisplayFor(modelItem => item.Violation)
-        </td>
-        <td>
-            Html.DisplayFor(modelItem => item.Club.name)
-        </td>
-        <td>
-            Html.DisplayFor(modelItem => item.MembershipOption.Description)
-        </td>
-        <td>
-            Html.DisplayFor(modelItem => item.TypesOfRole.Description)
-        </td>
-        -->
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h3>Members of @Model.First().Club.name</h3>
+        <!-- Table -->
+        <table class="table table-condensed">
+            <!--Table Headings-->
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Member Until</th>
+            </tr>
+            <!--Table Content-->
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUser.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUser.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+                    </td>
+                    <td>
+                        @item.TermDate.ToString("MMM dd, yyyy")
+                    </td>
+                    <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+        @*@Html.ActionLink("Add new member", "Create", new {id = Model.First().ClubId})*@
+    </div>
+</div>
+@Html.ActionLink("Back to Club","Details", "Clubs", new { id = Model.First().ClubId}, null)

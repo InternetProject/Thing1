@@ -1,84 +1,91 @@
-﻿@model Thing1.Models.Club
+﻿@model Thing1.Models.ViewModels.ClubAndEventsViewModel
+@using Thing1.Models.ViewModels
+
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Club Details";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Club</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Name
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.name)
-        </dd>
-        <!--<dd>
-         //   @Html.DisplayNameFor(model => model.name)
-        </dd>
-        -->
-        <dt>
-            Nickname
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.nickname)
-        </dd>
-
-        <dt>
-            Email
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.email)
-        </dd>
-
-        <dt>
-            Website
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.website)
-        </dd>
-
-        <dt>
-            Description
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.description)
-        </dd>
-        <!--
-        <dt>
-            Html.DisplayNameFor(model => model.image)
-        </dt>
-
-        <dd>
-            Html.DisplayFor(model => model.image)
-        </dd>
-
-        <dt>
-            Html.DisplayNameFor(model => model.email_template)
-        </dt>
-
-        <dd>
-            Html.DisplayFor(model => model.email_template)
-        </dd>
-        -->
-        <dt>
-            Club Type
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TypesOfClub.Description)
-        </dd>
-
-    </dl>
+<!--Club Logo-->
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <div class="page-header text-center">
+            <img src="~/Content/Images/@Model.club.nickname-LOGO.png" class="img-responsive center-block" alt="Future Image">
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="row">
+
+    <!--Displays Current Club Events-->
+    <div class="col-md-3 panel-default">
+        <div class="panel-heading">Upcoming Club Events</div>
+
+        <div class="panel-body">
+            @foreach (var item in Model.Events)
+            {
+                <a href="@Url.Action("Details", "Events", new { id = item.Id })" class="list-group-item">
+                    <span class="badge">@item.StartsAt.ToString("MMM dd")<br />@item.StartsAt.ToString("h:mm tt")</span>
+
+                    <h4 class="list-group-item-heading ">@item.Title</h4>
+                    <p class="list-group-item-text">@((item.Description.Length > 100) ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                </a>
+            }
+
+        </div>
+    </div>
+    <!--Show Info for Club-->
+    <div class="col-md-6 panel-default">
+        <div class="panel-heading">@Html.DisplayFor(model => model.club.name) (@Html.DisplayFor(model => model.club.nickname)) (@Html.DisplayFor(model => model.club.TypesOfClub.Description))</div>
+
+        <div class="panel-body">
+
+            <p>@Html.DisplayFor(model => model.club.description)<p>
+            <p>
+                Contact: @Html.DisplayFor(model => model.club.email)
+                <br />
+                <a href=@Html.DisplayFor(model => model.club.website)>Visit Website</a>
+            </p>
+        </div>
+    </div>
+    <!--Displays important links-->
+    <div class="col-md-3 panel-default">
+        <div class="panel-heading">Important Links</div>
+
+        <div class="panel-body">
+            <dl>
+                @if (!ViewBag.IsMember)
+                {
+                    <dd>
+                        @Html.ActionLink("Join", "SelectMembershipOptions", "ClubMemberships", new { clubId = Model.club.Id }, null)
+                    </dd>
+                }
+                @if (ViewBag.ClubManageable)
+                {
+                    <dd>
+                        @Html.ActionLink("Edit Club Details", "Edit", new { id = Model.club.Id })
+                    </dd>
+                    <dd>
+                        @Html.ActionLink("View Member List", "Index", "ClubMembersList", new { Id = Model.club.Id }, null)
+                    </dd>
+                    <dd>
+                        @Html.ActionLink("Create New Event", "Create", "Events", new { clubID = Model.club.Id }, null)
+                    </dd>
+                    <dd>
+                        @Html.ActionLink("Email Members", "Create", "Emails", new { @clubId = Model.club.Id }, null)
+                    </dd>
+                    <dd>
+                        @Html.ActionLink("View Membership Options", "ViewCurrentMembershipOptions", "MembershipOptions", new { clubId = Model.club.Id }, null)
+                    </dd>
+                    @*<dd>
+                        @Html.ActionLink("View PayPal Account", "ViewPayPalAccount", "PayPalAccounts", new { clubId = Model.club.Id }, null)
+                    </dd>*@
+                }
+            </dl>
+
+        </div>
+    </div>
+</div>
+@Html.ActionLink("Back to List", "Index")
+
+

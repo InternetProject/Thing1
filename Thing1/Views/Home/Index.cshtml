@@ -4,7 +4,7 @@
     ViewBag.Title = "Club Portal Home";
 }
 
-<!--Calendar and links to other pages-->
+<!--Header-->
 <div class="row">
     <div class="col-md-offset-3 col-md-6">
         <div class="page-header text-center">
@@ -47,7 +47,7 @@
                     </a>
                 }
             </div>
-            <p>@Html.ActionLink("See All", "MyEvents", "Events", null, null)</p>
+            <p><a href="/Events#my">See All</a></p>
         </div>
     </div>
     <!--Show list of clubs that user is in organized by permissions-->
@@ -60,7 +60,7 @@
                 @foreach (var item in Model.clubMemberships)
                 {
                     if (!item.CanEditClubData) { continue; }
-                    <dd>@Html.ActionLink((string)item.Club.nickname, "Management", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { id = item.Club.Id }, null)</dd>
                 }
             </dl>
             <!--list of clubs user is a member in-->
@@ -68,7 +68,7 @@
                 <dt>Member</dt>
                 @foreach (var item in Model.clubMemberships)
                 {
-                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { Id = item.Club.Id }, null)</dd>
+                    <dd>@Html.ActionLink((string)item.Club.nickname, "Details", "Clubs", new { id = item.Club.Id }, null)</dd>
                 }
             </dl>
         </div>

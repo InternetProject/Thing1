@@ -33,17 +33,22 @@ namespace Thing1.Controllers
             ViewBag.MyClubs = clubs;
 
             var events = new List<Thing1.Models.Event>();
+            var myEvents = new List<Thing1.Models.Event>();
+            var myEventRSVPS = new List<Thing1.Models.EventsRSVP>(); 
+
             if (clubID != null)
             {
                 ViewBag.currentClub = clubID;
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString)).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.Clubs.Any(c => c.Id == clubID)).Where(r => r.Event.EndsAt > DateTime.Now).Where(r => r.Event.Title.Contains(searchString) || r.Event.Description.Contains(searchString) || r.Event.TargetAudience.Contains(searchString)).ToList();
                     page = 1;
                 }
                 else
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.Clubs.Any(c => c.Id == clubID)).Where(r => r.Event.EndsAt > DateTime.Now).ToList();
                     searchString = currentFilter;
                 }
             }
@@ -52,41 +57,30 @@ namespace Thing1.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(s => s.Title.Contains(searchString) || s.Description.Contains(searchString) || s.TargetAudience.Contains(searchString)).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).Where(r => r.Event.Title.Contains(searchString) || r.Event.Description.Contains(searchString) || r.Event.TargetAudience.Contains(searchString)).ToList();
                     page = 1;
                 }
                 else
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).ToList();
+                    myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).ToList();
                     searchString = currentFilter;
                 }
             }
             ViewBag.CurrentFilter = searchString;
-
+            foreach (var rsvp in myEventRSVPS)
+            {
+                myEvents.Add(rsvp.Event);
+            }
             int pageSize = 3;
             int pageNumber = (page ?? 1);
             var eventsData = new EventsViewModel();
             eventsData.events = events.OrderBy(s => s.StartsAt).ToPagedList(pageNumber, pageSize);
+            eventsData.myEvents = myEvents.OrderBy(r => r.StartsAt).ToPagedList(pageNumber, pageSize);
             eventsData.clubs = db.Clubs.ToList();
             return View(eventsData);
         }
 
-        public ActionResult MyEvents(int? page)
-        {
-            if (!Request.IsAuthenticated)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
-            }
-            var userid = User.Identity.GetUserId();
-            var events = new List<Thing1.Models.Event>();
-            var myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userid).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).OrderBy(r => r.Event.StartsAt).ToList();
-            foreach (var rsvp in myEventRSVPS)
-            {
-                events.Add(rsvp.Event);
-            }
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(events.ToPagedList(pageNumber, pageSize));
-        }
         public ActionResult Calendar()
         {
             return View(db.Clubs.ToList());
@@ -125,7 +119,7 @@ namespace Thing1.Controllers
             return View(clubEvents);
         }
         // GET: Events/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? clubId)
         {
             if (id == null)
             {
@@ -136,6 +130,28 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
+
+            /*  ViewBag.ClubId = clubId;
+
+              Club club = db.Clubs.Find(clubId);
+              ViewBag.ClubName = club.name;
+              ViewBag.ClubNickName = club.nickname;
+              */
+
+            //This code is to help determine if user can RSVP to event
+            //Passes whether or not user is a club member to Details view (if True, then they can RSVP)
+            ClubMembership membership = new ClubMembership();
+            var userid = User.Identity.GetUserId();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == @event.PrimaryClubID).FirstOrDefault();
+            if (membership == null)
+            {
+                ViewBag.isClubMember = false;
+            }
+            else
+            {
+                ViewBag.isClubMember = true;
+            }
+
             return View(@event);
         }
         // GET: Events/Create
@@ -218,7 +234,9 @@ namespace Thing1.Controllers
         {
             ClubMembership membership = new ClubMembership();
             var userid = User.Identity.GetUserId();
-            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubID).Single();
+            membership = db.ClubMemberships.Where(c => c.UserId == userid).Where(c => c.ClubId == clubID).FirstOrDefault();
+            if (membership == null)
+                return false;
             if (membership.CanEditClubData) return true;
             else return false;
         }
@@ -234,17 +252,20 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            if (CanCreateAndEditEvents(@event.Club.Id))
+                return View(@event);
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
         }
         // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime)
+        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime, int clubId)
         {
-            //if (CanCreateAndEditEvents(clubID))
-            //{
+            if (CanCreateAndEditEvents(clubId))
+            {
             //@event.Clubs = new List<Thing1.Models.Club>();
             //@event.Clubs.Add(db.Clubs.Find(pclub));
             //if (sponsoringClubs != null)
@@ -271,11 +292,11 @@ namespace Thing1.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            //}
-            //else
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
-            //}
+            }
+            else
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
             return View(@event);
         }
         // GET: Events/Delete/5

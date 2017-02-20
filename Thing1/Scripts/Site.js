@@ -34,5 +34,7 @@
         $('#calendar').fullCalendar("rerenderEvents");
         return false;
     });
+
+    $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
 });
 

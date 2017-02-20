@@ -15,6 +15,7 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+    padding-left:2em;
 }
 
 .jumbotron {
@@ -56,19 +57,9 @@ textarea {
   transform: translateY(4px);
 }
 
-.row .panel-heading {
-    background-color: #225378;
-    color: white;
-}
-
 
 .tab-content {
   margin: 10px;
-}
-
-.tab-content .clubs-ul, .tab-content events-ul{
-  list-style-type: none;
-  width: 100%;
 }
 
 .tab-content .clubs-h3, .tab-content .events-h3 {
@@ -87,7 +78,6 @@ textarea {
 
 .tab-content .clubs-li p, .tab-content .events-li p{
   font: 200 12px/1.5 Georgia, Times New Roman, serif;
-  /*clear:left;*/
 }
 
 .clubs-li, .events-li{
@@ -101,8 +91,8 @@ textarea {
 }
 
 /* Form css*/
-#event-create-form{
-    background-color: #f2ede4;
+#create-form{
+    background-color: #efefef;
     max-width: 700px;
     margin: 10px auto 10px;
     padding: 40px;
@@ -110,7 +100,7 @@ textarea {
     box-shadow: 6px 6px 6px rgba(0,0,0,0.2);
 }
 
-#event-create-form .btn{
+#create-form .btn{
     width: 26%;
     margin: 20px auto 0;
     display:inline-block;
@@ -118,5 +108,6 @@ textarea {
 }
 
 
+}
 
 
