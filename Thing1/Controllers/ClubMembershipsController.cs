@@ -172,6 +172,8 @@ namespace Thing1.Controllers
 
         public ActionResult DuplicateMembership(int? duplicateClubId, int? duplicateMembershipOptionId)
         {
+
+            
             string userId = User.Identity.GetUserId();
 
             MembershipOption membershipOption = db.MembershipOptions.Where(n => n.Id == duplicateMembershipOptionId).ToList().First();
