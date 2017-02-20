@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
@@ -24,6 +25,25 @@ namespace Thing1.Controllers
         public ActionResult ViewPayPalAccount(int? clubId)
         {
             if (clubId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == clubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach (ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if (canEdit == false)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -47,6 +67,7 @@ namespace Thing1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             PayPalAccount payPalAccount = db.PayPalAccounts.Find(id);
             if (payPalAccount == null)
             {
@@ -63,13 +84,32 @@ namespace Thing1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == clubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach (ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if (canEdit == false)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             ViewBag.ClubId = clubId;
             Club club = db.Clubs.Find(clubId);
             ViewBag.ClubName = club.name;
             ViewBag.ClubNickName = club.nickname;
 
-            List<PayPalAccount> list = db.PayPalAccounts.Where(c => c.ClubId == clubId).ToList();
-            foreach(PayPalAccount item in list)
+            List<PayPalAccount> listP = db.PayPalAccounts.Where(c => c.ClubId == clubId).ToList();
+            foreach(PayPalAccount item in listP)
             {
                 return RedirectToAction("PayPalAccountAlreadyExist", new { ClubId = clubId, PayPalClientId = item.PayPalClientId, PayPalSecret = item.PayPalClientSecret });
             }
@@ -121,6 +161,26 @@ namespace Thing1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == clubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach (ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if (canEdit == false)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             PayPalAccount payPalAccount = db.PayPalAccounts.Find(Id);
             if (payPalAccount == null)
             {
@@ -158,6 +218,7 @@ namespace Thing1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             PayPalAccount payPalAccount = db.PayPalAccounts.Find(Id);
             if (payPalAccount == null)
             {

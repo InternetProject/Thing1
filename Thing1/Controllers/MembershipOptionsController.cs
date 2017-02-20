@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
@@ -40,6 +41,25 @@ namespace Thing1.Controllers
         public ActionResult ViewCurrentMembershipOptions(int? clubId)
         {
             if (clubId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == clubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach (ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if (canEdit == false)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -88,6 +108,25 @@ namespace Thing1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == clubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach(ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if(canEdit == false)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             ViewBag.ClubId = clubId;
             ViewBag.TypeId = new SelectList(db.TypesOfMembershipOptions, "Id", "Description");
             ViewBag.Duration = this.GetDurationSelectList();
@@ -123,6 +162,26 @@ namespace Thing1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == clubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach (ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if (canEdit == false)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             MembershipOption membershipOption = db.MembershipOptions.Find(Id);
             if (membershipOption == null)
             {
@@ -166,11 +225,33 @@ namespace Thing1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             MembershipOption membershipOption = db.MembershipOptions.Find(Id);
             if (membershipOption == null)
             {
                 return HttpNotFound();
             }
+
+            // CanEditClubData check
+            string userId = User.Identity.GetUserId();
+            List<ClubMembership> list = db.ClubMemberships.Where(c => c.ClubId == membershipOption.ClubId && c.UserId == userId).ToList();
+            if (list.Count == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            bool canEdit = false;
+            foreach (ClubMembership item in list)
+            {
+                canEdit |= item.CanEditClubData;
+            }
+
+            if (canEdit == false)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //
 
             ViewBag.Id = Id;
             ViewBag.ClubId = membershipOption.ClubId;
