@@ -15,6 +15,11 @@ namespace Thing1.Controllers
         private user_managementEntities db = new user_managementEntities();
 
         // GET: ClubMembersList
+        /// <summary>
+        /// Use id (Club ID returned from the link) to select the clubmembership rows with that club ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Index(int? id)
         {
             var clubMemberships = db.ClubMemberships.Include(c => c.AspNetUser).Include(c => c.Club).Include(c => c.MembershipOption).Include(c => c.TypesOfRole);
