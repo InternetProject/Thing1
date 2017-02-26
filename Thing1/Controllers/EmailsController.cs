@@ -57,11 +57,12 @@ namespace Thing1.Controllers
         /// <param name="ft1styears">on or off</param>
         /// <param name="ft2ndyears">on or off</param>
         /// <param name="fembas">on or off</param>
+        /// <param name="formermembers"></param>
         /// <returns>Emails in a String</returns>
-        public JsonResult RecipientEmails(int? ClubId, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas)
+        public JsonResult RecipientEmails(int? ClubId, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas, String formermembers)
         {
-            List<ClubMembership> recipients = RecipientList(ClubId, everyone, directors, vps, ft1styears, ft2ndyears, fembas);
-            if (recipients == null) return Json(new { Recipients= "ERROR" }, JsonRequestBehavior.DenyGet);
+            List<ClubMembership> recipients = RecipientList(ClubId, everyone, directors, vps, ft1styears, ft2ndyears, fembas, formermembers);
+            if (recipients == null) return Json(new { Recipients= "Could not pull recipient list... Are you sure you're logged in and an officer of this club?" }, JsonRequestBehavior.DenyGet);
 
             String recipientEmails = "";
             foreach (ClubMembership recipient in recipients)
@@ -77,21 +78,22 @@ namespace Thing1.Controllers
         /// Grabs a list of ClubMembership objects based on the ClubID and the checked boxes
         /// </summary>
         /// <param name="ClubId">ClubId</param>
-        /// <param name="everyone">on or off</param>
+        /// <param name="everyone">on or off. Not everyone anymore, just all CURRENT members.</param>
         /// <param name="directors">on or off</param>
         /// <param name="vps">on or off</param>
         /// <param name="ft1styears">on or off</param>
         /// <param name="ft2ndyears">on or off</param>
         /// <param name="fembas">on or off</param>
+        /// <param name="formermembers"></param>
         /// <returns>List of ClubMemberships</returns>
-        private List<ClubMembership> RecipientList(int? ClubId, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas)
+        private List<ClubMembership> RecipientList(int? ClubId, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas, String formermembers)
         {
             string theUserId = User.Identity.GetUserId();
-            if (ClubId == null | ClubId == 0 | User.Identity == null | db.ClubMemberships.Where(c => c.AspNetUser.Id == theUserId & c.ClubId == ClubId & (c.Description.StartsWith("Director ") | c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))).ToList().Count == 0)
+            if (ClubId == null | ClubId == 0 | User.Identity == null | db.ClubMemberships.Where(c => c.AspNetUser.Id == theUserId & c.ClubId == ClubId & c.IsCurrentOfficer==true).ToList().Count == 0)
             {
                 return null;
             }
-            return db.ClubMemberships.Where(c => (c.ClubId == ClubId) & (c.JoinDate < DateTime.Now & c.TermDate > DateTime.Now) & (everyone.Equals("on") | ((directors.Equals("on") & c.Description.StartsWith("Director ")) | (vps.Equals("on") & (c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))) | (ft1styears.Equals("on") & c.AspNetUser.Program.Equals("FT " + DateTime.Now.Year + (DateTime.Now.Month < 7 ? 1 : 2))) | (ft2ndyears.Equals("on") & c.AspNetUser.Program.Trim().Equals("FT " + (DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1)))))) | (fembas.Equals("on") & c.AspNetUser.Program.Trim().StartsWith("FEMBA"))).OrderBy(c => c.AspNetUser.Email).ToList();
+            return db.ClubMemberships.Where(c => (c.ClubId == ClubId) & ((formermembers.Equals("on") & c.TermDate < DateTime.Now) | ((c.JoinDate < DateTime.Now & c.TermDate > DateTime.Now) & (everyone.Equals("on") | ((directors.Equals("on") & c.Description.StartsWith("Director ")) | (vps.Equals("on") & (c.Description.StartsWith("VP ") | c.Description.StartsWith("President"))) | (ft1styears.Equals("on") & c.AspNetUser.Program.Equals("FT " + DateTime.Now.Year + (DateTime.Now.Month < 7 ? 1 : 2))) | (ft2ndyears.Equals("on") & c.AspNetUser.Program.Trim().Equals("FT " + (DateTime.Now.Year + (DateTime.Now.Month < 7 ? 0 : 1)))))) | (fembas.Equals("on") & c.AspNetUser.Program.Trim().StartsWith("FEMBA"))))).OrderBy(c => c.AspNetUser.Email).ToList();
         }
 
         // POST: Emails/Create
@@ -108,14 +110,15 @@ namespace Thing1.Controllers
         /// <param name="ft1styears"></param>
         /// <param name="ft2ndyears"></param>
         /// <param name="fembas"></param>
+        /// <param name="formermembers"></param>
         /// <returns>async</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Subject,Body")] int? ClubId, Email email, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas)
+        public async Task<ActionResult> Create([Bind(Include = "Subject,Body")] int? ClubId, Email email, String everyone, String directors, String vps, String ft1styears, String ft2ndyears, String fembas, String formermembers)
         {
             if (ModelState.IsValid)
             {
-                List<ClubMembership> recipients = RecipientList(ClubId, everyone, directors, vps, ft1styears, ft2ndyears, fembas);
+                List<ClubMembership> recipients = RecipientList(ClubId, everyone, directors, vps, ft1styears, ft2ndyears, fembas, formermembers);
                 if (recipients == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                 email.SentBy = User.Identity.GetUserId();
