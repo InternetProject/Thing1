@@ -173,6 +173,32 @@ namespace Thing1.Controllers
                 });
         }
 
+        // GET: api/ClubsWS/5/PastEvents
+        // Pulls data for club events with above URL structure, using ClubId
+        // Shows only future events
+        [Route("{id:int}/PastEvents")]
+        public IEnumerable<EventDto> GetClubPastEvents(int id)
+        {
+            var eventIds = db.Events.Where(e => e.EndsAt < DateTime.Now && e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).Take(10).ToList();
+            //var eventIds = db.Events.Where(e => e.Clubs.Any(c => c.Id == id)).Select(e => e.Id).ToList();
+            var events = db.Events.Where(e => eventIds.Contains(e.Id)).OrderBy(e => e.StartsAt).Include(e => e.Clubs).ToList();
+            return events.Select(o =>
+                new EventDto
+                {
+                    Title = o.Title,
+                    Date = o.StartsAt.ToString("D"),
+                    StartsAt = o.StartsAt.ToString("t"),
+                    EndsAt = o.EndsAt.ToString("t"),
+                    Location = o.Location,
+                    Description = o.Description,
+                    IsPublic = o.IsPublic,
+                    Clubs = o.Clubs.Select(x => x.nickname).ToList<String>(),
+                    Food = o.Food == null ? "" : o.Food,
+                    Contact = o.Contact == null ? "" : o.Contact,
+                    Price = o.Price.ToString()
+                });
+        }
+        
         // GET: api/ClubsWS/5/Description
         // Pulls club description with above URL structure, using ClubId
         [Route("{id:int}/Description")]
