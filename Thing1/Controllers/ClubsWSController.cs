@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Creates a webservice api that can be called to access data from database. 
+// Includes functions to get club information, club officers, club events, and club description.
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,6 +13,7 @@ using System.Web.Http.Description;
 using Thing1.DTOs;
 using Thing1.Models;
 
+// Webservice api controller
 namespace Thing1.Controllers
 {
     [RoutePrefix("api/ClubsWS")]
@@ -125,6 +128,7 @@ namespace Thing1.Controllers
         }
 
         // GET: api/ClubsWS/5/Officers
+        // Pulls data for club officers with above URL structure, using ClubId  
         [Route("{id:int}/Officers")]
         public IEnumerable<MemberDto> GetClubOfficers(int id)
         {
@@ -144,6 +148,8 @@ namespace Thing1.Controllers
         }
 
         // GET: api/ClubsWS/5/Events
+        // Pulls data for club events with above URL structure, using ClubId
+        // Shows only future events
         [Route("{id:int}/Events")]
         public IEnumerable<EventDto> GetClubEvents(int id)
         {
@@ -168,6 +174,7 @@ namespace Thing1.Controllers
         }
 
         // GET: api/ClubsWS/5/Description
+        // Pulls club description with above URL structure, using ClubId
         [Route("{id:int}/Description")]
         public IQueryable<DescriptionDto> GetClubsDescription(int id)
         {

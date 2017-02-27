@@ -64,7 +64,11 @@
                         }
                     }
                 }
-                if (displayEdit)
+                // Uses Viewbag to see if user is member of primary club for event.  If so, display links for Showing RSVP, Edit/Delete event
+                // Probably want to switch back to using displayEdit (see code above) instead of Viewbag so that sponsor clubs can be used
+                // I (Shawn) don't fully understand how sponsor clubs are implemented in database, so just doing this for now
+                // to get basic functionality with the primary club
+                if (ViewBag.isClubOfficer == true)
                 {
                     <p>
                         @Html.ActionLink("Show RSVPs", "DisplayRSVPs", "EventsRSVPs", new { eventId = Model.Id }, null) |

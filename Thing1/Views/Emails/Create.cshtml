@@ -50,21 +50,23 @@
         <div class="form-group">
             <label class="control-label col-md-2">Send to</label>
             <div class="col-md-10">
-                <input type="checkbox" id="everyone" name="everyone" onchange="changedEveryone();" /><label for="everyone">Everyone</label>
+                <input type="checkbox" id="everyone" name="everyone" onchange="changedEveryone();" /><label for="everyone">All current members</label>
                 <input type="checkbox" id="directors" name="directors" onchange="changedSomethingElse(this.checked)" /><label for="directors">Directors</label>
                 <input type="checkbox" id="vps" name="vps" onchange="changedSomethingElse(this.checked)" /><label for="vps">VPs and President</label>
                 <input type="checkbox" id="ft1styears" name="ft1styears" onchange="changedSomethingElse(this.checked)" /><label for="ft1styears">FT 1st-years</label>
                 <input type="checkbox" id="ft2ndyears" name="ft2ndyears" onchange="changedSomethingElse(this.checked)" /><label for="ft2ndyears">FT 2nd-years</label>
                 <input type="checkbox" id="fembas" name="fembas" onchange="changedSomethingElse(this.checked)" /><label for="fembas">FEMBAs</label>
+                <input type="checkbox" id="formermembers" name="formermembers" onchange="changedSomethingElse(this.checked)" /><label for="formermembers">Former Members</label>
             </div>
         </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Email list</label>
             <div id="recipientList" class="col-md-9"></div>
-            <div class="col-md-10">
-                <input type="button" class="btn" onclick="copyToClipboard();" value="Copy"/>
-            </div>
+        </div>
+        <div class="form-group">
+            <div class="control-label col-md-2"></div>
+            <div class="col-md-10"><input type="button" class="btn" onclick="copyToClipboard();" value="Copy" /></div>
         </div>
 
         <input type="hidden" id="ClubId" name="ClubId" value="@this.Request.Params["clubId"]" />

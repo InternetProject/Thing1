@@ -13,6 +13,11 @@ namespace Thing1.Controllers
     {
         private user_managementEntities _db = new user_managementEntities();
         // GET: PaymentHistory
+        /// <summary>
+        /// Displays information from the payment history model
+        /// Return formula filters the payment history to only display payment history for the userID that is currently logged in
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         public ActionResult Index()
         {
