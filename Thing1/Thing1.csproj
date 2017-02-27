@@ -239,7 +239,6 @@
     <Compile Include="Controllers\EmailsController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\EventsRSVPsController.cs" />
-    <Compile Include="Controllers\EventsWSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MembershipOptionsController.cs" />
