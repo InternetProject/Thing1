@@ -39,6 +39,10 @@
                             }
                         }
                     </dd>
+                    @if (Model.Capacity != null && Model.SpotsLeft >= (double)(Model.Capacity * 0.5))
+                    {
+                        <dd><b>Spots left: </b>@Html.DisplayFor(modelItem => Model.SpotsLeft)</dd>
+                    }
                     <dd><b>Food: </b>@Html.DisplayFor(modelItem => Model.Food)</dd>
                     <dd><b>Main Contact: </b>@Html.DisplayFor(modelItem => Model.Contact)</dd>
                     <dd><b>Price: </b>@Html.DisplayFor(modelItem => Model.Price)</dd>

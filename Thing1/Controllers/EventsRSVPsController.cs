@@ -53,7 +53,15 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-
+            ViewBag.EventFull = false;
+            if (thisEvent.Capacity != null)
+            {
+                int rsvpGoing = thisEvent.EventsRSVPs.Where(r => r.Status == "going").ToList().Count();
+                if (thisEvent.Capacity.Value - rsvpGoing <= 0)
+                {
+                    ViewBag.EventFull = true;
+                }
+            }
 
             //Get the user's id
             var userid = User.Identity.GetUserId();
@@ -71,7 +79,6 @@ namespace Thing1.Controllers
             //Setup ViewBag to send user and event info to the Create View
             ViewBag.thisEventTitle = thisEvent.Title;
             ViewBag.thisEventId = eventId;
-
             //Pass the event to the Create View
             return View();
         }

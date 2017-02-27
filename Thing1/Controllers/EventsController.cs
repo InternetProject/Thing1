@@ -126,11 +126,15 @@ namespace Thing1.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Event @event = db.Events.Find(id);
+            if (@event.Capacity != null)
+            {
+                int rsvpGoing = @event.EventsRSVPs.Where(r => r.Status == "going").ToList().Count();
+                @event.SpotsLeft = @event.Capacity.Value - rsvpGoing;
+            }
             if (@event == null)
             {
                 return HttpNotFound();
             }
-
             /*  ViewBag.ClubId = clubId;
 
               Club club = db.Clubs.Find(clubId);
@@ -189,8 +193,8 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event)
-        public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Food, Contact, Price")] Event @event, string primaryClubID, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
+        //public ActionResult Create([Bind(Include = "Title,StartsAt,EndsAt,Id,Location,Description,TargetAudience,IsPublic,Capacity,Food,Contact,Price")] Event @event)
+        public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Capacity, Food, Contact, Price")] Event @event, string primaryClubID, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
         {
             int pclub = int.Parse(primaryClubID);
             if (CanCreateAndEditEvents(pclub))
@@ -262,7 +266,7 @@ namespace Thing1.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime, int clubId)
+        public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,Capacity,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime, int clubId)
         {
             if (CanCreateAndEditEvents(clubId))
             {

@@ -33,6 +33,8 @@ namespace Thing1.Models
         public Nullable<decimal> Price { get; set; }
         public string Title { get; set; }
         public int PrimaryClubID { get; set; }
+        public Nullable<int> Capacity { get; set; }
+        public int SpotsLeft { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }

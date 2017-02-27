@@ -110,6 +110,7 @@
           <Property Name="Price" Type="money" />
           <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PrimaryClubID" Type="int" Nullable="false" />
+          <Property Name="Capacity" Type="int" />
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
@@ -668,6 +669,7 @@
           <NavigationProperty Name="Clubs" Relationship="Self.ClubEvents" FromRole="Events" ToRole="Clubs" />
           <Property Name="PrimaryClubID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Club" Relationship="user_managementModel.PrimaryClubIDFK" FromRole="Event" ToRole="Club" />
+          <Property Name="Capacity" Type="Int32" />
         </EntityType>
         <EntityType Name="EventsRSVP">
           <Key>
@@ -1156,6 +1158,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="user_managementModel.Event">
               <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
                 <ScalarProperty Name="PrimaryClubID" ColumnName="PrimaryClubID" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="StartsAt" ColumnName="StartsAt" />

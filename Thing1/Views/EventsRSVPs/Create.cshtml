@@ -28,7 +28,7 @@
 
 
         @*                          BELOW IS THE SCAFFOLDING CODE FOR ENTERING HasPaid FIELD
-                                    THIS WILL NEED TO BE LINKED UP WITH FINANCE TEAM LATER ON 
+                                    THIS WILL NEED TO BE LINKED UP WITH FINANCE TEAM LATER ON
                                     OR MAYBE THERE SHOULD BE A LOGIC CHECK AFTER YOU CREATE AN RSVP TO SEND YOU TO A PAYMENT PAGE
 
             <div class="form-group">
@@ -43,19 +43,38 @@
         *@
 
         <!--Create dropdown for selection Status.  This locks only three possible Status strings in the database: "going", "interested", and "not going"-->
+        @if (ViewBag.EventFull)
+        {
+            <div>Event Full!</div><br>
+        }
         <div class="form-group">
             @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Status, new SelectList(
-                  new List<Object>{
-                       new { value = "going" , text = "I'm Going!"  },
-                       new { value = "interested" , text = "I'm Interested?"  },
-                       new { value = "not going" , text = "I'm Not Going." },
-                    },
-                  "value",
-                  "text",
-                   2))
-                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                @if (ViewBag.EventFull)
+                {
+                    @Html.DropDownListFor(model => model.Status, new SelectList(
+                                                        new List<Object>{
+                               new { value = "interested" , text = "I'm Interested?"  },
+                               new { value = "not going" , text = "I'm Not Going." },
+                                                          },
+                                                        "value",
+                                                        "text",
+                                                         2))
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.Status, new SelectList(
+                       new List<Object>{
+                           new { value = "going" , text = "I'm Going!"  },
+                           new { value = "interested" , text = "I'm Interested?"  },
+                           new { value = "not going" , text = "I'm Not Going." },
+                         },
+                       "value",
+                       "text",
+                        2))
+                    @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                }
             </div>
         </div>
 

@@ -132,9 +132,7 @@ namespace Thing1.Controllers
             return (from anu in db.AspNetUsers
                     join cm in db.ClubMemberships on anu.Id equals cm.UserId
                     join c in db.Clubs on cm.ClubId equals c.Id
-                    where c.Id == id && cm.RoleId == 1
-                    //TODO: uncomment missing condition to filter only officers
-                    //&& cm.IsCurrentOfficer == true
+                    where c.Id == id && cm.IsCurrentOfficer == true
                     select new MemberDto {
                         FirstName = anu.FirstName,
                         LastName = anu.LastName,
