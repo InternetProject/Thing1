@@ -152,6 +152,18 @@ namespace Thing1.Controllers
                 ViewBag.isClubMember = true;
             }
 
+            //This code is to help determine if user can perform officer actions (Show RSVPs, Edit, and Delete for event)
+            //Passes whether or not user is a club officer to Details view (if True, then they can perform officer functions...Show RSVP, Edit/Delete Event)
+            //Currently just directly uses CanEditClubData to determine if officer.  Might want to call CanEditAndCreateEvents() instead?  But need to sort out int? vs int
+            if (membership != null && membership.CanEditClubData)
+            {
+                ViewBag.isClubOfficer = true;
+            }
+            else
+            {
+                ViewBag.isClubOfficer = false;
+            }
+
             return View(@event);
         }
         // GET: Events/Create
