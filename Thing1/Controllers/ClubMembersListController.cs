@@ -111,7 +111,7 @@ namespace Thing1.Controllers
             {
                 db.Entry(clubMembership).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","ClubMembersList", new { Id = clubMembership.ClubId });
             }
             ViewBag.UserId = new SelectList(db.AspNetUsers, "Id", "Email", clubMembership.UserId);
             ViewBag.ClubId = new SelectList(db.Clubs, "Id", "name", clubMembership.ClubId);
@@ -143,7 +143,7 @@ namespace Thing1.Controllers
             ClubMembership clubMembership = db.ClubMemberships.Find(id);
             db.ClubMemberships.Remove(clubMembership);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "ClubMembersList", new { Id = clubMembership.ClubId });
         }
 
         protected override void Dispose(bool disposing)
