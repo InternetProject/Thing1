@@ -342,7 +342,10 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            if (!CanCreateAndEditEvents(@event.Id))
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            else
+                return View(@event);
         }
         // POST: Events/Delete/5
         [HttpPost, ActionName("Delete")]
