@@ -35,6 +35,12 @@
         return false;
     });
 
+    $("#unselect-all-clubs-calendar").click(function () {
+        $(".show-club-checkbox").prop("checked", false);
+        $('#calendar').fullCalendar("rerenderEvents");
+        return false;
+    });
+
     $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
 });
 

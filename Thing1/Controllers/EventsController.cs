@@ -180,7 +180,7 @@ namespace Thing1.Controllers
         // GET: Events/Create
         public ActionResult Create(int clubID)
         {
-            if (CanCreateAndEditEvents(clubID))
+            if (CanCreateAndEditEvents(clubID))//check that user has edit access
             {
                 PopulateSponsoringClubs(clubID);
                 ViewBag.PrimaryClubID = clubID;
@@ -223,7 +223,7 @@ namespace Thing1.Controllers
         public ActionResult Create([Bind(Include = "Title, Location, Description, TargetAudience, IsPublic, Capacity, Food, Contact, Price")] Event @event, string primaryClubID, string[] sponsoringClubs, string startDate, string startTime, string endDate, string endTime)
         {
             int pclub = int.Parse(primaryClubID);
-            if (CanCreateAndEditEvents(pclub))
+            if (CanCreateAndEditEvents(pclub)) //check that user has edit access
             {
                 @event.Clubs = new List<Thing1.Models.Club>();
                 var primaryClub = db.Clubs.Find(pclub);
@@ -237,6 +237,7 @@ namespace Thing1.Controllers
                         @event.Clubs.Add(clubToAdd);
                     }
                 }
+                //combine dates and times into datetime
                 DateTime sDate = Convert.ToDateTime(startDate);
                 TimeSpan sTime = TimeSpan.Parse(startTime);
                 DateTime start = sDate + sTime;
@@ -256,10 +257,16 @@ namespace Thing1.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return RedirectToAction("AccessDenied", "Home", null);
             }
             return View();
         }
+
+        /// <summary>
+        /// Checks whether the current user has edit access for events for a certain club
+        /// </summary>
+        /// <param name="clubID">The club to check against for edit access</param>
+        /// <returns>True is user has access, false if not</returns>
         private bool CanCreateAndEditEvents(int clubID)
         {
             ClubMembership membership = new ClubMembership();
@@ -270,6 +277,7 @@ namespace Thing1.Controllers
             if (membership.CanEditClubData) return true;
             else return false;
         }
+
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -285,7 +293,7 @@ namespace Thing1.Controllers
             if (CanCreateAndEditEvents(@event.Club.Id))
                 return View(@event);
             else
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return RedirectToAction("AccessDenied", "Home", null);
         }
         // POST: Events/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -294,8 +302,9 @@ namespace Thing1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Title,Location,Id,Description,TargetAudience,Capacity,IsPublic,Food,Contact,Price")] Event @event, string startDate, string startTime, string endDate, string endTime, int clubId)
         {
-            if (CanCreateAndEditEvents(clubId))
+            if (CanCreateAndEditEvents(clubId)) //check for edit access
             {
+            //below is code that can be modified later to show (and later edit) the various clubs that are sponsoring the event
             //@event.Clubs = new List<Thing1.Models.Club>();
             //@event.Clubs.Add(db.Clubs.Find(pclub));
             //if (sponsoringClubs != null)
@@ -326,7 +335,7 @@ namespace Thing1.Controllers
             }
             else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                return RedirectToAction("AccessDenied", "Home", null);
             }
             return View(@event);
         }
