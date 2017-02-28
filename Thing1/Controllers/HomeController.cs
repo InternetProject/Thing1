@@ -21,8 +21,11 @@ namespace Thing1.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized); // should change this later.
             }
+            //get the user's clubs
             var userid = User.Identity.GetUserId();
             var clubMemberships = db.ClubMemberships.Include(c => c.Club).Where(c => c.UserId == userid).ToList();
+
+            //get the next four events across the school and the next four events user is rsvp'd as going or interested
             var numEventsToReturn = 4;
             var upcomingEvents = db.Events.Where(e => e.EndsAt > DateTime.Now).OrderBy(e => e.StartsAt).Take(numEventsToReturn).ToList();
             var homePageData = new HomePageViewModel();

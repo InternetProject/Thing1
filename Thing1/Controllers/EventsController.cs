@@ -19,24 +19,31 @@ namespace Thing1.Controllers
         private user_managementEntities db = new user_managementEntities();
         // GET: Events
 
+        /// <summary>
+        /// Gets all upcoming events to show to the user
+        /// </summary>
+        /// <param name="currentFilter">A term to filter out events by.  Default is null to get all events</param>
+        /// <param name="searchString">A search term inputted by the user.  Used to filter the events</param>
+        /// <param name="clubID">Entered as a way to filter the events by certain clubs</param>
+        /// <param name="page">For pagination purposes</param>
+        /// <returns>Events view model</returns>
         public ViewResult Index(string currentFilter, string searchString, int? clubID, int? page)
         {
+            //pass in list of user's clubs for authorization purposes
             string userId = User.Identity.GetUserId();
-
             List<int> clubs = new List<int>();
             List<ClubMembership> list = db.ClubMemberships.Where(c => c.UserId == userId).ToList();
             foreach (ClubMembership item in list)
             {
                 clubs.Add(item.ClubId);
             }
-
             ViewBag.MyClubs = clubs;
 
             var events = new List<Thing1.Models.Event>();
             var myEvents = new List<Thing1.Models.Event>();
             var myEventRSVPS = new List<Thing1.Models.EventsRSVP>(); 
 
-            if (clubID != null)
+            if (clubID != null) //filter events by club
             {
                 ViewBag.currentClub = clubID;
                 if (!String.IsNullOrEmpty(searchString))
@@ -45,14 +52,14 @@ namespace Thing1.Controllers
                     myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.Clubs.Any(c => c.Id == clubID)).Where(r => r.Event.EndsAt > DateTime.Now).Where(r => r.Event.Title.Contains(searchString) || r.Event.Description.Contains(searchString) || r.Event.TargetAudience.Contains(searchString)).ToList();
                     page = 1;
                 }
-                else
+                else //filter events by search term
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).Where(e => e.Clubs.Any(c => c.Id == clubID)).ToList();
                     myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.Clubs.Any(c => c.Id == clubID)).Where(r => r.Event.EndsAt > DateTime.Now).ToList();
                     searchString = currentFilter;
                 }
             }
-            else
+            else //show all events across campus
             {
                 if (!String.IsNullOrEmpty(searchString))
                 {
@@ -60,7 +67,7 @@ namespace Thing1.Controllers
                     myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).Where(r => r.Event.Title.Contains(searchString) || r.Event.Description.Contains(searchString) || r.Event.TargetAudience.Contains(searchString)).ToList();
                     page = 1;
                 }
-                else
+                else //filter events by search term
                 {
                     events = db.Events.Where(e => e.EndsAt > DateTime.Now).ToList();
                     myEventRSVPS = db.EventsRSVPs.Include(e => e.Event).Where(r => r.AspNetUser.Id == userId).Where(r => r.Status == "going" || r.Status == "interested").Where(r => r.Event.EndsAt > DateTime.Now).ToList();
@@ -86,8 +93,14 @@ namespace Thing1.Controllers
             return View(db.Clubs.ToList());
         }
 
+
+        /// <summary>
+        /// Gets upcoming events across the school and converts into javascript objects for calendar view
+        /// </summary>
+        /// <returns>List of javascript objects representing events</returns>
         public JsonResult CalendarData()
         {
+            //for colors to distinguish between clubs. Add more colors as necessary
             var colorList = new List<string> {"#d00","#0d0","#00d","#cc0","#c0c","#0cc"};
 
             DateTime start = DateTime.Parse(this.Request.QueryString["start"]);
@@ -135,12 +148,6 @@ namespace Thing1.Controllers
             {
                 return HttpNotFound();
             }
-            /*  ViewBag.ClubId = clubId;
-
-              Club club = db.Clubs.Find(clubId);
-              ViewBag.ClubName = club.name;
-              ViewBag.ClubNickName = club.nickname;
-              */
 
             //This code is to help determine if user can RSVP to event
             //Passes whether or not user is a club member to Details view (if True, then they can RSVP)
@@ -184,7 +191,13 @@ namespace Thing1.Controllers
                 return RedirectToAction("AccessDenied", "Home", null);
             }
         }
-        //
+
+        
+        /// <summary>
+        /// Adds a viewmodel that allows for adding other sponsoring clubs to events
+        /// May not be necessary for create, but can be tweaked easily for Edit
+        /// </summary>
+        /// <param name="clubID">The primary club that is creating the event</param>
         private void PopulateSponsoringClubs(int clubID)
         {
             var allClubs = db.Clubs;
@@ -200,6 +213,7 @@ namespace Thing1.Controllers
             }
             ViewBag.Clubs = viewModel;
         }
+
         // POST: Events/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -302,6 +316,7 @@ namespace Thing1.Controllers
             DateTime endsAt = Convert.ToDateTime(end);
             @event.StartsAt = startsAt;
             @event.EndsAt = endsAt;
+            @event.PrimaryClubID = clubId;
             if (ModelState.IsValid)
             {
                 db.Entry(@event).State = EntityState.Modified;
