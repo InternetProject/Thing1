@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using PagedList;
 
+//Model for Events View
 namespace Thing1.Models.ViewModels
 {
     public class EventsViewModel
