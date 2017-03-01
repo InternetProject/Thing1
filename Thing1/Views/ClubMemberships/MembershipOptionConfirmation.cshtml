@@ -9,7 +9,7 @@
 <h3>Membership options selected:</h3>
 <h4>Club: @ViewBag.ClubName (@ViewBag.ClubNickName)</h4>
 
-<!-- Insert code for showing multiple options selected? -->
+<!-- displays current user's club membership duration, if any -->
 <h4>Membership Period:
 @{
     var periodText = "";
@@ -27,6 +27,8 @@
 
 @Html.Raw(periodText)
 </h4>
+
+<!-- displays the selected membership option, link to pay with Paypal -->
 <h4>Price (USD): @ViewBag.Price</h4>
 
 @if (ViewBag.Price > 0)
