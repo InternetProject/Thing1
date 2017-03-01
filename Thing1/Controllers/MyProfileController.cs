@@ -59,6 +59,7 @@ namespace Thing1.Controllers
                 db.Entry(aspNetUser).Property(p => p.LockoutEndDateUtc).IsModified = false;
                 db.Entry(aspNetUser).Property(p => p.LockoutEnabled).IsModified = false;
                 db.Entry(aspNetUser).Property(p => p.AccessFailedCount).IsModified = false;
+                //prevent those fields from being changed or erased
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
