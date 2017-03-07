@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Thing1.Controllers
 {
+    // manage and control paypal account (PayPal's Client ID and Client Secret for each club)
     public class PayPalAccountsController : Controller
     {
         private user_managementEntities db = new user_managementEntities();
@@ -22,6 +23,7 @@ namespace Thing1.Controllers
             return View(payPalAccounts.ToList());
         }
 
+        // view current paypal Client ID and Client Secret for the club
         public ActionResult ViewPayPalAccount(int? clubId)
         {
             if (clubId == null)
@@ -61,6 +63,7 @@ namespace Thing1.Controllers
         }
 
         // GET: PayPalAccounts/Details/5
+        // detail information of paypal Client ID and Client Secret
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -77,6 +80,7 @@ namespace Thing1.Controllers
         }
 
         // GET: PayPalAccounts/Create
+        // Create a new paypal Client ID and Client Secret for the club
         public ActionResult CreatePayPalAccount(int? clubId)
         {
             if (clubId == null)
@@ -118,6 +122,7 @@ namespace Thing1.Controllers
         }
 
         // GET: PayPalAccounts/PayPalAccountAlreadyExist
+        // Each club should have only one paypal Client ID and Client Secret. This controller will show an error if club officer trys to register another Client ID and Client Secret given that the club already has one
         public ActionResult PayPalAccountAlreadyExist(int? ClubId, string PayPalClientId, string PayPalSecret)
         {
             if (ClubId == null)
@@ -136,6 +141,7 @@ namespace Thing1.Controllers
         }
 
         // POST: PayPalAccounts/Create
+        // After getting new Client ID and Client Secret from the club officer, save them to the database
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -155,6 +161,7 @@ namespace Thing1.Controllers
 
 
         // GET: PayPalAccounts/Edit/5
+        // The club office can modify the current Client ID and Client Secret values
         public ActionResult EditPayPalAccount(int? Id, int? clubId)
         {
             if (Id == null || clubId == null)
@@ -194,6 +201,7 @@ namespace Thing1.Controllers
         }
 
         // POST: PayPalAccounts/Edit/5
+        // After getting modified values of the Client ID and Client Secret from the club officer, save them to the database
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -212,6 +220,7 @@ namespace Thing1.Controllers
         }
 
         // GET: PayPalAccounts/Delete/5
+        // The club office can delete Client ID and Client Secret
         public ActionResult DeletePayPalAccount(int? Id)
         {
             if (Id == null)
@@ -232,6 +241,7 @@ namespace Thing1.Controllers
         }
 
         // POST: PayPalAccounts/Delete/5
+        // Delete the current Client ID and Client Secret in the database
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeletePayPalAccount(int Id)

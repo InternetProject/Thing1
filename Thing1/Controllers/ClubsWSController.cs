@@ -21,6 +21,7 @@ namespace Thing1.Controllers
     public class ClubsWSController : ApiController
     {
         private user_managementEntities db = new user_managementEntities();
+        
 
         ClubsWSController()
         {

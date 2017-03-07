@@ -22,7 +22,6 @@ namespace Thing1.Models
             this.Emails = new HashSet<Email>();
             this.payments = new HashSet<payment>();
             this.EventsRSVPs = new HashSet<EventsRSVP>();
-            this.AspNetRoles = new HashSet<AspNetRole>();
         }
     
         public string Id { get; set; }
@@ -44,6 +43,9 @@ namespace Thing1.Models
         public string TShirtSize { get; set; }
         public byte[] Photo { get; set; }
         public string PreMBAEmployer { get; set; }
+        public string NonAndersonEmail { get; set; }
+        public string NonAndersonEmailConfirmed { get; set; }
+        public string ClassYear { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Recipient> Recipients { get; set; }
@@ -55,7 +57,5 @@ namespace Thing1.Models
         public virtual ICollection<payment> payments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
     }
 }
