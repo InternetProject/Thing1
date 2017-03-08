@@ -8,11 +8,13 @@ using Thing1.Models;
 
 namespace Thing1.Controllers
 {
+    // This class communicate with PayPal server to do actual payment stuff
     public class PayPalController : Controller
     {
 
         private user_managementEntities db = new user_managementEntities();
 
+        // every payment trasaction should have unique transaction ID (Required by PayPal)
         Int32 TransactionId = (Int32)(System.DateTime.Now.Ticks + (new Random()).Next(100000));
         // GET: PayPal
         public ActionResult Index()
@@ -20,18 +22,10 @@ namespace Thing1.Controllers
             return View();
         }
 
-
-
-
-        //public ActionResult PaymentWithPaypal(int? clubId, string name, string currency, string price, string quantity)
+        // start of the payment trasaction
         public ActionResult PaymentWithPaypal([Bind(Include = "name,currency,price,quantity")] Item item)
         {
-            //Item item = new Item();
-            //item.name = name;
-            //item.currency = currency;
-            //item.price = price;
-            //item.quantity = quantity;
-            
+             
             var clubMembership = Session["ClubMembership Object"] as ClubMembership;
             var membershipOption = Session["MembershipOption Object"] as MembershipOption;
 
@@ -116,7 +110,6 @@ namespace Thing1.Controllers
                 return View("Failure");
             }
 
-
             var payment = new payment
             {
                 TransactionId = TransactionId,
@@ -128,6 +121,7 @@ namespace Thing1.Controllers
                 payment_time = System.DateTime.Now
             };
 
+            // after payment success, add this member to the club as a new memebr
             ClubMembership CM = db.ClubMemberships.Add(clubMembership);
             db.payments.Add(payment);
             db.SaveChanges();
@@ -135,6 +129,7 @@ namespace Thing1.Controllers
             
         }
 
+        // Payment success. Show success message such as 'welcome to the club' 
         public ActionResult Success(int? clubId, int? clubMembershipId)
         {
             // retrieve the database result and show the congratulation message
@@ -154,6 +149,7 @@ namespace Thing1.Controllers
 
         private PayPal.Api.Payment payment;
 
+        // inner fucntion of payment process 
         private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
         {
             var paymentExecution = new PaymentExecution() { payer_id = payerId };
@@ -161,6 +157,8 @@ namespace Thing1.Controllers
             return this.payment.Execute(apiContext, paymentExecution);
         }
 
+        // inner fucntion of payment process 
+        // you can modify detail setting of the payment transaction here
         private Payment CreatePayment(APIContext apiContext, string redirectUrl, string cancelUrl,Item item)
         {
 

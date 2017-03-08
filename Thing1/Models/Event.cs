@@ -11,7 +11,7 @@ namespace Thing1.Models
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Event
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,7 @@ namespace Thing1.Models
             this.EventsRSVPs = new HashSet<EventsRSVP>();
             this.Clubs = new HashSet<Club>();
         }
-    
+
         public int Id { get; set; }
         public System.DateTime StartsAt { get; set; }
         public System.DateTime EndsAt { get; set; }
@@ -35,7 +35,7 @@ namespace Thing1.Models
         public int PrimaryClubID { get; set; }
         public Nullable<int> Capacity { get; set; }
         public int SpotsLeft { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EventsRSVP> EventsRSVPs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

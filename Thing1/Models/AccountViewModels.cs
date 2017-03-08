@@ -81,11 +81,25 @@ namespace Thing1.Models
         public string Email { get; set; }
 
         [Required]
+        [EmailAddress]
+        [Display(Name = "Non Anderson Email")]
+        public string NonAndersonEmail { get; set; }
+
+        [Required]
+        [Display(Name = "Program")]
+        public string Program { get; set; }
+
+        [Required]
+        [Display(Name = "Class Year")]
+        public string ClassYear { get; set; }
+
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
+        
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

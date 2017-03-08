@@ -13,8 +13,11 @@ namespace Thing1.Models
         public String LastName { get; set; }
         public String FirstName { get; set; }
         public String PreferredName { get; set; }
+        public String NonAndersonEmail { get; set; }
         public String Program { get; set; }
+        public String ClassYear { get; set; }
         public String TShirtSize { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
