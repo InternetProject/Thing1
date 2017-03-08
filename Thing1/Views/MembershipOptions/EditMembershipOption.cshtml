@@ -9,7 +9,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+    <!--View that allows user to edit existing membership options for a single club-->
     <div class="form-horizontal">
         <h4>Membership Option</h4>
         <hr />
@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.Id, new { @Value = ViewBag.Id })
         @Html.HiddenFor(model => model.ClubId, new { @Value = ViewBag.ClubId })
 
-
+        <!--Allows user to edit the type of person this membership option is for, student vs sigO-->
         <div class="form-group">
             @Html.LabelFor(model => model.TypeId, "Type", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -26,7 +26,7 @@
                 @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
             </div>
         </div>
-        
+        <!--Allows the user to edit the duration of the membership option-->
         <div class="form-group">
             @Html.LabelFor(model => model.TypeId, "Duration", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -34,7 +34,7 @@
                 @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <!--Allows the user to change the date the membership option expires-->
         <div class="form-group">
             @Html.LabelFor(model => model.ExpDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -42,7 +42,7 @@
                 @Html.ValidationMessageFor(model => model.ExpDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <!--Allows the user to change the price of the membership option-->
         <div class="form-group">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -50,7 +50,7 @@
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <!--Allows the user to edit the description of the membership option-->
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -58,7 +58,7 @@
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <!--Allows the user to change if the membership option is active or not-->
         <div class="form-group">
             @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-
+        <!--Button to submit changes-->
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />

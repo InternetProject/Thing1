@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Thing1.Models;
 using Microsoft.AspNet.Identity;
-
+//Controller to edit membership options for each individual club
 namespace Thing1.Controllers
 {
     public class MembershipOptionsController : Controller
@@ -38,6 +38,8 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOptions/View/5
+        /* This function gets the club id based on which club the link was attached to and directs
+         * the user to the membership iptions view for that club  */
         public ActionResult ViewCurrentMembershipOptions(int? clubId)
         {
             if (clubId == null)
@@ -86,6 +88,7 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOption/Details/5
+        // Currently the details page is not used
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -101,6 +104,7 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOption/Create
+        // function to create new membership options
         public ActionResult CreateMembershipOption(int? clubId)
         {
             if (clubId == null)
@@ -135,6 +139,7 @@ namespace Thing1.Controllers
         }
 
         // POST: MembershipOption/Create
+        // Saves new membership option created by the user
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -156,6 +161,7 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOption/Edit/5
+        // function to allow users to edit membership options in the database
         public ActionResult EditMembershipOption(int? Id, int? clubId)
         {
             if (Id == null || clubId == null)
@@ -197,6 +203,7 @@ namespace Thing1.Controllers
        }
 
         // POST: MembershipOption/Edit/5
+        // function to allow users to save membership option edits
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -219,6 +226,7 @@ namespace Thing1.Controllers
         }
 
         // GET: MembershipOption/Delete/5
+        // Function to allow users to delete membership options
         public ActionResult DeleteMembershipOption(int? Id)
         {
             if (Id == null)

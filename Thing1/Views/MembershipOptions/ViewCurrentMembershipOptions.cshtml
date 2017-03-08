@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Membership Options for " + ViewBag.ClubName + " (" + ViewBag.ClubNickName + ")";
 }
-
+<!--This is a view page in which all of the Membership options for an individual club are displayed-->
 
 <p>
 </p>
@@ -21,7 +21,7 @@
                 <th>Description</th>
             </tr>
 
-
+<!--Calls up the individual club for which we want to edit membership options-->
             @foreach (var item in Model)
             {
                 <tr>
